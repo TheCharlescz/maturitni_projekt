@@ -1,0 +1,107 @@
+footer{
+    background-color: black;
+    padding: 20px;
+    text-align: center;
+  }
+  header {
+    padding: 20px;
+    position: relative;
+    justify-content: space-around;
+    background-color: black;
+    width: unset;
+    top: 0;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+      rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+      rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  }
+  .img {
+    width: 100%;
+}
+img{
+  width: 100%;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.showProduct {
+    display: flex;
+    background-color: black;
+    margin: 20px;
+    padding: 0;
+    background-color: black;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+      rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+      rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    border-radius: 25px;
+}
+.showProductInfo {
+    display: flex;
+    flex-direction: column;
+    margin-left: 10px;
+}
+.sPflex{
+  display: none;
+}
+.sPbottom-left {display: none;}
+h2,p {
+  margin: 2px;
+}
+.velikosti {
+  display: flex;
+  margin: 0 15px;
+}
+.velikosti p {
+  border-right: 1px solid white;
+  padding: 5px;
+}
+@media(max-width:2000px){
+  .showProductInfo {
+    display: none;
+    
+}
+.showProduct {
+  flex-direction: column;
+  flex: 1 1 20%;
+}
+main {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin: 1%;
+  padding: 2.5%;
+}
+.img {
+  position: relative;
+  width: 100%;
+}
+.sPflex{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 5px 15px;
+}
+.sPbottom-left {
+  display: block;
+  position: absolute;
+  bottom: 1px;
+  left: 1px;
+  color: white;
+  background-color:rgba(0, 0, 0, 0.7);
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  padding:10px 15px;
+}
+}
+.noMargin {
+  margin: 0;
+}
+#del_product{
+  position: absolute;
+  top: 2px;
+  right: 2px;
+  z-index: 100;
+}
+@media(max-width:600px){
+  .showProduct{
+    margin: 1%;
+    flex: 1 0 100%;
+  }
+}

@@ -1,0 +1,205 @@
+body{
+  height: 100%;
+}
+main {
+  margin: 20px 16% ;
+  padding: 3%;
+  background-color: black;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+  border-radius: 20px;
+}
+header {
+  padding: 20px;
+  position: relative;
+  justify-content: space-around;
+  background-color: black;
+  width: unset;
+  top: 0;
+  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
+    rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
+    rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+input {
+  font-family: "Bebas Neue", cursive;
+  font-size: larger;
+  background-color: black;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  margin: 10px;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  border-left: none;
+  border-right: none;
+}
+input:hover {
+  color: white;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+textarea {
+  font-family: "Bebas Neue", cursive;
+  font-size: larger;
+  background-color: black;
+  color: rgb(255, 255, 255);
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  border-left: none;
+  border-right: none;
+  resize: none;
+}
+.input {
+  font-family: "Bebas Neue", cursive;
+  font-size: larger;
+  text-align: center;
+  background-color: black;
+  color: rgb(165, 163, 163);
+  padding: 10px;
+  margin: 10px;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  border-left: none;
+  border-right: none;
+}
+.input:hover {
+  color: white;
+  border-top: 1px solid white;
+  border-bottom: 1px solid white;
+}
+select {
+  background-color: black;
+  color: grey;
+  padding: 10px;
+  margin: 10px;
+  border-top: 1px solid grey;
+  border-bottom: 1px solid grey;
+  border-left: none;
+  border-right: none;
+}
+#ulozit {
+  background-color: black;
+  color: rgb(255, 255, 255);
+  padding: 10px 50px;
+  margin: 10px;
+  border: 1px solid grey;
+  border-left: none;
+  border-right: none;
+}
+.label_checkbox {
+  display: inline-block;
+  width: 100px;
+        text-align: right;
+}
+#vedlesebe {
+  display: flex;
+  flex-direction: row;
+}
+#vedlesebe input {
+  width: 55%;
+}
+.reg {
+  margin: 15px 15% 15px 0;
+}
+form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+#flex {
+  display: flex;
+  justify-content: space-around;
+}
+.blok {
+  margin: 20px 0;
+}
+.chyba {
+  color: red;
+}
+.spravne {
+  color: green;
+}
+#prihlaseni {
+  display: flex;
+  margin: 100px 22% 0 22%;
+}
+#registrace {
+  margin: 100px 30% 0 30%;
+}
+#border {
+  border-right: 1px solid white;
+  padding-right: 50px;
+}
+.prihlaseni-blok {
+  margin: 15px 5%;
+}
+footer {
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+    background-color: black;
+    margin-top: 99.15px;
+    padding: 20px;
+    text-align: center;            /* Footer height */
+  }
+li {
+  list-style: lower-alpha inside url(../img/done_black_24dp.svg);
+}
+@media (max-width: 1300px) {
+    #prihlaseni {
+      margin: 100px 18% 0 18%;
+    }
+  }
+  @media (max-width: 1300px) {
+    #prihlaseni {
+      margin: 100px 17% 0 17%;
+    }
+  }
+@media (max-width: 1000px) {
+  main {
+    margin: 100px 12% 0 12%;
+  }
+  #prihlaseni {
+    margin: 100px 16% 0 16%;
+    flex-direction: column;
+  }
+  #border {
+    border-right: none;
+    border-bottom: 1px solid white;
+    padding-bottom: 50px;
+    padding-right: 0;
+  }
+}
+@media (max-width: 900px) {
+  main {
+    margin: 100px 8% 100px 8%;
+  }
+  #prihlaseni {
+    flex-direction: column;
+    margin: 100px 16% 0 16%;
+  }
+
+}
+@media (max-width: 800px) {
+  #registrace {
+    margin: 50px 15% 0 15%;
+  }
+  #prihlaseni {
+    flex-direction: column;
+    margin: 100px 7% 0 7%;
+  }
+  #flex {
+    flex-direction: column;
+  }
+  .reg {
+    margin: 15px;
+  }
+  .blok {
+    margin: 0;
+  }
+  main {
+    margin: 100px 50px 0 50px;
+  }
+  header {
+    flex-direction: column;
+  }
+  
+}

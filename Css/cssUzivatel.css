@@ -1,0 +1,90 @@
+main{
+margin: 5% 20%;
+padding: 3%;
+height: 100%;
+background-color: black;
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 3%;
+background-color: black;
+box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;;
+border-radius: 20px;
+}
+header{
+    position: relative;
+    padding: 30px;
+    top: 0;
+    width: auto;
+    background-color: black;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;;
+}
+.karta{
+        flex: 1 1 320px;
+        background-color: rgba(0, 0, 0, 0.8 );
+        padding: 2%;
+        margin: 2%;
+        -webkit-box-shadow: 0px 3px 21px 6px rgb(0 0 0 / 34%);
+        -moz-box-shadow: 0px 3px 21px 6px rgba(0, 0, 0, 0.34);
+        box-shadow: 0px 3px 21px 6px rgb(0 0 0 / 34%);
+        border-bottom: 1px solid grey;
+        border-top: 1px solid grey;
+}
+.kartyUzivatelu {
+    display: flex;
+    padding: 0 5% 0 5%;
+    flex-wrap: wrap;
+    justify-content: center; 
+}
+button{
+    font-family: 'Bebas Neue', cursive;
+        font-size: large;
+    text-decoration: none;
+    background-color: black;
+    color: rgb(165, 163, 163);
+    padding: 10px;
+    margin: 10px;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    border-left:none;
+    border-right: none;
+}
+button:hover{
+    color: rgb(255, 255, 255);
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+    cursor: pointer;
+
+}
+.input{
+    text-align: center;
+    background-color: black;
+    color: rgb(165, 163, 163);
+    padding: 10px;
+    margin: 10px;
+    border-top: 1px solid grey;
+    border-bottom: 1px solid grey;
+    border-left:none;
+    border-right: none;
+}
+.input:hover{ 
+    color: white;
+    border-top: 1px solid white;
+    border-bottom: 1px solid white;
+}
+#navKarta{
+    display: flex;
+}
+#pridat{
+    margin: 30px 20%;
+}
+@media(max-width:800px) {
+    #aLogo {
+        display: none;
+    }
+    #navKarta{
+        flex-direction: column;
+    }
+    main{
+        margin: 10%;}
+}
