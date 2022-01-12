@@ -78,6 +78,7 @@ if ($_SESSION["prava"] < 1) {
                         if (!file_exists("img/".$txtGalleryName."/".$file_name)) {
                             move_uploaded_file($file_tmp=$_FILES["files"]["tmp_name"][$key], "img/".$txtGalleryName."/".$file_name);
                         } else {
+														header("Location: Produkt-pridat.php ");
                             $filename=basename($file_name, $ext);
                             $newFileName=$filename.time().".".$ext;
                             move_uploaded_file($file_tmp=$_FILES["files"]["tmp_name"][$key], "img/".$txtGalleryName."/".$newFileName);
