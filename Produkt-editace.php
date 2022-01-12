@@ -81,6 +81,7 @@ if ($_SESSION["prava"] < 1) {
 				$barvy = $db->nactiBarvy();
 				foreach ($barvy as $barva) {
 					$barva->vypisFunkceBarvy($produkt_id);
+					var_dump($produkt_id);
 				}
 				//$barva = new Barva();
 				//$db = new BarvaDB();
@@ -243,11 +244,14 @@ if ($_SESSION["prava"] < 1) {
 							});
 							$barva = new Barva();
 							$db = new BarvaDB();
+							$barvy = $db-> nactiProduktmaBarvy($_GET["id"]);
 							//$barvy = $db->nactiBarvy();
-							$barvy = $db->nactiProduktmaBarvy();
+							//$barvy = $db->nactiBarvy();
+							var_dump($barvy);
 							foreach ($barvy as $barva) {
-								echo "<label class=label_checkbox for='$barva->barva'>$barva->barva<input type='checkbox' name='$barva->barva' " . ($barva->barvy_id === $barva->id  ? "checked" : "") . "></label><br>";
-							}
+									echo "<label class=label_checkbox for='$barva->barva'>$barva->barva<input type='checkbox' name='$barva->barva' " . ( $barva->id = $barva->barvy_id ? "checked" : "") . "></label><br>";
+								}
+
 							?>
 					</label>
 				</div>

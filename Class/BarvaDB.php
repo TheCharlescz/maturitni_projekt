@@ -1,11 +1,11 @@
-<?php 
+<?php
 class BarvaDB {
     private $spojeni;
 
     public function __construct(){
         $this->spojeni = DB::vytvorSpojeni();
  }
- 
+
     public function nactiBarvy($razeni = "id"){
         $moznosti_razeni = array("barvy","id");
         if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = $moznosti_razeni[0];}
@@ -15,14 +15,15 @@ class BarvaDB {
         $sql->setFetchMode(PDO::FETCH_CLASS, "barva");
         return $sql->fetchAll();
     }
-    public function nactiProduktmaBarvy( $razeni = "id"){
+    public function nactiProduktmaBarvy($id ,  $razeni = "id"){
         $moznosti_razeni = array("barvy","id");
         if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = $moznosti_razeni[0];}
-        $dotaz = "select distinct * from produkt_ma_barvy , barvy group by barvy.id";
+        $dotaz = "SELECT barvy.id, barvy.barva,produkt.id FROM barvy LEFT JOIN (SELECT * FROM produkt_ma_barvy WHERE produkt_id = :id) as ch ON ch.barvy_id = barvy.id LEFT JOIN produkt ON ch.produkt_id = produkt.id";
         $sql = $this->spojeni->prepare($dotaz);
+				$sql->bindParam(":id", $id);
         $sql->execute();
         $sql->setFetchMode(PDO::FETCH_CLASS, "barva");
-        return $sql->fetchAll();
+        return $sql->fetchall();
     }
     public function nactiBarvyProduktu($id) {
         $dotaz ="select distinct barvy.* from produkt_ma_barvy, produkt, barvy
@@ -79,8 +80,8 @@ class BarvaDB {
         $sql = $this->spojeni->prepare($dotaz);
         $sql ->bindParam(":id",$id);
         return $sql->execute();
-    
+
     }
-    
+
 }
 ?>
