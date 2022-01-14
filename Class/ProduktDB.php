@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class  ProduktDB {
    private $spojeni;
@@ -7,7 +7,7 @@ class  ProduktDB {
        $this->spojeni = DB::vytvorSpojeni();
 }
     public function vlozProdukt($produkt) {
-        $dotaz= "INSERT INTO `produkt` (`id`, `nazev`, `popis`, `cena`, `sleva`, `pohlavi`, `dostupnost`, vytvoreno_v, upraveno_v, publikovano_v, `akce_id`, `kategorie_id`, `materialy_id`, `znacky_id`, `uzivatel_id`, `typy_id`) 
+        $dotaz= "INSERT INTO `produkt` (`id`, `nazev`, `popis`, `cena`, `sleva`, `pohlavi`, `dostupnost`, vytvoreno_v, upraveno_v, publikovano_v, `akce_id`, `kategorie_id`, `materialy_id`, `znacky_id`, `uzivatel_id`, `typy_id`)
         VALUES ( NULL, :nazev, :popis , :cena , :sleva , :pohlavi , :dostupnost , CURRENT_TIMESTAMP , NULL , NULL , :akce_id , :kategorie_id , :materialy_id , :znacky_id , :uzivatel_id ,:typy_id )";
         $sql = $this->spojeni->prepare($dotaz);
         $sql->bindParam(":nazev",$produkt->nazev);
@@ -28,7 +28,7 @@ class  ProduktDB {
     public function nactiprodukty($razeni = "datum_vydani DESC") {
         $moznosti_razeni = array("id","nazev","text","popis","datum DESC");
         if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = "vytvoreno_v DESC";}
-        $dotaz ="SELECT DISTINCT
+        $dotaz = "SELECT DISTINCT
         velikosti.velikost,
         barvy.barva ,
         akce.akce,
@@ -70,7 +70,7 @@ class  ProduktDB {
     public function nactiProduktyUzivatele($uzivatel_id, $razeni = "datum DESC"){
         $moznosti_razeni = array("id", "nadpis", "datum", "datum DESC");
         if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = "vytvoreno_v DESC";}
-        $dotaz = "select 
+        $dotaz = "select
         produkt.id,
         akce.akce,
         kategorie.kategorie,
@@ -85,7 +85,7 @@ class  ProduktDB {
         produkt.sleva,
         produkt.dostupnost,
         produkt.vytvoreno_v
-        from produkt 
+        from produkt
         join akce on produkt.akce_id = akce.id
         join typy on produkt.typy_id = typy.id
         join kategorie on produkt.kategorie_id = kategorie.id
@@ -103,7 +103,7 @@ class  ProduktDB {
         $moznosti_razeni = array("id", "nazev", "datum", "datum DESC");
         if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = "vytvoreno_v DESC";}
         $text = "%".mb_strtolower($text, "UTF-8")."%";
-        $dotaz = "select 
+        $dotaz = "select
         produkt.id,
         akce.akce,
         kategorie.kategorie,
@@ -118,7 +118,7 @@ class  ProduktDB {
         produkt.sleva,
         produkt.dostupnost,
         produkt.vytvoreno_v
-        from produkt 
+        from produkt
         join akce on produkt.akce_id = akce.id
         join typy on produkt.typy_id = typy.id
         join kategorie on produkt.kategorie_id = kategorie.id
@@ -187,7 +187,7 @@ class  ProduktDB {
 
     }
     public function ulozProdukt($produkt) {
-        $dotaz = "update produkt set typy_id=:typy_id,akce_id=:akce_id,uzivatel_id=:uzivatel_id, 
+        $dotaz = "update produkt set typy_id=:typy_id,akce_id=:akce_id,uzivatel_id=:uzivatel_id,
         kategorie_id=:kategorie_id, materialy_id=:materialy_id, znacky_id=:znacky_id,
         nazev=:nazev,cena=:cena,pohlavi=:pohlavi,popis=:popis, sleva=:sleva, dostupnost=:dostupnost
         where id=:id";

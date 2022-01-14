@@ -18,7 +18,7 @@ class BarvaDB {
     public function nactiProduktmaBarvy($id ,  $razeni = "id"){
         $moznosti_razeni = array("barvy","id");
         if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = $moznosti_razeni[0];}
-        $dotaz = "SELECT barvy.id, barvy.barva,produkt.id FROM barvy LEFT JOIN (SELECT * FROM produkt_ma_barvy WHERE produkt_id = :id) as ch ON ch.barvy_id = barvy.id LEFT JOIN produkt ON ch.produkt_id = produkt.id";
+        $dotaz = "SELECT barvy.id, barvy.barva, produkt.id as 'produkt_id' FROM barvy LEFT JOIN (SELECT * FROM produkt_ma_barvy WHERE produkt_id = :id) as ch ON ch.barvy_id = barvy.id LEFT JOIN produkt ON ch.produkt_id = produkt.id";
         $sql = $this->spojeni->prepare($dotaz);
 				$sql->bindParam(":id", $id);
         $sql->execute();

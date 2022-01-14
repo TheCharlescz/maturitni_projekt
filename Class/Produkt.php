@@ -52,7 +52,7 @@ $redexp = "/[0-9]+$/";
             echo " <h2 class='chyba'>Špatně zadané množství</h2>
             <p class='chyba'>Množtví musí obsahovat číslo<p>";
             return false;
-      
+
 }
 return true;
 }
@@ -88,7 +88,7 @@ public function vypisVelikosti($id) {
               $barva->vypisBarvy($barva);
           }
       }
-  
+
 public function vypisBaneruProduktu() {
   echo "
   <div class=showProduct>
@@ -153,31 +153,13 @@ public function vypisBaneruProduktuAdministace() {
       <div>
       <h2>$this->nazev</h2>
       <p>$this->kategorie : $this->pohlavi : $this->typ</p>
-      <p>"; $this->vypisBarev1();echo "</p> 
+      <p>"; $this->vypisBarev1();echo "</p>
       </div>
       <div class='velikosti'>";
-      $this->vypisVelikostiaPoctuKusu(); 
+      $this->vypisVelikostiaPoctuKusu();
       echo "
     </div>
     </div>
-    
-  <div class = 'showProductInfo'>
-  <div class='bottomBorder'>
-      <h2>$this->nazev</h2>
-      <h2>$this->cena</h2>
-      <p>$this->kategorie : $this->pohlavi : $this->typ</p>
-      ";
-      $this->vypisBarev1();
-      echo" 
-  </div>
-<div>
-<div class='velikosti'>";
-$this->vypisVelikostiaPoctuKusu();
-echo "
-  </div>
-  <p>$this->popis</p>
-</div>
-</div>
 </div>";
 }
 public function vypisProduktu() {
@@ -231,7 +213,7 @@ echo "
         echo "</div>
         </div>
         <div id='buy'>
-           <input class='input'  type='button' value='Přidat do Košíku '> 
+           <input class='input'  type='button' value='Přidat do Košíku '>
            <span class='material-icons'>
                   favorite_border
                 </span>
@@ -257,17 +239,17 @@ echo "
     <script>
     var slideIndex = 1;
   showSlides(slideIndex);
-  
+
   // Next/previous controls
   function plusSlides(n) {
     showSlides(slideIndex += n);
   }
-  
+
   // Thumbnail image controls
   function currentSlide(n) {
     showSlides(slideIndex = n);
   }
-  
+
   function showSlides(n) {
     var i;
     if (n > document.getElementsByClassName('mySlides').length) {slideIndex = 1}

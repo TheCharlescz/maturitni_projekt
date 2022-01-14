@@ -36,6 +36,13 @@ if ($_SESSION["prava"] < 1) {
 			spl_autoload_register(function ($trida) {
 				include_once "Class/$trida.php";
 			});
+			if(isset($_GET["slozka"]) & isset($_GET["nazev"]) & isset($_GET["id"])) {
+				$id = $_GET["id"];
+				$slozka = $_GET["slozka"];
+				$nazev = $_GET["nazev"];
+				unlink("img/$slozka/$nazev");
+				header("Location: Produkt-editace.php?id=$id");
+			}
 			if (isset($_POST["ulozit"])) {
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -80,8 +87,7 @@ if ($_SESSION["prava"] < 1) {
 				$db = new BarvaDB();
 				$barvy = $db->nactiBarvy();
 				foreach ($barvy as $barva) {
-					$barva->vypisFunkceBarvy($produkt_id);
-					var_dump($produkt_id);
+					$barva->vypisFunkciUpravyBarvy($produkt_id);
 				}
 				//$barva = new Barva();
 				//$db = new BarvaDB();
@@ -106,8 +112,6 @@ if ($_SESSION["prava"] < 1) {
 				$produkt = $db->nactiProdukt($_GET["id"]);
 				$db_velikost = new VelikostDB();
 				$db_velikost = $db_velikost->nactiVelikostiProduktu($_GET["id"]);
-				$db_barva = new BarvaDB();
-				$db_barva = $db_barva->nactiBarvyProduktu($_GET["id"]);
 			}
 			?>
 			<a class='input' href='Produkt-administrace.php'>Zpět na administraci produktů</a>
@@ -244,31 +248,44 @@ if ($_SESSION["prava"] < 1) {
 							});
 							$barva = new Barva();
 							$db = new BarvaDB();
-							$barvy = $db-> nactiProduktmaBarvy($_GET["id"]);
-							//$barvy = $db->nactiBarvy();
-							//$barvy = $db->nactiBarvy();
-							var_dump($barvy);
+							$barvy = $db->nactiProduktmaBarvy($_GET["id"]);
 							foreach ($barvy as $barva) {
-									echo "<label class=label_checkbox for='$barva->barva'>$barva->barva<input type='checkbox' name='$barva->barva' " . ( $barva->id = $barva->barvy_id ? "checked" : "") . "></label><br>";
-								}
-
+								echo "<label class=label_checkbox for='$barva->barva'>$barva->barva<input type='checkbox' name='$barva->id' " . ($barva->produkt_id != NULL  ? "checked" : "") . "></label><br>";
+							}
 							?>
 					</label>
 				</div>
 
 		</div>
-		<table width="100%">
+		<div id="flex">
+			<?php
+			$dir = "/wamp64/www/maturitni_projekt/img/$produkt->nazev/";
+			// Open a directory, and read its contents
+			if (is_dir($dir)) {
+				if ($dh = opendir($dir)) {
+					while (($file = readdir($dh))) {
+						if ($file === '.' || $file === '..') continue;
+						echo "<div class='img_edit'>
+          	<img class='img' src='img/$produkt->nazev/$file' style='width:100%' >
+						<a href='Produkt-editace.php?id=$produkt->id&nazev=$file&slozka=$produkt->nazev'>Odstranit $file</a>
+      			</div>";
+					}
+					closedir($dh);
+				}
+			} ?>
+		</div>
+		<table width=" 100%">
 			<tr>
-				<td>Select Photo (one or multiple):</td>
+				<td> Vyberte fotky (jednu nebo více):</td>
 				<td><input type="file" name="files[]" multiple /></td>
 			</tr>
 			<tr>
-				<td colspan="2" align="center">Note: Supported image format: .jpeg, .jpg, .png, .gif</td>
+				<td colspan="2" align="center">Poznámka: Podporované formáty: .jpeg, .jpg, .png, .gif</td>
 			</tr>
 		</table>
 		</label>
 		<p>*Pro správné fungovaní je potřeba vyplnit alespon jednu velikost a barvu.</p>
-		<input type="submit" name="ulozit" value="Přidat velikosti produktu">
+		<input type="submit" name="ulozit" id="check" value=" Přidat velikosti produktu">
 		</form>
 		</div>
 		</div>
