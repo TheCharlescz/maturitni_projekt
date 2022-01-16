@@ -337,7 +337,7 @@ if ($_SESSION["prava"] < 1) {
 			</tr>
 		</table>
 		</label>
-		<p>*Pro správné fungovaní je potřeba vyplnit alespon jednu velikost a barvu.</p>
+		<p>*Pro správné fungovaní je potřeba vyplnit alespon jednu velikost a barvuano.</p>
 		<input type="submit" name="ulozit" value="Přidat velikosti produktu">
 		</form>
 		</div>
