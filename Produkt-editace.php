@@ -71,12 +71,12 @@ if ($_SESSION["prava"] < 1) {
 					$ext = pathinfo($file_name, PATHINFO_EXTENSION);
 					$file_name = $produkt_id . "." . $pocet . "." . $ext;
 					if (in_array($ext, $extension)) {
-						if (!file_exists("img/" . $txtGalleryName . "/" . $file_name)) {
-							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img/" . $txtGalleryName . "/" . $file_name);
+						if (!file_exists("img_produkt/" . $txtGalleryName . "/" . $file_name)) {
+							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $file_name);
 						} else {
 							$filename = basename($file_name, $ext);
 							$newFileName = $filename . time() . "." . $ext;
-							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img/" . $txtGalleryName . "/" . $newFileName);
+							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $newFileName);
 						}
 					} else {
 						array_push($error, "$file_name, ");
@@ -259,14 +259,14 @@ if ($_SESSION["prava"] < 1) {
 		</div>
 		<div id="flex">
 			<?php
-			$dir = "/wamp64/www/maturitni_projekt/img/$produkt->nazev/";
+			$dir = "/wamp64/www/maturitni_projekt/img_produkt/$produkt->nazev/";
 			// Open a directory, and read its contents
 			if (is_dir($dir)) {
 				if ($dh = opendir($dir)) {
 					while (($file = readdir($dh))) {
 						if ($file === '.' || $file === '..') continue;
 						echo "<div class='img_edit'>
-          	<img class='img' src='img/$produkt->nazev/$file' style='width:100%' >
+          	<img class='img' src='img_produkt/$produkt->nazev/$file' style='width:100%' >
 						<a href='Produkt-editace.php?id=$produkt->id&nazev=$file&slozka=$produkt->nazev'>Odstranit $file</a>
       			</div>";
 					}

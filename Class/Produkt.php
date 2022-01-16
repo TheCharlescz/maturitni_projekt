@@ -94,14 +94,14 @@ public function vypisBaneruProduktu() {
   <div class=showProduct>
           <div class='sPtextInImg'>
           ";
-          $dir = "/wamp64/www/maturitni_projekt/img/$this->nazev/";
+          $dir = "/wamp64/www/maturitni_projekt/img_produkt/$this->nazev/";
             if (is_dir($dir)){
               if ($dh = opendir($dir)){
                 while (($file = readdir($dh))){
                   if ($file === '.' || $file === '..') continue;
                   $ext=pathinfo($file, PATHINFO_EXTENSION);
                   if ( $file == "$this->id.1.$ext")
-                  echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img/$this->nazev/$file' style = 'width: 100%'></a>";
+                  echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->nazev/$file' style = 'width: 100%'></a>";
                 }
                 closedir($dh);
               }
@@ -132,14 +132,14 @@ public function vypisBaneruProduktuAdministace() {
   <div class='showProduct'>
   <div class=img>
   ";
-  $dir = "/wamp64/www/maturitni_projekt/img/$this->nazev/";
+  $dir = "/wamp64/www/maturitni_projekt/img_produkt/$this->nazev/";
     if (is_dir($dir)){
       if ($dh = opendir($dir)){
         while (($file = readdir($dh))){
           if ($file === '.' || $file === '..') continue;
           $ext=pathinfo($file, PATHINFO_EXTENSION);
           if ( $file == "$this->id.1.$ext")
-          echo "<a href='Produkt-editace.php?id=$this->id' class='noMargin'><img src='img/$this->nazev/$file'></a>";
+          echo "<a href='Produkt-editace.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->nazev/$file'></a>";
         }
         closedir($dh);
       }
@@ -165,14 +165,14 @@ public function vypisBaneruProduktuAdministace() {
 public function vypisProduktu() {
     echo "<section id='flex'>
     <div class='container'>";
-    $dir = "/wamp64/www/maturitni_projekt/img/$this->nazev/";
+    $dir = "/wamp64/www/maturitni_projekt/img_produkt/$this->nazev/";
     // Open a directory, and read its contents
     if (is_dir($dir)){
       if ($dh = opendir($dir)){
         while (($file = readdir($dh))){
           if ($file === '.' || $file === '..') continue;
           echo "<div class='mySlides'>
-          <img src='img/$this->nazev/$file' style='width:100%' >
+          <img src='img_produkt/$this->nazev/$file' style='width:100%' >
       </div>";
         }
         closedir($dh);
@@ -182,14 +182,14 @@ echo "
 <a class='prev' onclick='plusSlides(-1)'>&#10094;</a>
 <a class='next' onclick='plusSlides(1)'>&#10095;</a>
 <div class='row'>";
-$dir = "/wamp64/www/maturitni_projekt/img/$this->nazev/";
+$dir = "/wamp64/www/maturitni_projekt/img_produkt/$this->nazev/";
     $i = 1;
     if (is_dir($dir)){
       if ($dh = opendir($dir)){
         while (($file = readdir($dh))){
           if ($file === '.' || $file === '..') continue;
           echo "<div class='column'>
-          <img class='demo cursor' src='img/$this->nazev/$file' style='width:100%' onclick='currentSlide($i)' >
+          <img class='demo cursor' src='img_produkt/$this->nazev/$file' style='width:100%' onclick='currentSlide($i)' >
         </div>";
         $i++;
         }

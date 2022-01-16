@@ -45,14 +45,122 @@ if ($_SESSION["prava"] < 1) {
 					$db = new ProduktDB();
 					$produkt_id = $db->vlozProdukt($produkt);
 					if ($produkt_id > 0) {
-						//header("Location: Produkt-pridat.php?id_produkt=$velikost_id");
 						echo  "<h2 class='spravne'>Produkt byl vytvořen</h2>\n";
+						extract($_POST);
+						$error = array();
+						$extension = array("jpeg", "jpg", "png", "gif");
+						$pocet = 1;
+						$txtGalleryName = $_POST["nazev"];
+						mkdir("img_produkt/$txtGalleryName");
+						foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
+							$file_name = $_FILES["files"]["name"][$key];
+							$file_tmp = $_FILES["files"]["tmp_name"][$key];
+							$ext = pathinfo($file_name, PATHINFO_EXTENSION);
+							$file_name = $produkt_id . "." . $pocet . "." . $ext;
+							if (in_array($ext, $extension)) {
+								if (!file_exists("img_produkt/" . $txtGalleryName . "/" . $file_name)) {
+									move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $file_name);
+								} else {
+									header("Location: Produkt-pridat.php ");
+									$filename = basename($file_name, $ext);
+									$newFileName = $filename . time() . "." . $ext;
+									move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $newFileName);
+								}
+							} else {
+								array_push($error, "$file_name, ");
+							}
+							$pocet++;
+						}
+
+
+
+
+						$barva = new Barva();
+						$db = new BarvaDB();
+						$barvy = $db->nactiBarvy();
+						foreach ($barvy as $barva) {
+							$barva->vypisFunkceBarvy($produkt_id);
+						}
+
+						$velikost = new Velikost();
+						if ($velikost->nastavHodnoty("XS", $_POST["XS"])) {
+							$db = new VelikostDB();
+							$velikost_id = $db->vlozVelikost($velikost);
+							$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
+							if ($velikost_id > 0) {
+								echo  "<p class='spravne'>Velikost XS byla vytvořena</p>\n";
+							} else {
+								echo "<p class='chyba'>Velikost S se nepodařlo vytvořit</p>\n";
+							}
+						}
+
+						$velikost = new Velikost();
+						if ($velikost->nastavHodnoty("S", $_POST["S"])) {
+							$db = new VelikostDB();
+							$velikost_id = $db->vlozVelikost($velikost);
+							$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
+							if ($velikost_id > 0) {
+								echo  "<p class='spravne'>Velikost S byla vytvořena</p>\n";
+							} else {
+								echo "<p class='chyba'>Velikost S se nepodařlo vytvořit</p>\n";
+							}
+						}
+
+						$velikost = new Velikost();
+						if ($velikost->nastavHodnoty("M", $_POST["M"])) {
+							$db = new VelikostDB();
+							$velikost_id = $db->vlozVelikost($velikost);
+							$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
+							if ($velikost_id > 0) {
+								echo  "<p class='spravne'>Velikost M byla vytvořena</p>\n";
+							} else {
+								echo "<p class='chyba'>Velikost M se nepodařlo vytvořit</p>\n";
+							}
+						}
+
+						$velikost = new Velikost();
+						if ($velikost->nastavHodnoty("L", $_POST["L"])) {
+							$db = new VelikostDB();
+							$velikost_id = $db->vlozVelikost($velikost);
+							$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
+							if ($velikost_id > 0) {
+								echo  "<p class='spravne'>Velikost L byla vytvořena</p>\n";
+							} else {
+								echo "<p class='chyba'>Velikost L se nepodařlo vytvořit</p>\n";
+							}
+						}
+						$velikost = new Velikost();
+						if ($velikost->nastavHodnoty("XL", $_POST["XL"])) {
+							$db = new VelikostDB();
+							$velikost_id = $db->vlozVelikost($velikost);
+							$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
+							if ($velikost_id > 0) {
+								echo  "<p class='spravne'>Velikost XL byla vytvořena</p>\n";
+							} else {
+								echo "<p class='chyba'>Velikost XL se nepodařlo vytvořit</p>\n";
+							}
+						}
 					} else {
-						echo "<h2 class='chyba'>Produkt se nepodařilo vytvořit</h2>\n";
-						echo "<p class='chyba'>Podívejte se jestli nezadáváte název prodkutu, který už byl vytvořen</p>\n";
+					echo "<h2 class='chyba'>Produkt se nepodařilo vytvořit</h2>\n";
+					echo "<p class='chyba'>Podívejte se jestli nezadáváte název prodkutu, který už byl vytvořen</p>\n";
+						}
+					if (!isset($_POST["XS"])) {
+						echo  "<p class='upozorneni'>Hodnota velikosti XS nebyla zadána</p>\n";
+					}
+					if (!isset($_POST["S"])) {
+						echo  "<p class='upozorneni'>Hodnota velikosti S nebyla zadána</p>\n";
+					}
+					if (!isset($_POST["M"])) {
+						echo  "<p class='upozorneni'>Hodnota velikosti M nebyla zadána</p>\n";
+					}
+					if (!isset($_POST["L"])) {
+						echo  "<p class='upozorneni'>Hodnota velikosti L nebyla zadána</p>\n";
+					}
+					if (!isset($_POST["XL"])) {
+						echo  "<p class='upozorneni'>Hodnota velikosti XL nebyla zadána</p>\n";
 					}
 				}
-
+			}
 				//$soubor = new Soubor();
 				//$nazev = $_POST['nazev'];
 				// mkdir("img/$nazev$produkt_id");
@@ -63,138 +171,7 @@ if ($_SESSION["prava"] < 1) {
 				//} else {
 				//    echo "<h2>Obrazek nebyl uložen</h2>";
 				//}
-				extract($_POST);
-				$error = array();
-				$extension = array("jpeg", "jpg", "png", "gif");
-				$pocet = 1;
-				$txtGalleryName = $_POST["nazev"];
-				mkdir("img/$txtGalleryName");
-				foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
-					$file_name = $_FILES["files"]["name"][$key];
-					$file_tmp = $_FILES["files"]["tmp_name"][$key];
-					$ext = pathinfo($file_name, PATHINFO_EXTENSION);
-					$file_name = $produkt_id . "." . $pocet . "." . $ext;
-					if (in_array($ext, $extension)) {
-						if (!file_exists("img/" . $txtGalleryName . "/" . $file_name)) {
-							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img/" . $txtGalleryName . "/" . $file_name);
-						} else {
-							header("Location: Produkt-pridat.php ");
-							$filename = basename($file_name, $ext);
-							$newFileName = $filename . time() . "." . $ext;
-							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img/" . $txtGalleryName . "/" . $newFileName);
-						}
-					} else {
-						array_push($error, "$file_name, ");
-					}
-					$pocet++;
-				}
 
-
-
-
-				$barva = new Barva();
-				$db = new BarvaDB();
-				$barvy = $db->nactiBarvy();
-				foreach ($barvy as $barva) {
-					$barva->vypisFunkceBarvy($produkt_id);
-				}
-
-
-
-				spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});
-				$velikost = new Velikost();
-				if ($velikost->nastavHodnoty("XS", $_POST["XS"])) {
-					$db = new VelikostDB();
-					$velikost_id = $db->vlozVelikost($velikost);
-					$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
-					if ($velikost_id > 0) {
-						echo  "<p class='spravne'>Velikost XS byla vytvořena</p>\n";
-					} else {
-						echo "<p class='chyba'>Velikost S se nepodařlo vytvořit</p>\n";
-					}
-				}
-
-
-
-				spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});
-				$velikost = new Velikost();
-				if ($velikost->nastavHodnoty("S", $_POST["S"])) {
-					$db = new VelikostDB();
-					$velikost_id = $db->vlozVelikost($velikost);
-					$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
-					if ($velikost_id > 0) {
-						echo  "<p class='spravne'>Velikost S byla vytvořena</p>\n";
-					} else {
-						echo "<p class='chyba'>Velikost S se nepodařlo vytvořit</p>\n";
-					}
-				}
-
-
-				spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});
-				$velikost = new Velikost();
-				if ($velikost->nastavHodnoty("M", $_POST["M"])) {
-					$db = new VelikostDB();
-					$velikost_id = $db->vlozVelikost($velikost);
-					$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
-					if ($velikost_id > 0) {
-						echo  "<p class='spravne'>Velikost M byla vytvořena</p>\n";
-					} else {
-						echo "<p class='chyba'>Velikost M se nepodařlo vytvořit</p>\n";
-					}
-				}
-
-
-
-				spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});
-				$velikost = new Velikost();
-				if ($velikost->nastavHodnoty("L", $_POST["L"])) {
-					$db = new VelikostDB();
-					$velikost_id = $db->vlozVelikost($velikost);
-					$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
-					if ($velikost_id > 0) {
-						echo  "<p class='spravne'>Velikost L byla vytvořena</p>\n";
-					} else {
-						echo "<p class='chyba'>Velikost L se nepodařlo vytvořit</p>\n";
-					}
-				}
-				spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});
-				$velikost = new Velikost();
-				if ($velikost->nastavHodnoty("XL", $_POST["XL"])) {
-					$db = new VelikostDB();
-					$velikost_id = $db->vlozVelikost($velikost);
-					$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
-					if ($velikost_id > 0) {
-						echo  "<p class='spravne'>Velikost XL byla vytvořena</p>\n";
-					} else {
-						echo "<p class='chyba'>Velikost XL se nepodařlo vytvořit</p>\n";
-					}
-				}
-			}
-			if (!isset($_POST["XS"]) && isset($_POST["ulozit"])) {
-				echo  "<p class='upozorneni'>Hodnota velikosti XS nebyla zadána</p>\n";
-			}
-			if (!isset($_POST["S"]) && isset($_POST["ulozit"])) {
-				echo  "<p class='upozorneni'>Hodnota velikosti S nebyla zadána</p>\n";
-			}
-			if (!isset($_POST["M"]) && isset($_POST["ulozit"])) {
-				echo  "<p class='upozorneni'>Hodnota velikosti M nebyla zadána</p>\n";
-			}
-			if (!isset($_POST["L"]) && isset($_POST["ulozit"])) {
-				echo  "<p class='upozorneni'>Hodnota velikosti L nebyla zadána</p>\n";
-			}
-			if (!isset($_POST["XL"]) && isset($_POST["ulozit"])) {
-				echo  "<p class='upozorneni'>Hodnota velikosti XL nebyla zadána</p>\n";
-			}
 			?>
 			<a class='input' href='Produkt-administrace.php'>Zpět na administraci produktu</a>
 		</div>
