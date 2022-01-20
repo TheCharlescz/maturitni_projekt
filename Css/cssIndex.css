@@ -1,4 +1,6 @@
-
+body {
+	height: 100%;
+}
  h2 {
   color: black;
   text-align: center;
@@ -24,7 +26,7 @@ margin: 0 10%;
   box-shadow: 0px 3px 21px 6px rgb(0 0 0 / 34%);
 }
   .showCategory:hover img{
-  opacity: 0.5; 
+  opacity: 0.5;
   transition: 1s;
   }
 
@@ -43,11 +45,23 @@ margin: 0 10%;
   flex-wrap: wrap;
   padding: 0 10%;
   flex-direction: row;
-  justify-content: center; 
+  justify-content: center;
 }
-
+button{
+    font-family: 'Bebas Neue', cursive;
+    font-size: large;
+    text-decoration: none;
+    background-color: black;
+    color: rgb(165, 163, 163);
+    padding: 10px;
+    margin: 10px;
+}
+#noBorder {
+	border: none;
+	background-color: rgba(0, 0, 0, 0);
+}
 .showProduct{
-  flex: 1 1;
+  flex: 0 1 22.5% ;
   background-color: black;
   margin: 1% 1%;
   box-shadow: 0px 3px 21px 6px rgb(0 0 0 / 34%);
@@ -143,7 +157,7 @@ margin: 0 10%;
   }
 footer{
   background-color: black;
-  padding: 20px;
+  padding: 20px 0;
   text-align: center;
 }
 * {box-sizing:border-box}
@@ -178,11 +192,7 @@ footer{
   #adver {
     margin: 5% 6%;
     padding:0;
-    
-  }
-  svg{
-    width:10%;
-    height: 10%;
+
   }
   #adver  {
     display: none;

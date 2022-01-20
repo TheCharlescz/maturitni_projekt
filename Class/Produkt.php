@@ -100,9 +100,10 @@ public function vypisBaneruProduktu() {
                 while (($file = readdir($dh))){
                   if ($file === '.' || $file === '..') continue;
                   $ext=pathinfo($file, PATHINFO_EXTENSION);
-                  if ( $file == "$this->id.1.$ext")
+                  if ( $file == "$this->id.1.$ext") {
                   echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->nazev/$file' style = 'width: 100%'></a>";
                 }
+								}
                 closedir($dh);
               }
             }
@@ -113,7 +114,7 @@ public function vypisBaneruProduktu() {
           </div>
           <div class='sPflex'>
             <div>
-              <h3>$this->nazev</h3>
+              <h3>$this->typ $this->nazev</h3>
               <p>$this->znacka</p>
             </div>
             <div>
@@ -139,7 +140,7 @@ public function vypisBaneruProduktuAdministace() {
           if ($file === '.' || $file === '..') continue;
           $ext=pathinfo($file, PATHINFO_EXTENSION);
           if ( $file == "$this->id.1.$ext")
-          echo "<a href='Produkt-editace.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->nazev/$file'></a>";
+          echo "<a href='Produkt-administrace.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->nazev/$file'></a>";
         }
         closedir($dh);
       }
@@ -160,7 +161,19 @@ public function vypisBaneruProduktuAdministace() {
       echo "
     </div>
     </div>
-</div>";
+		<div>
+	<button id='noBorder' onclick='openModalSmaz($this->id)' id='myBtn'><span class='material-icons'>delete</span></button>
+    <a id='noBorder'  class='input'href='Produkt-smazani.php?id=$this->id'><span class='material-icons'>edit</span></a>
+		</div>
+</div>
+ <div id='$this->id smaz' class='modal'>
+    <div class='modal-content'>
+        <span onclick='closeModalSmaz($this->id)' class='close'>&times;</span>
+        <h2> Opravdu chcete smazat produkt: " . $this->id  . " " . $this->nazev . "</h2>
+        <a class='input' href='Produkt-administrace.php?id=$this->id'>Ano chci smazat tento produkt</a>
+        <button onclick='closeModalSmaz($this->id)' id='myBtn'>Nechci smazat tento profil</button>
+    </div>
+    </div>";
 }
 public function vypisProduktu() {
     echo "<section id='flex'>

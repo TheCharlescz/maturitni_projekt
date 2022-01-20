@@ -75,6 +75,13 @@ class BarvaDB {
         $sql->setFetchMode(PDO::FETCH_CLASS, "barva");
         return $sql->fetch();
     }
+	public function smazBarvyProduktu($id)
+	{
+		$dotaz = "DELETE FROM `produkt_ma_barvy` WHERE `produkt_ma_barvy`.`produkt_id` = :id";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":id", $id);
+		return $sql->execute();
+	}
     public function smazBarvu($id) {
         $dotaz = "delete from barvy where id=:id";
         $sql = $this->spojeni->prepare($dotaz);

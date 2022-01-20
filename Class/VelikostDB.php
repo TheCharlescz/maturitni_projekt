@@ -1,11 +1,11 @@
-<?php 
+<?php
 class VelikostDB {
     private $spojeni;
 
     public function __construct(){
         $this->spojeni = DB::vytvorSpojeni();
  }
- 
+
     public function nactiVelikosti($razeni = "id"){
         $moznosti_razeni = array("velikosti","id");
         if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = $moznosti_razeni[0];}
@@ -62,7 +62,7 @@ class VelikostDB {
             if($sql->execute(array($velikost->velikost))){return $this->spojeni->lastInsertid();}
             else {return false;}
         }
-       
+
     }
     public function vlozVelikost($velikost){
         $dotaz = "insert into velikosti (id,velikost,pocet_kusu) values (NULL,:velikost,:pocet_kusu)";
@@ -89,13 +89,25 @@ class VelikostDB {
         $sql->setFetchMode(PDO::FETCH_CLASS, "velikost");
         return $sql->fetch();
     }
+
+	public function smazVelikostProduktu($id)
+	{
+		$dotaz = "DELETE produkt_ma_velikosti, velikosti
+      FROM velikosti
+      JOIN produkt_ma_velikosti ON velikosti.id = produkt_ma_velikosti.velikosti_id
+     WHERE produkt_ma_velikosti.produkt_id = :id";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":id", $id);
+		return $sql->execute();
+	}
     public function smazVelikost($id) {
         $dotaz = "delete from velikosti where id=:id";
         $sql = $this->spojeni->prepare($dotaz);
         $sql ->bindParam(":id",$id);
-        return $sql->execute();
-    
+                if($sql->execute()){return $this->spojeni->lastInsertId();}
+        else {return false;}
+
     }
-    
+
 }
 ?>

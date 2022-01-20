@@ -51,7 +51,7 @@ if ($_SESSION["prava"] < 1) {
 						$extension = array("jpeg", "jpg", "png", "gif");
 						$pocet = 1;
 						$txtGalleryName = $_POST["nazev"];
-						mkdir("img_produkt/$txtGalleryName");
+						mkdir("img_produkt/$txtGalleryName", 0777);
 						foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
 							$file_name = $_FILES["files"]["name"][$key];
 							$file_tmp = $_FILES["files"]["tmp_name"][$key];
@@ -71,10 +71,6 @@ if ($_SESSION["prava"] < 1) {
 							}
 							$pocet++;
 						}
-
-
-
-
 						$barva = new Barva();
 						$db = new BarvaDB();
 						$barvy = $db->nactiBarvy();
@@ -88,7 +84,6 @@ if ($_SESSION["prava"] < 1) {
 							$velikost_id = $db->vlozVelikost($velikost);
 							$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
 							if ($velikost_id > 0) {
-								echo  "<p class='spravne'>Velikost XS byla vytvořena</p>\n";
 							} else {
 								echo "<p class='chyba'>Velikost S se nepodařlo vytvořit</p>\n";
 							}
@@ -100,7 +95,6 @@ if ($_SESSION["prava"] < 1) {
 							$velikost_id = $db->vlozVelikost($velikost);
 							$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
 							if ($velikost_id > 0) {
-								echo  "<p class='spravne'>Velikost S byla vytvořena</p>\n";
 							} else {
 								echo "<p class='chyba'>Velikost S se nepodařlo vytvořit</p>\n";
 							}
@@ -112,7 +106,6 @@ if ($_SESSION["prava"] < 1) {
 							$velikost_id = $db->vlozVelikost($velikost);
 							$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
 							if ($velikost_id > 0) {
-								echo  "<p class='spravne'>Velikost M byla vytvořena</p>\n";
 							} else {
 								echo "<p class='chyba'>Velikost M se nepodařlo vytvořit</p>\n";
 							}
@@ -124,7 +117,6 @@ if ($_SESSION["prava"] < 1) {
 							$velikost_id = $db->vlozVelikost($velikost);
 							$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
 							if ($velikost_id > 0) {
-								echo  "<p class='spravne'>Velikost L byla vytvořena</p>\n";
 							} else {
 								echo "<p class='chyba'>Velikost L se nepodařlo vytvořit</p>\n";
 							}
@@ -135,7 +127,6 @@ if ($_SESSION["prava"] < 1) {
 							$velikost_id = $db->vlozVelikost($velikost);
 							$db->vlozVelikostDoProduktu($produkt_id, $velikost_id);
 							if ($velikost_id > 0) {
-								echo  "<p class='spravne'>Velikost XL byla vytvořena</p>\n";
 							} else {
 								echo "<p class='chyba'>Velikost XL se nepodařlo vytvořit</p>\n";
 							}
@@ -144,21 +135,6 @@ if ($_SESSION["prava"] < 1) {
 					echo "<h2 class='chyba'>Produkt se nepodařilo vytvořit</h2>\n";
 					echo "<p class='chyba'>Podívejte se jestli nezadáváte název prodkutu, který už byl vytvořen</p>\n";
 						}
-					if (!isset($_POST["XS"])) {
-						echo  "<p class='upozorneni'>Hodnota velikosti XS nebyla zadána</p>\n";
-					}
-					if (!isset($_POST["S"])) {
-						echo  "<p class='upozorneni'>Hodnota velikosti S nebyla zadána</p>\n";
-					}
-					if (!isset($_POST["M"])) {
-						echo  "<p class='upozorneni'>Hodnota velikosti M nebyla zadána</p>\n";
-					}
-					if (!isset($_POST["L"])) {
-						echo  "<p class='upozorneni'>Hodnota velikosti L nebyla zadána</p>\n";
-					}
-					if (!isset($_POST["XL"])) {
-						echo  "<p class='upozorneni'>Hodnota velikosti XL nebyla zadána</p>\n";
-					}
 				}
 			}
 				//$soubor = new Soubor();
@@ -315,7 +291,7 @@ if ($_SESSION["prava"] < 1) {
 		</table>
 		</label>
 		<p>*Pro správné fungovaní je potřeba vyplnit alespon jednu velikost a barvu.</p>
-		<input type="submit" name="ulozit" value="Přidat velikosti produktu">
+		<input type="submit" name="ulozit" value="Přidat produkt">
 		</form>
 		</div>
 		</div>

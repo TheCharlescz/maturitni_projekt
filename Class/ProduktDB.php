@@ -124,7 +124,7 @@ class  ProduktDB {
         join kategorie on produkt.kategorie_id = kategorie.id
         join znacky on produkt.znacky_id = znacky.id
         join materialy on produkt.materialy_id = materialy.id
-        where lower(nazev) like :text or lower(popis_bez_html) Like :text order by $razeni";
+        where lower(nazev) like :text";
         $sql = $this->spojeni->prepare($dotaz);
         $sql->bindParam(":text", $text);
         $sql->execute();

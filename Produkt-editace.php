@@ -23,9 +23,9 @@ if ($_SESSION["prava"] < 1) {
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="shortcut icon" href="img/logo.ico" />
+	<script src="Script/scriptModalBox.js"></script>
 	<title>Infiltrated - Editace produktu</title>
 </head>
-
 <body>
 	<header id="Myheader">
 		<div>
@@ -36,7 +36,7 @@ if ($_SESSION["prava"] < 1) {
 			spl_autoload_register(function ($trida) {
 				include_once "Class/$trida.php";
 			});
-			if(isset($_GET["slozka"]) & isset($_GET["nazev"]) & isset($_GET["id"])) {
+			if (isset($_GET["slozka"]) & isset($_GET["nazev"]) & isset($_GET["id"])) {
 				$id = $_GET["id"];
 				$slozka = $_GET["slozka"];
 				$nazev = $_GET["nazev"];
@@ -59,12 +59,14 @@ if ($_SESSION["prava"] < 1) {
 						echo "<p class='chyba'>Podívejte se jestli nezadáváte název prodkutu, který už byl vytvořen</p>\n";
 					}
 				}
-
 				extract($_POST);
 				$error = array();
 				$extension = array("jpeg", "jpg", "png", "gif");
 				$pocet = 1;
+				$db = new ProduktDB();
 				$txtGalleryName = $_POST["nazev"];
+				$nazev = $_SESSION["stary_nazev"];
+				rename("img_produkt/$nazev", "img_produkt/$txtGalleryName");
 				foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
 					$file_name = $_FILES["files"]["name"][$key];
 					$file_tmp = $_FILES["files"]["tmp_name"][$key];
@@ -75,7 +77,7 @@ if ($_SESSION["prava"] < 1) {
 							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $file_name);
 						} else {
 							$filename = basename($file_name, $ext);
-							$newFileName = $filename . time() . "." . $ext;
+							$newFileName = $filename . $pocet . "." . $ext;
 							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $newFileName);
 						}
 					} else {
@@ -89,13 +91,6 @@ if ($_SESSION["prava"] < 1) {
 				foreach ($barvy as $barva) {
 					$barva->vypisFunkciUpravyBarvy($produkt_id);
 				}
-				//$barva = new Barva();
-				//$db = new BarvaDB();
-				//$barvy = $db->nactiBarvy();
-				//foreach ($barvy as $barva) {
-				//    $barva->vypisFunkceOdstranitBarvy($produkt_id);
-				//}
-
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});
@@ -112,6 +107,7 @@ if ($_SESSION["prava"] < 1) {
 				$produkt = $db->nactiProdukt($_GET["id"]);
 				$db_velikost = new VelikostDB();
 				$db_velikost = $db_velikost->nactiVelikostiProduktu($_GET["id"]);
+				$_SESSION["stary_nazev"] = $produkt->nazev;
 			}
 			?>
 			<a class='input' href='Produkt-administrace.php'>Zpět na administraci produktů</a>
@@ -144,7 +140,6 @@ if ($_SESSION["prava"] < 1) {
 					<label>
 						<h2>Přidej počet kusů dané velikosti</h2>
 						<div class="reg">
-
 							<select name="akce_id" class="input" required>
 								<option value="">Vyberte jednu z akci</option>
 								<?php
@@ -157,7 +152,6 @@ if ($_SESSION["prava"] < 1) {
 								foreach ($akce as $akci) {
 									echo "<option value='$akci->id'" . ($akci->id == $produkt->akce_id ? "selected" : "") . "> $akci->akce</option>";
 								}
-
 								?>
 							</select><br>
 							<select name="kategorie_id" class="input" required>
@@ -188,7 +182,6 @@ if ($_SESSION["prava"] < 1) {
 								}
 								?>
 							</select><br>
-
 							<select name="znacky_id" class="input" required>
 								<option value="">Vyberte jednu ze značek</option>
 								<?php
@@ -220,7 +213,6 @@ if ($_SESSION["prava"] < 1) {
 						</div>
 				</div>
 				</label>
-
 				<div id="flex">
 					<label>
 						<h2>řidej počet kusů dané velikosti</h2>
@@ -233,8 +225,8 @@ if ($_SESSION["prava"] < 1) {
 							$velikost = new Velikost();
 							$velikosti = $db->nactiVelikostiProduktuEditace($_GET["id"]);
 							foreach ($velikosti as $velikost) {
-								echo "<label for=$velikost->velikost>Velikost $velikost->velikost</label> <input type='number' name=$velikost->velikost
-                                    placeholder='Počet kusů XS' value= $velikost->pocet_kusu><br>";
+								echo "<label for=$velikost->velikost>Velikost $velikost->velikost</label>
+								<input type='number' name=$velikost->velikost placeholder='Počet kusů XS' value= $velikost->pocet_kusu><br>";
 							}
 							?>
 						</div>
@@ -285,7 +277,7 @@ if ($_SESSION["prava"] < 1) {
 		</table>
 		</label>
 		<p>*Pro správné fungovaní je potřeba vyplnit alespon jednu velikost a barvu.</p>
-		<input type="submit" name="ulozit" id="check" value=" Přidat velikosti produktu">
+		<input type="submit" name="ulozit" id="check" value=" Editovat Produkt">
 		</form>
 		</div>
 		</div>

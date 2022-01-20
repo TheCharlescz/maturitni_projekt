@@ -34,7 +34,7 @@ header{
     display: flex;
     padding: 0 5% 0 5%;
     flex-wrap: wrap;
-    justify-content: center; 
+    justify-content: center;
 }
 button{
     font-family: 'Bebas Neue', cursive;
@@ -67,7 +67,7 @@ button:hover{
     border-left:none;
     border-right: none;
 }
-.input:hover{ 
+.input:hover{
     color: white;
     border-top: 1px solid white;
     border-bottom: 1px solid white;
@@ -77,6 +77,32 @@ button:hover{
 }
 #pridat{
     margin: 30px 20%;
+}
+html {
+   margin: 0px;
+   height: 100%;
+   width: 100%;
+}
+
+body {
+   margin: 0px;
+   min-height: 100%;
+   width: 100%;
+}
+/* Trick: */
+body {
+  position: relative;
+}
+
+body::after {
+  content: '';
+  display: block;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
 }
 @media(max-width:800px) {
     #aLogo {
