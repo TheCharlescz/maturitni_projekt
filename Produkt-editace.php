@@ -26,6 +26,7 @@ if ($_SESSION["prava"] < 1) {
 	<script src="Script/scriptModalBox.js"></script>
 	<title>Infiltrated - Editace produktu</title>
 </head>
+
 <body>
 	<header id="Myheader">
 		<div>
@@ -33,22 +34,21 @@ if ($_SESSION["prava"] < 1) {
 		</div>
 		<div style="text-align:center;">
 			<?php
-			spl_autoload_register(function ($trida) {
-				include_once "Class/$trida.php";
-			});
+
 			if (isset($_GET["slozka"]) & isset($_GET["nazev"]) & isset($_GET["id"])) {
 				$id = $_GET["id"];
 				$slozka = $_GET["slozka"];
 				$nazev = $_GET["nazev"];
-				unlink("img/$slozka/$nazev");
+				unlink("img_produkt/$slozka/$nazev");
 				header("Location: Produkt-editace.php?id=$id");
 			}
+
 			if (isset($_POST["ulozit"])) {
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});
 				$produkt = new Produkt();
-				if ($produkt->nastavHodnoty($_POST["akce_id"], $_POST["kategorie_id"], $_POST["materialy_id"], $_POST["znacky_id"], $_SESSION["id_uzivatele"], $_POST["typy_id"], $_POST["nazev"], $_POST["popis"], $_POST["pohlavi"], $_POST["cena"], $_POST["sleva"], "0", $_GET["id"])) {
+				if ($produkt->nastavHodnoty($_POST['akce_id'], $_POST["kategorie_id"], $_POST["materialy_id"], $_POST["znacky_id"], $_SESSION["id_uzivatele"], $_POST["typy_id"], $_POST["nazev"], $_POST["popis"], $_POST["pohlavi"], $_POST["cena"], $_POST["sleva"], "0", $_GET["id"])) {
 					$db = new ProduktDB();
 					$produkt_id = $db->ulozProdukt($produkt);
 					if ($produkt_id > 0) {
@@ -59,6 +59,7 @@ if ($_SESSION["prava"] < 1) {
 						echo "<p class='chyba'>Podívejte se jestli nezadáváte název prodkutu, který už byl vytvořen</p>\n";
 					}
 				}
+
 				extract($_POST);
 				$error = array();
 				$extension = array("jpeg", "jpg", "png", "gif");
@@ -85,12 +86,20 @@ if ($_SESSION["prava"] < 1) {
 					}
 					$pocet++;
 				}
+
 				$barva = new Barva();
 				$db = new BarvaDB();
 				$barvy = $db->nactiBarvy();
 				foreach ($barvy as $barva) {
 					$barva->vypisFunkciUpravyBarvy($produkt_id);
 				}
+				//$barva = new Barva();
+				//$db = new BarvaDB();
+				//$barvy = $db->nactiBarvy();
+				//foreach ($barvy as $barva) {
+				//    $barva->vypisFunkceOdstranitBarvy($produkt_id);
+				//}
+
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});
@@ -103,10 +112,15 @@ if ($_SESSION["prava"] < 1) {
 					}
 				}
 			} else {
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
 				$db = new ProduktDB();
+				$produkt = new Produkt();
 				$produkt = $db->nactiProdukt($_GET["id"]);
-				$db_velikost = new VelikostDB();
-				$db_velikost = $db_velikost->nactiVelikostiProduktu($_GET["id"]);
+				$db = new VelikostDB();
+				$velikost = new Velikost();
+				$velikost = $db->nactiVelikostiProduktu($_GET["id"]);
 				$_SESSION["stary_nazev"] = $produkt->nazev;
 			}
 			?>
@@ -140,6 +154,7 @@ if ($_SESSION["prava"] < 1) {
 					<label>
 						<h2>Přidej počet kusů dané velikosti</h2>
 						<div class="reg">
+
 							<select name="akce_id" class="input" required>
 								<option value="">Vyberte jednu z akci</option>
 								<?php
@@ -152,6 +167,7 @@ if ($_SESSION["prava"] < 1) {
 								foreach ($akce as $akci) {
 									echo "<option value='$akci->id'" . ($akci->id == $produkt->akce_id ? "selected" : "") . "> $akci->akce</option>";
 								}
+
 								?>
 							</select><br>
 							<select name="kategorie_id" class="input" required>
@@ -182,6 +198,7 @@ if ($_SESSION["prava"] < 1) {
 								}
 								?>
 							</select><br>
+
 							<select name="znacky_id" class="input" required>
 								<option value="">Vyberte jednu ze značek</option>
 								<?php
@@ -213,6 +230,7 @@ if ($_SESSION["prava"] < 1) {
 						</div>
 				</div>
 				</label>
+
 				<div id="flex">
 					<label>
 						<h2>řidej počet kusů dané velikosti</h2>
@@ -225,8 +243,8 @@ if ($_SESSION["prava"] < 1) {
 							$velikost = new Velikost();
 							$velikosti = $db->nactiVelikostiProduktuEditace($_GET["id"]);
 							foreach ($velikosti as $velikost) {
-								echo "<label for=$velikost->velikost>Velikost $velikost->velikost</label>
-								<input type='number' name=$velikost->velikost placeholder='Počet kusů XS' value= $velikost->pocet_kusu><br>";
+								echo "<label for=$velikost->velikost>Velikost $velikost->velikost</label> <input type='number' name=$velikost->velikost
+                                    placeholder='Počet kusů XS' value= $velikost->pocet_kusu><br>";
 							}
 							?>
 						</div>
@@ -249,22 +267,19 @@ if ($_SESSION["prava"] < 1) {
 				</div>
 
 		</div>
-		<div id="flex">
+		<div id="flex_edit">
 			<?php
-			$dir = "/wamp64/www/maturitni_projekt/img_produkt/$produkt->nazev/";
 			// Open a directory, and read its contents
-			if (is_dir($dir)) {
-				if ($dh = opendir($dir)) {
-					while (($file = readdir($dh))) {
+			 $obrazky = scandir("img_produkt/$produkt->nazev/");
+					foreach ($obrazky as $file) {
 						if ($file === '.' || $file === '..') continue;
 						echo "<div class='img_edit'>
           	<img class='img' src='img_produkt/$produkt->nazev/$file' style='width:100%' >
 						<a href='Produkt-editace.php?id=$produkt->id&nazev=$file&slozka=$produkt->nazev'>Odstranit $file</a>
       			</div>";
 					}
-					closedir($dh);
-				}
-			} ?>
+
+			 ?>
 		</div>
 		<table width=" 100%">
 			<tr>

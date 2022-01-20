@@ -15,5 +15,4 @@ class DB {
     return self::$spojeni;
 }
 }
-
 ?>

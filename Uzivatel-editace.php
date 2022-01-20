@@ -47,8 +47,6 @@ if ($_SESSION["prava"] < 1) {
 			});
 
 			if (isset($_POST["ulozit"])) {
-
-
 				if ($_POST["heslo"] != $_POST["heslo-opakovani"]) {
 					echo "<p class='chyba'> Hesla se neshoduji</p>";
 				} else {
@@ -71,11 +69,9 @@ if ($_SESSION["prava"] < 1) {
 						echo "<p class='chyba'> Špatně zadaná e-mail</p>";;
 					}
 					$db = new UzivatelDB();
-					$uzivatel = new Uzivatel();
 					$id = $db->ulozUzivatele($uzivatel);
 					if ($id > 0) {
-						echo "<h2 class='spravne'>Data byla změněna</h2>\n
-                          ";
+						echo "<h2 class='spravne'>Data byla změněna</h2>\n";
 					}
 				}
 			} else {

@@ -83,30 +83,25 @@ if ($_SESSION["prava"] < 1) {
 					</svg>
 				</a>
 			<?php
-			if (isset($_GET["id"])) {
+			if (isset($_GET["id_smaz"])) {
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});
 				$produkt = new Produkt();
 				$db = new ProduktDB();
-				$produkt = $db->nactiProdukt($_GET["id"]);
-				$dir = "/var/www/localhost/web/img_produkt/$produkt->nazev/";
-				if (is_dir($dir)) {
-					if ($dh = opendir($dir)) {
-						while (($file = readdir($dh))) {
+				$produkt = $db->nactiProdukt($_GET["id_smaz"]);
+				$obrazky = scandir("img_produkt/$this->nazev/");
+				foreach ($obrazky as $file) {
 							if ($file === '.' || $file === '..') continue;
 							unlink("img_produkt/$produkt->nazev/$file");
 						}
-						closedir($dh);
-					}
-				}
 				rmdir("img_produkt/$produkt->nazev");
 				$db_velikost = new VelikostDB();
-				$vysledek_velikost = $db_velikost->smazVelikostProduktu($_GET["id"]);
+				$vysledek_velikost = $db_velikost->smazVelikostProduktu($_GET["id_smaz"]);
 				//$vysledek_velikost =  $db_velikost->smazVelikost($id);
 				$db_velikost = new BarvaDB();
-				$vysledek_barva =  $db_velikost->smazBarvyProduktu($_GET["id"]);
-				$vysledek = $db->smazProdukt($_GET["id"]);
+				$vysledek_barva =  $db_velikost->smazBarvyProduktu($_GET["id_smaz"]);
+				$vysledek = $db->smazProdukt($_GET["id_smaz"]);
 				if ($vysledek && $vysledek_barva &&  $vysledek_velikost == true) {
 					//header("Location: Produkt-administrace.php ");
 					echo "<h3 class='spravne'>Produkt byl smazán</h3>";
@@ -132,7 +127,6 @@ if ($_SESSION["prava"] < 1) {
       </span>
       </a>";
 					}
-
 					if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
 						echo "<a href='Produkt-administrace.php' title='Správa a administrace produktů'>
     <span class='material-icons'>

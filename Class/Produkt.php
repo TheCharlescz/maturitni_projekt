@@ -94,19 +94,14 @@ public function vypisBaneruProduktu() {
   <div class=showProduct>
           <div class='sPtextInImg'>
           ";
-          $dir = "/wamp64/www/maturitni_projekt/img_produkt/$this->nazev/";
-            if (is_dir($dir)){
-              if ($dh = opendir($dir)){
-                while (($file = readdir($dh))){
+									$obrazky = scandir("img_produkt/$this->nazev/");
+									foreach ($obrazky as $file) {
                   if ($file === '.' || $file === '..') continue;
                   $ext=pathinfo($file, PATHINFO_EXTENSION);
                   if ( $file == "$this->id.1.$ext") {
                   echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->nazev/$file' style = 'width: 100%'></a>";
                 }
 								}
-                closedir($dh);
-              }
-            }
           echo "
             <div class='sPbottom-left'>
               $this->cena Kč
@@ -133,18 +128,14 @@ public function vypisBaneruProduktuAdministace() {
   <div class='showProduct'>
   <div class=img>
   ";
-  $dir = "/wamp64/www/maturitni_projekt/img_produkt/$this->nazev/";
-    if (is_dir($dir)){
-      if ($dh = opendir($dir)){
-        while (($file = readdir($dh))){
+		$obrazky = scandir("img_produkt/$this->nazev/");
+		foreach ($obrazky as $file) {
           if ($file === '.' || $file === '..') continue;
           $ext=pathinfo($file, PATHINFO_EXTENSION);
-          if ( $file == "$this->id.1.$ext")
-          echo "<a href='Produkt-administrace.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->nazev/$file'></a>";
+          if ($file == "$this->id.1.$ext") {
+              echo "<a href='Produkt-administrace.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->nazev/$file'></a>";
+          }
         }
-        closedir($dh);
-      }
-    }
   echo "
       <div class='sPbottom-left'>
         $this->cena Kč
@@ -163,14 +154,14 @@ public function vypisBaneruProduktuAdministace() {
     </div>
 		<div>
 	<button id='noBorder' onclick='openModalSmaz($this->id)' id='myBtn'><span class='material-icons'>delete</span></button>
-    <a id='noBorder'  class='input'href='Produkt-smazani.php?id=$this->id'><span class='material-icons'>edit</span></a>
+    <a id='noBorder'  class='input'href='Produkt-editace.php?id=$this->id'><span class='material-icons'>edit</span></a>
 		</div>
 </div>
  <div id='$this->id smaz' class='modal'>
     <div class='modal-content'>
         <span onclick='closeModalSmaz($this->id)' class='close'>&times;</span>
         <h2> Opravdu chcete smazat produkt: " . $this->id  . " " . $this->nazev . "</h2>
-        <a class='input' href='Produkt-administrace.php?id=$this->id'>Ano chci smazat tento produkt</a>
+        <a class='input' href='Produkt-administrace.php?id_smaz=$this->id'>Ano chci smazat tento produkt</a>
         <button onclick='closeModalSmaz($this->id)' id='myBtn'>Nechci smazat tento profil</button>
     </div>
     </div>";
@@ -178,37 +169,26 @@ public function vypisBaneruProduktuAdministace() {
 public function vypisProduktu() {
     echo "<section id='flex'>
     <div class='container'>";
-    $dir = "/wamp64/www/maturitni_projekt/img_produkt/$this->nazev/";
-    // Open a directory, and read its contents
-    if (is_dir($dir)){
-      if ($dh = opendir($dir)){
-        while (($file = readdir($dh))){
+		$obrazky = scandir("img_produkt/$this->nazev/");
+		foreach ($obrazky as $file) {
           if ($file === '.' || $file === '..') continue;
           echo "<div class='mySlides'>
           <img src='img_produkt/$this->nazev/$file' style='width:100%' >
       </div>";
         }
-        closedir($dh);
-      }
-    }
 echo "
 <a class='prev' onclick='plusSlides(-1)'>&#10094;</a>
 <a class='next' onclick='plusSlides(1)'>&#10095;</a>
 <div class='row'>";
-$dir = "/wamp64/www/maturitni_projekt/img_produkt/$this->nazev/";
-    $i = 1;
-    if (is_dir($dir)){
-      if ($dh = opendir($dir)){
-        while (($file = readdir($dh))){
+ $i =1;
+		$obrazky = scandir("img_produkt/$this->nazev/");
+		foreach ($obrazky as $file) {
           if ($file === '.' || $file === '..') continue;
           echo "<div class='column'>
           <img class='demo cursor' src='img_produkt/$this->nazev/$file' style='width:100%' onclick='currentSlide($i)' >
         </div>";
         $i++;
         }
-        closedir($dh);
-      }
-    }
 echo "
 </div>
 </div>
