@@ -16,25 +16,20 @@ session_start();
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssIndex.css">
 	<link rel="stylesheet" href="Css/cssProdukt-administrace.css">
-	<link rel="stylesheet" href="Css/cssProdukty.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
-
 	<title>Infiltrated</title>
 	<script onload="" src="Script/scriptSlideshow.js"></script>
 </head>
+<div id="black-block"></div>
 
 <body>
 	<header id="Myheader">
 		<nav role="navigation" id="resNavigation">
-
 			<div id="menuToggle">
-
 				<input id="check" type="checkbox" />
-
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
-
 				<ul id="menu">
 					<a href="">Muži</a>
 					<a href="">Ženy</a>
@@ -58,7 +53,6 @@ session_start();
 			<a class="grey" href="">Sporty</a>
 			<a class="grey" href="">Značky</a>
 			<a class="grey" href="">Kolekce</a>
-
 		</nav>
 		<a href="index.php" id=aLogo><svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 				<g transform="translate(0.000000,1640.000000) scale(0.100000,-0.100000)">
@@ -165,36 +159,106 @@ session_start();
 			</nav>
 		</div>
 	</header>
-	<section id="filtr">
-				
+	<section>
+		<form id="filtr_menu" action="Produkty.php" method="get">
+			<select name="akce_id" class="input">
+				<option value="">Vyberte jednu z akci</option>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new AkceDB();
+				$akce = new Akce();
+				$akce = $db->nactiAkce();
+				foreach ($akce as $akci) {
+					$akci->vypisOptionAkce();
+				}
+				?>
+			</select><br>
+			<select name="kategorie_id" class="input">
+				<option value="">Vyberte jednu z katehorií</option>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new KategorieDB();
+				$kategorie = new Kategorie();
+				$kategorie = $db->nactiKategorie();
+				foreach ($kategorie as $kategorii) {
+					$kategorii->vypisOptionkategorie();
+				}
+				?>
+			</select><br>
+			<select name="materialy_id" class="input">
+				<option value="">Vyberte jeden z materiálů</option>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new MaterialDB();
+				$material = new Material();
+				$materialy = $db->nactiMaterialy();
+				foreach ($materialy as $material) {
+					$material->vypisOptionmaterial();
+				}
+				?>
+			</select><br>
+			<select name="znacky_id" class="input">
+				<option value="">Vyberte jednu ze značek</option>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new ZnackaDB();
+				$znacka = new Znacka();
+				$znacky = $db->nactiZnacky();
+				foreach ($znacky as $znacka) {
+					$znacka->vypisOptionznacka();
+				}
+				?>
+			</select><br>
+			<select name="typy_id" class="input">
+				<option value="">Vyberte jednu z typů</option>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new TypDB();
+				$typ = new Typ();
+				$typy = $db->nactiTypy();
+				foreach ($typy as $typ) {
+					$typ->vypisOptiontyp();
+				}
+				?>
+			</select>
+			<input type="search" name="hledany_text" placeholder="search...">
+			<input type="submit" name="vyfiltruj" value="Vyfiltruj">
 	</section>
 	<main>
-		<div id="showProducts" class="purple">
-			<?php
-			spl_autoload_register(function ($trida) {
-				include_once "Class/$trida.php";
-			});
-			if (isset($_GET["hledany_text"])) {
-				$db = new ProduktDB();
-				$produkt = new Produkt();
-				$produkty = $db->najdiProdukt($_GET["hledany_text"]);
-				foreach ($produkty as $produkt) {
-					$produkt->vypisBaneruProduktu();
-				}
-			} else {
-				$db = new ProduktDB();
-				$produkt = new Produkt();
-				$produkty = $db->nactiprodukty();
-				foreach ($produkty as $produkt) {
-					$produkt->vypisBaneruProduktu();
-				}
+		<?php
+		spl_autoload_register(function ($trida) {
+			include_once "Class/$trida.php";
+		});
+		if (isset($_GET["hledany_text"])) {
+			$db = new ProduktDB();
+			$produkt = new Produkt();
+			$produkty = $db->najdiProdukt($_GET["hledany_text"]);
+			foreach ($produkty as $produkt) {
+				$produkt->vypisBaneruProduktu();
 			}
-			?>
-
-		</div>
+		} else {
+			$db = new ProduktDB();
+			$produkt = new Produkt();
+			$produkty = $db->nactiprodukty();
+			foreach ($produkty as $produkt) {
+				$produkt->vypisBaneruProduktu();
+			}
+		}
+		?>
+		<footer>
+			<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
+		</footer>
 	</main>
-	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
-	</footer>
+
 
 </body>

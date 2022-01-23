@@ -3,17 +3,6 @@ footer{
     padding: 20px 0;
     text-align: center;
   }
-  header {
-    padding: 20px;
-    position: relative;
-    justify-content: space-around;
-    background-color: black;
-    width: unset;
-    top: 0;
-    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px,
-      rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px,
-      rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-  }
   .img {
     width: 100%;
 }
@@ -65,13 +54,16 @@ main {
   display: flex;
 	justify-content: center;
   flex-wrap: wrap;
-  margin: 1%;
   padding: 2.5%;
 }
 .img {
   position: relative;
   width: 100%;
-
+}
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
 }
 .sPflex{
   display: flex;
@@ -110,7 +102,7 @@ button:hover {
     font-family: 'Bebas Neue', cursive;
     font-size: large;
     text-decoration: none;
-    background-color: black;
+    background-color: rgba(0, 0, 0,0.1);
     color: rgb(165, 163, 163);
     padding: 10px;
     margin: 10px;
@@ -118,6 +110,9 @@ button:hover {
     border-bottom: 1px solid grey;
     border-left:none;
     border-right: none;
+}
+option {
+	background-color: rgb(0, 0, 0);
 }
 #noBorder{
 	border: none;
@@ -146,11 +141,9 @@ body {
    min-height: 100%;
    width: 100%;
 }
-/* Trick: */
 body {
   position: relative;
 }
-
 body::after {
   content: '';
   display: block;
@@ -160,6 +153,15 @@ footer {
   position: absolute;
   bottom: 0;
   width: 100%;
+}
+#black-block{
+	background-color: black;
+	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+	height: 220px;
+	width: 100%;
+}
+#MyheaderAdmin{
+	justify-content: space-around;
 }
 @media(max-width:600px){
   .showProduct{

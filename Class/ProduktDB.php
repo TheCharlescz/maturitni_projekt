@@ -56,18 +56,91 @@ class  ProduktDB {
     JOIN kategorie ON produkt.kategorie_id = kategorie.id
     JOIN znacky ON produkt.znacky_id = znacky.id
     JOIN materialy ON produkt.materialy_id = materialy.id
-    WHERE
-        produkt_ma_velikosti.produkt_id = produkt.id AND
-        produkt_ma_velikosti.velikosti_id = velikosti.id AND
-        produkt_ma_barvy.produkt_id = produkt.id AND
-        produkt_ma_barvy.barvy_id = barvy.id
         group by produkt.nazev";
         $sql = $this->spojeni->prepare($dotaz);
         $sql->execute();
         $sql->setFetchMode(PDO::FETCH_CLASS,"produkt");
         return $sql->fetchAll();
     }
+	public function filtraceProdkutů($kategorie, $typ, $akce, $material, $barva, $velikost)
+	{
+
+			$dotaz = "SELECT DISTINCT
+			  velikosti.velikost,
+        barvy.barva,
+        akce.akce,
+        kategorie.kategorie,
+        materialy.material,
+        znacky.znacka,
+        produkt.uzivatel_id,
+        typy.typ,
+        produkt.id,
+        produkt.nazev,
+        produkt.popis,
+        produkt.pohlavi,
+        produkt.cena,
+        produkt.sleva,
+        produkt.dostupnost,
+        produkt.vytvoreno_v
+				FROM produkt";
+			$conditions = array();
+			if (!empty($kategorie)) {
+				$conditions[] = "kategorie='$kategorie'";
+			}
+			if (!empty($typ)) {
+				$conditions[] = "JOIN typy ON produkt.typy_id='$typ'";
+			}
+			if (!empty($akce)) {
+				$conditions[] = "JOIN akce ON produkt.akce_id = '$akce'";
+			}
+			if (!empty($material)) {
+				$conditions[] = "material='$material'";
+			}
+			if (!empty($barva)) {
+				$conditions[] = "barva='$barva'";
+			}
+			if (!empty($velikost)) {
+				$conditions[] = "$velikost='$velikost'";
+			}
+
+			//$sql = $query;
+			if (count($conditions) > 0) {
+			//	$sql .= " WHERE " . implode(' AND ', $conditions);
+			}
+
+		//$moznosti_razeni = array("id", "nazev", "text", "popis", "datum DESC");
+		$dotaz = "SELECT DISTINCT
+        velikosti.velikost,
+        barvy.barva ,
+        akce.akce,
+        kategorie.kategorie,
+        materialy.material,
+        znacky.znacka,
+        produkt.uzivatel_id,
+        typy.typ,
+        produkt.id,
+        produkt.nazev,
+        produkt.popis,
+        produkt.pohlavi,
+        produkt.cena,
+        produkt.sleva,
+        produkt.dostupnost,
+        produkt.vytvoreno_v
+    FROM
+    produkt
+    JOIN akce ON produkt.akce_id = akce.id
+    JOIN typy ON produkt.typy_id = typy.id
+    JOIN kategorie ON produkt.kategorie_id = kategorie.id
+    JOIN znacky ON produkt.znacky_id = znacky.id
+    JOIN materialy ON produkt.materialy_id = materialy.id
+    group by produkt.nazev";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
+		return $sql->fetchAll();
+	}
     public function nactiProduktyUzivatele($uzivatel_id, $razeni = "datum DESC"){
+
         $moznosti_razeni = array("id", "nadpis", "datum", "datum DESC");
         if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = "vytvoreno_v DESC";}
         $dotaz = "select
@@ -99,6 +172,7 @@ class  ProduktDB {
         $sql->setFetchMode(PDO::FETCH_CLASS,"produkt");
         return $sql->fetchAll();
     }
+
     public function najdiProdukt($text, $razeni = "datum DESC"){
         $moznosti_razeni = array("id", "nazev", "datum", "datum DESC");
         if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = "vytvoreno_v DESC";}
@@ -124,7 +198,15 @@ class  ProduktDB {
         join kategorie on produkt.kategorie_id = kategorie.id
         join znacky on produkt.znacky_id = znacky.id
         join materialy on produkt.materialy_id = materialy.id
-        where lower(nazev) like :text";
+        where
+				lower(nazev) like :text OR
+				lower(znacka) like :text OR
+				lower(pohlavi) like :text OR
+				lower(material) like :text OR
+				lower(kategorie) like :text OR
+				lower(typ) like :text OR
+				lower(akce) like :text";
+
         $sql = $this->spojeni->prepare($dotaz);
         $sql->bindParam(":text", $text);
         $sql->execute();
@@ -166,12 +248,7 @@ class  ProduktDB {
     JOIN kategorie ON produkt.kategorie_id = kategorie.id
     JOIN znacky ON produkt.znacky_id = znacky.id
     JOIN materialy ON produkt.materialy_id = materialy.id
-    WHERE
-        produkt_ma_velikosti.produkt_id = produkt.id AND
-        produkt_ma_velikosti.velikosti_id = velikosti.id AND
-        produkt_ma_barvy.produkt_id = produkt.id AND
-        produkt_ma_barvy.barvy_id = barvy.id AND
-        produkt.id = :id";
+    WHERE produkt.id = :id";
         $sql = $this->spojeni->prepare($dotaz);
         $sql->bindParam(":id", $id);
         $sql->execute();

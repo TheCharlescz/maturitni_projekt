@@ -43,7 +43,7 @@ session_start();
 					<a class="grey" href="">Kolekce</a>
 					<div id="searchNav">
 						<form action="Produkty.php" method="get">
-							<input type="search" name="hledany_text" placeholder="search...">
+							<input id="white_input"type="search" name="hledany_text" placeholder="search...">
 							<button type="submit" id="noBorder" ><span class="material-icons">search</span></button>
 						</form>
 					</div>

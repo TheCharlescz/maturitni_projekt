@@ -50,7 +50,7 @@ if ($_SESSION["prava"] < 1) {
 						$error = array();
 						$extension = array("jpeg", "jpg", "png", "gif");
 						$pocet = 1;
-						$txtGalleryName = $_POST["nazev"];
+						$txtGalleryName = $produkt_id;
 						mkdir("img_produkt/$txtGalleryName", 0777);
 						foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
 							$file_name = $_FILES["files"]["name"][$key];
@@ -137,16 +137,6 @@ if ($_SESSION["prava"] < 1) {
 						}
 				}
 			}
-				//$soubor = new Soubor();
-				//$nazev = $_POST['nazev'];
-				// mkdir("img/$nazev$produkt_id");
-				//$soubor->nastavHodnoty("img", $_FILES["obrazek"]["tmp_name"], $_FILES["obrazek"]["type"], $_FILES["obrazek"]["size"], $_FILES["obrazek"][], $produkt_id);
-				//if ($soubor->ulozObrazek()) {
-				//    echo "<h2>Obrázek byl uložen</h2>";
-				//    $hra->obrazek = $soubor->nazev;
-				//} else {
-				//    echo "<h2>Obrazek nebyl uložen</h2>";
-				//}
 
 			?>
 			<a class='input' href='Produkt-administrace.php'>Zpět na administraci produktu</a>
@@ -157,11 +147,11 @@ if ($_SESSION["prava"] < 1) {
 			<form method="post" enctype="multipart/form-data">
 				<div id="flex">
 					<label>
-						<h2>řidej počet kusů dané velikosti</h2>
+						<h2>Napiš základní informace o produktu</h2>
 						<div class="reg">
 							<input type="text" name="nazev" placeholder="Nazev produktu" required> <br>
 							<input type="number" name="cena" placeholder="Cena" required><br>
-							<input type="number" name="sleva" placeholder="Sleva" required><br>
+							<input type="number" name="sleva" placeholder="Sleva (vyplnte v procentech)"><br>
 							<select name="pohlavi" class="input">
 								<option value="">Vyberte jednu z možností</option>
 								<option value="Muz">Pánské</option>
@@ -173,9 +163,8 @@ if ($_SESSION["prava"] < 1) {
 						</div>
 					</label>
 					<label>
-						<h2>řidej počet kusů dané velikosti</h2>
+						<h2>Vyber kategorie produktů</h2>
 						<div class="reg">
-
 							<select name="akce_id" class="input" required>
 								<option value="">Vyberte jednu z akci</option>
 								<?php
@@ -253,7 +242,7 @@ if ($_SESSION["prava"] < 1) {
 
 				<div id="flex">
 					<label>
-						<h2>řidej počet kusů dané velikosti</h2>
+						<h2>Napiš počet kusů dané velikosti</h2>
 						<div class="reg">
 							<label for="XS">Velikost XS</label> <input type="number" name="XS" placeholder="Počet kusů XS"><br>
 							<label for="S">Velikost S</label> <input type="number" name="S" placeholder="Počet kusů S"><br>
@@ -263,7 +252,7 @@ if ($_SESSION["prava"] < 1) {
 						</div>
 					</label>
 					<label>
-						<h2>řidej počet kusů dané velikosti</h2>
+						<h2>Zaškrtni barvy produktu</h2>
 						<div class="reg">
 							<?php
 							spl_autoload_register(function ($trida) {

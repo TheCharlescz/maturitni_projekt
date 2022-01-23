@@ -59,15 +59,12 @@ if ($_SESSION["prava"] < 1) {
 						echo "<p class='chyba'>Podívejte se jestli nezadáváte název prodkutu, který už byl vytvořen</p>\n";
 					}
 				}
-
 				extract($_POST);
 				$error = array();
 				$extension = array("jpeg", "jpg", "png", "gif");
 				$pocet = 1;
 				$db = new ProduktDB();
-				$txtGalleryName = $_POST["nazev"];
-				$nazev = $_SESSION["stary_nazev"];
-				rename("img_produkt/$nazev", "img_produkt/$txtGalleryName");
+				$txtGalleryName = $_GET["id"];
 				foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
 					$file_name = $_FILES["files"]["name"][$key];
 					$file_tmp = $_FILES["files"]["tmp_name"][$key];
@@ -132,10 +129,9 @@ if ($_SESSION["prava"] < 1) {
 			<form method="post" enctype="multipart/form-data">
 				<div id="flex">
 					<label>
-						<h2>řidej počet kusů dané velikosti</h2>
+						<h2>Uprav základní informace produktu</h2>
 						<div class="reg">
-							<input type="text" name="nazev" placeholder="Nazev produktu" value=<?php echo " $produkt->nazev" ?>
-								required> <br>
+							<input type="text" name="nazev" placeholder="Nazev produktu" value=<?php echo " $produkt->nazev" ?> required> <br>
 							<input type="number" name="cena" placeholder="Cena" value=<?php echo " $produkt->cena" ?> required><br>
 							<input type="number" name="sleva" placeholder="Sleva" value=<?php echo " $produkt->sleva" ?> required><br>
 							<select name="pohlavi" class="input">
@@ -147,12 +143,11 @@ if ($_SESSION["prava"] < 1) {
 								echo "<option value='Unisex' " . ('Unisex' == $produkt->pohlavi ? 'selected' : '') . ">Unisex</option>";
 								?>
 							</select><br>
-							<textarea name="popis" id="" cols="21.5" rows="5" placeholder="Popis produktu"
-								required><?php echo " $produkt->popis" ?></textarea><br>
+							<textarea name="popis" id="" cols="21.5" rows="5" placeholder="Popis produktu" required><?php echo " $produkt->popis" ?></textarea><br>
 						</div>
 					</label>
 					<label>
-						<h2>Přidej počet kusů dané velikosti</h2>
+						<h2>Uprav kategorie produktu</h2>
 						<div class="reg">
 
 							<select name="akce_id" class="input" required>
@@ -233,7 +228,7 @@ if ($_SESSION["prava"] < 1) {
 
 				<div id="flex">
 					<label>
-						<h2>řidej počet kusů dané velikosti</h2>
+						<h2>Uprav počet velikostí produktů</h2>
 						<div class="reg">
 							<?php
 							spl_autoload_register(function ($trida) {
@@ -250,7 +245,7 @@ if ($_SESSION["prava"] < 1) {
 						</div>
 					</label>
 					<label>
-						<h2>řidej počet kusů dané velikostiwwrgqrg</h2>
+						<h2>Uprav barvy produktu</h2>
 						<div class="reg">
 							<?php
 							spl_autoload_register(function ($trida) {
@@ -265,21 +260,18 @@ if ($_SESSION["prava"] < 1) {
 							?>
 					</label>
 				</div>
-
 		</div>
 		<div id="flex_edit">
 			<?php
-			// Open a directory, and read its contents
-			 $obrazky = scandir("img_produkt/$produkt->nazev/");
-					foreach ($obrazky as $file) {
-						if ($file === '.' || $file === '..') continue;
-						echo "<div class='img_edit'>
-          	<img class='img' src='img_produkt/$produkt->nazev/$file' style='width:100%' >
-						<a href='Produkt-editace.php?id=$produkt->id&nazev=$file&slozka=$produkt->nazev'>Odstranit $file</a>
+			$obrazky = scandir("img_produkt/$produkt->id/");
+			foreach ($obrazky as $file) {
+				if ($file === '.' || $file === '..') continue;
+				echo "<div class='img_edit'>
+          	<img class='img' src='img_produkt/$produkt->id/$file' style='width:100%' >
+						<a class='bottom-right' href='Produkt-editace.php?id=$produkt->id&nazev=$file&slozka=$produkt->id'><span alt='odstanit $produkt->nazev' id='odstanit' class='material-icons'>delete_forever</span></a>
       			</div>";
-					}
-
-			 ?>
+			}
+			?>
 		</div>
 		<table width=" 100%">
 			<tr>

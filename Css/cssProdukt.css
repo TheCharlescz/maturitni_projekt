@@ -88,11 +88,11 @@ footer{
     margin:3% 3% 0 3% ;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-    
+
 }
 #products {
     width: 73.5%;
-    
+
 }
 #showProducts {
     padding: 0 0 0 2% ;
@@ -100,30 +100,24 @@ footer{
 .small {
     width: 50%;
 }
-
-
 * {
     box-sizing: border-box;
   }
-  
-  /* Position the image container (needed to position the left and right arrows) */
+
   .container {
     position: relative;
     margin: 0 2.5%;
     width:70%;
   }
-  
-  /* Hide the images by default */
+
   .mySlides {
     display: none;
   }
-  
-  /* Add a pointer when hovering over the thumbnail images */
+
   .cursor {
     cursor: pointer;
   }
-  
-  /* Next & previous buttons */
+
   .prev,
   .next {
     cursor: pointer;
@@ -139,20 +133,17 @@ footer{
     user-select: none;
     -webkit-user-select: none;
   }
-  
-  /* Position the "next button" to the right */
+
   .next {
     right: 0;
     border-radius: 3px 0 0 3px;
   }
-  
-  /* On hover, add a black background color with a little bit see-through */
+
   .prev:hover,
   .next:hover {
     background-color: rgba(0, 0, 0, 0.8);
   }
-  
-  /* Number text (1/3 etc) */
+
   .numbertext {
     color: #f2f2f2;
     font-size: 12px;
@@ -160,32 +151,29 @@ footer{
     position: absolute;
     top: 0;
   }
-  
-  /* Container for image text */
+
   .caption-container {
     text-align: center;
     background-color: #222;
     padding: 2px 16px;
     color: white;
   }
-  
+
   .row:after {
     content: "";
     display: table;
     clear: both;
   }
-  
-  /* Six columns side by side */
+
   .column {
     float: left;
     width: 16.66%;
   }
-  
-  /* Add a transparency effect for thumnbail images */
+
   .demo {
     opacity: 0.6;
   }
-  
+
   .active,
   .demo:hover {
     opacity: 1;
@@ -206,7 +194,7 @@ footer{
     }
     #moreInfo {
         width: 100%;
-        
+
     }
     .box {
         margin: 3% 0 0 0;
@@ -214,7 +202,7 @@ footer{
     }
     #products {
         width: 100%;
-        
+
     }
     .container{
       width: 100%;

@@ -29,12 +29,13 @@ if ($_SESSION["prava"] < 1) {
 </head>
 
 <body>
-	<header id="Myheader">
+	<div id="black-block"></div>
+	<header id="MyheaderAdmin">
 		<h2>administrace produktu</h1>
 
-				<a href="index.php" id=aLogo><svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
-						<g transform="translate(0.000000,1640.000000) scale(0.100000,-0.100000)">
-							<path class="st0" d="M30.9,16343.7l-7.3-0.2l0.1-6.3l0.1-6.3l3.2-0.2c5.5-0.2,16.8-1.8,19.9-2.7c9.3-2.7,13.3-8,15.6-20
+			<a href="index.php" id=aLogo><svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+					<g transform="translate(0.000000,1640.000000) scale(0.100000,-0.100000)">
+						<path class="st0" d="M30.9,16343.7l-7.3-0.2l0.1-6.3l0.1-6.3l3.2-0.2c5.5-0.2,16.8-1.8,19.9-2.7c9.3-2.7,13.3-8,15.6-20
           c0.7-3.7,0.8-13,1-74.7l0.2-70.5H42H20.2l-1.2-1.4c-3-3.4-2.5-11.5,0.8-14.1c1-0.8,3.9-0.9,22.3-0.9c20.5,0,21.2-0.1,21.5-1.1
           c0.2-0.6,0.2-33.6,0.1-73.4c-0.2-65.6-0.3-72.6-1.1-76.7c-1.8-9.6-4.1-14-8.7-17.1c-4.7-3.2-12.3-4.7-27.2-5.4l-2.7-0.1v-6.5v-6.5
           l61.4-0.2l61.4-0.1l-0.1,6.6l-0.1,6.7l-7.4,0.4c-22.7,1.3-28.7,5.8-31.7,23.7c-0.8,4.9-0.9,10.5-0.9,77.3v72.1l42.1,0.2
@@ -79,9 +80,9 @@ if ($_SESSION["prava"] < 1) {
           c-1.5,0-2.7,0.3-2.7,0.6c0,0.3-0.3,0.6-0.7,0.6s-0.7-0.3-0.7-0.7c0-0.6-7.7-0.7-36.7-0.7h-36.7l-0.3,61.2
           c-0.2,33.6-0.5,63-0.6,65.1c-0.6,7.5,1.2,17.2,4.5,23.7c2.5,4.9,8.1,11.2,11.5,13.1c4.1,2.2,10.9,3.8,17.3,4.2
           c8.7,0.5,7.9-0.2,7.9,7v6.1l-20.9,0.3C106.1,16344.1,46.7,16344,30.9,16343.7z" />
-						</g>
-					</svg>
-				</a>
+					</g>
+				</svg>
+			</a>
 			<?php
 			if (isset($_GET["id_smaz"])) {
 				spl_autoload_register(function ($trida) {
@@ -90,11 +91,11 @@ if ($_SESSION["prava"] < 1) {
 				$produkt = new Produkt();
 				$db = new ProduktDB();
 				$produkt = $db->nactiProdukt($_GET["id_smaz"]);
-				$obrazky = scandir("img_produkt/$this->nazev/");
+				$obrazky = scandir("img_produkt/$produkt->nazev/");
 				foreach ($obrazky as $file) {
-							if ($file === '.' || $file === '..') continue;
-							unlink("img_produkt/$produkt->nazev/$file");
-						}
+					if ($file === '.' || $file === '..') continue;
+					unlink("img_produkt/$produkt->nazev/$file");
+				}
 				rmdir("img_produkt/$produkt->nazev");
 				$db_velikost = new VelikostDB();
 				$vysledek_velikost = $db_velikost->smazVelikostProduktu($_GET["id_smaz"]);
@@ -160,6 +161,82 @@ if ($_SESSION["prava"] < 1) {
 				</nav>
 			</div>
 	</header>
+	<section>
+		<form id="filtr_menu" action="Produkty.php" method="get">
+			<select name="akce_id" class="input">
+				<option value="">Vyberte jednu z akci</option>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new AkceDB();
+				$akce = new Akce();
+				$akce = $db->nactiAkce();
+				foreach ($akce as $akci) {
+					$akci->vypisOptionAkce();
+				}
+				?>
+			</select><br>
+			<select name="kategorie_id" class="input">
+				<option value="">Vyberte jednu z katehorií</option>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new KategorieDB();
+				$kategorie = new Kategorie();
+				$kategorie = $db->nactiKategorie();
+				foreach ($kategorie as $kategorii) {
+					$kategorii->vypisOptionkategorie();
+				}
+				?>
+			</select><br>
+			<select name="materialy_id" class="input">
+				<option value="">Vyberte jeden z materiálů</option>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new MaterialDB();
+				$material = new Material();
+				$materialy = $db->nactiMaterialy();
+				foreach ($materialy as $material) {
+					$material->vypisOptionmaterial();
+				}
+				?>
+			</select><br>
+
+			<select name="znacky_id" class="input">
+				<option value="">Vyberte jednu ze značek</option>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new ZnackaDB();
+				$znacka = new Znacka();
+				$znacky = $db->nactiZnacky();
+				foreach ($znacky as $znacka) {
+					$znacka->vypisOptionznacka();
+				}
+				?>
+			</select><br>
+			<select name="typy_id" class="input">
+				<option value="">Vyberte jednu z typů</option>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new TypDB();
+				$typ = new Typ();
+				$typy = $db->nactiTypy();
+				foreach ($typy as $typ) {
+					$typ->vypisOptiontyp();
+				}
+				?>
+			</select>
+			<input type="search" name="hledany_text" placeholder="search...">
+			<input type="submit" name="vyfiltruj" value="Vyfiltruj">
+	</section>
 	<main>
 		<?php
 		spl_autoload_register(function ($trida) {

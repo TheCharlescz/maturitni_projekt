@@ -141,20 +141,36 @@ form {
   margin: 15px 5%;
 }
 .img_edit{
-	flex: 0 1 20%;
+	flex: 0 1 25%;
 	margin: 2%;
 	padding: 5px;
+	position: relative;
+  text-align: center;
 }
 footer {
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
     background-color: black;
     margin-top: 99.15px;
     padding: 20px;
-    text-align: center;            /* Footer height */
+    text-align: center;
   }
-li {
-  list-style: lower-alpha inside url(../img/done_black_24dp.svg);
+.bottom-right {
+  position: absolute;
+  bottom: -15px;
+  right: -27px;
+	border-radius: 50%;
+	background-color: rgba(0, 0, 0, 0.7);
 }
+#odstanit:hover {
+color: white;
+transition: 2s;
+}
+#odstanit {
+	padding: 20px;
+	color: rgb(117, 12, 12);
+	font-size: 48px;
+}
+
 @media (max-width: 1300px) {
     #prihlaseni {
       margin: 100px 18% 0 18%;

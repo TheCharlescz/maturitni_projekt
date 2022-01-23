@@ -88,24 +88,33 @@ public function vypisVelikosti($id) {
               $barva->vypisBarvy($barva);
           }
       }
+		public function vypocetSlevy() {
+			$zlevnena_cena = $this->cena / 100 * $this->sleva;
+			var_dump($zlevnena_cena);
+			return $zlevnena_cena;
+		}
 
 public function vypisBaneruProduktu() {
+		$sleva = $this->cena / 100 * $this->sleva;
+		$zlevnena_cena = $this->cena - $sleva;
   echo "
   <div class=showProduct>
           <div class='sPtextInImg'>
           ";
-									$obrazky = scandir("img_produkt/$this->nazev/");
+									$obrazky = scandir("img_produkt/$this->id");
 									foreach ($obrazky as $file) {
                   if ($file === '.' || $file === '..') continue;
                   $ext=pathinfo($file, PATHINFO_EXTENSION);
                   if ( $file == "$this->id.1.$ext") {
-                  echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->nazev/$file' style = 'width: 100%'></a>";
+                  echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file' style = 'width: 100%'></a>";
                 }
 								}
           echo "
             <div class='sPbottom-left'>
-              $this->cena Kč
+					"	/* . (!empty($this->sleva) ? "<span id='puvodni_cena'> $this->cena Kč </span>" : "") . "<br>*/
+					/* 	"*/ . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
             </div>
+						" . (!empty($this->sleva) ? "	<div class='top-right'>-$this->sleva %</div>" : "") . "
           </div>
           <div class='sPflex'>
             <div>
@@ -124,21 +133,24 @@ public function vypisBaneruProduktu() {
         </div>";
 }
 public function vypisBaneruProduktuAdministace() {
+		$sleva = $this->cena / 100 * $this->sleva;
+		$zlevnena_cena = $this->cena - $sleva;
   echo "
   <div class='showProduct'>
   <div class=img>
   ";
-		$obrazky = scandir("img_produkt/$this->nazev/");
+		$obrazky = scandir("img_produkt/$this->id/");
 		foreach ($obrazky as $file) {
           if ($file === '.' || $file === '..') continue;
           $ext=pathinfo($file, PATHINFO_EXTENSION);
           if ($file == "$this->id.1.$ext") {
-              echo "<a href='Produkt-administrace.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->nazev/$file'></a>";
+              echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file'></a>";
           }
         }
   echo "
       <div class='sPbottom-left'>
-        $this->cena Kč
+        $this->cena Kč -$this->sleva % <br>
+				$zlevnena_cena Kč
       </div>
   </div>
   <div class='sPflex'>
@@ -169,11 +181,11 @@ public function vypisBaneruProduktuAdministace() {
 public function vypisProduktu() {
     echo "<section id='flex'>
     <div class='container'>";
-		$obrazky = scandir("img_produkt/$this->nazev/");
+		$obrazky = scandir("img_produkt/$this->id");
 		foreach ($obrazky as $file) {
           if ($file === '.' || $file === '..') continue;
           echo "<div class='mySlides'>
-          <img src='img_produkt/$this->nazev/$file' style='width:100%' >
+          <img src='img_produkt/$this->id/$file' style='width:100%' >
       </div>";
         }
 echo "
@@ -181,11 +193,11 @@ echo "
 <a class='next' onclick='plusSlides(1)'>&#10095;</a>
 <div class='row'>";
  $i =1;
-		$obrazky = scandir("img_produkt/$this->nazev/");
+		$obrazky = scandir("img_produkt/$this->id");
 		foreach ($obrazky as $file) {
           if ($file === '.' || $file === '..') continue;
           echo "<div class='column'>
-          <img class='demo cursor' src='img_produkt/$this->nazev/$file' style='width:100%' onclick='currentSlide($i)' >
+          <img class='demo cursor' src='img_produkt/$this->id/$file' style='width:100%' onclick='currentSlide($i)' >
         </div>";
         $i++;
         }

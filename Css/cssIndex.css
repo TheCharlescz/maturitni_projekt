@@ -1,6 +1,4 @@
-body {
-	height: 100%;
-}
+
  h2 {
   color: black;
   text-align: center;
@@ -15,6 +13,11 @@ body {
 display: flex;
 margin: 0 10%;
 }
+.top-right {
+  position: absolute;
+  top: 8px;
+  right: 16px;
+}
 .showCategory{
   margin: 20px;
   position: relative;
@@ -25,11 +28,10 @@ margin: 0 10%;
   width:100%;
   box-shadow: 0px 3px 21px 6px rgb(0 0 0 / 34%);
 }
-  .showCategory:hover img{
+.showCategory:hover img{
   opacity: 0.5;
   transition: 1s;
   }
-
 .centered {
   position: absolute;
   top: 50%;
@@ -54,7 +56,11 @@ button{
     background-color: black;
     color: rgb(165, 163, 163);
     padding: 10px;
-    margin: 10px;
+		cursor: pointer;
+}
+button:hover{
+    color: rgb(255, 255, 255);
+	transition: 1s;
 }
 #noBorder {
 	border: none;
@@ -182,7 +188,7 @@ footer{
 }
 .showProduct{
   margin: 1%;
-  flex: 1 1 35%;
+  flex: 0 1 35%;
 }
 .adver{
   color: black;
@@ -198,8 +204,6 @@ footer{
     display: none;
   }
 }
-
-
 @media(max-width:800px){
   .showCategories{
     flex-direction: column;
