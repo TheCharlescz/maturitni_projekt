@@ -10,6 +10,10 @@ class Material {
 public function vypisOptionmaterial() {
     echo "<option value='$this->id'>$this->material</option>\n";
 }
+	public function vypisOptionmaterialFiltr()
+	{
+		echo "<option value='$this->material'>$this->material</option>\n";
+	}
 
 public function __toString(){
     return "<p>zanr: $this->id $this->material</p>";

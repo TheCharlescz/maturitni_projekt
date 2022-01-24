@@ -91,12 +91,14 @@ if ($_SESSION["prava"] < 1) {
 				$produkt = new Produkt();
 				$db = new ProduktDB();
 				$produkt = $db->nactiProdukt($_GET["id_smaz"]);
-				$obrazky = scandir("img_produkt/$produkt->nazev/");
+				$obrazky = scandir("img_produkt/$produkt->id/");
 				foreach ($obrazky as $file) {
-					if ($file === '.' || $file === '..') continue;
-					unlink("img_produkt/$produkt->nazev/$file");
+					if ($file === '.' || $file === '..') {
+						continue;
+					}
+					unlink("img_produkt/$produkt->id/$file");
 				}
-				rmdir("img_produkt/$produkt->nazev");
+				rmdir("img_produkt/$produkt->id");
 				$db_velikost = new VelikostDB();
 				$vysledek_velikost = $db_velikost->smazVelikostProduktu($_GET["id_smaz"]);
 				//$vysledek_velikost =  $db_velikost->smazVelikost($id);
@@ -162,7 +164,7 @@ if ($_SESSION["prava"] < 1) {
 			</div>
 	</header>
 	<section>
-		<form id="filtr_menu" action="Produkty.php" method="get">
+		<form id="filtr_menu" action="Produkt-administrace.php" method="get">
 			<select name="akce_id" class="input">
 				<option value="">Vyberte jednu z akci</option>
 				<?php
@@ -187,7 +189,7 @@ if ($_SESSION["prava"] < 1) {
 				$kategorie = new Kategorie();
 				$kategorie = $db->nactiKategorie();
 				foreach ($kategorie as $kategorii) {
-					$kategorii->vypisOptionkategorie();
+					$kategorii->vypisOptionkategorieFiltr();
 				}
 				?>
 			</select><br>
@@ -201,7 +203,7 @@ if ($_SESSION["prava"] < 1) {
 				$material = new Material();
 				$materialy = $db->nactiMaterialy();
 				foreach ($materialy as $material) {
-					$material->vypisOptionmaterial();
+					$material->vypisOptionmaterialFiltr();
 				}
 				?>
 			</select><br>
@@ -216,7 +218,7 @@ if ($_SESSION["prava"] < 1) {
 				$znacka = new Znacka();
 				$znacky = $db->nactiZnacky();
 				foreach ($znacky as $znacka) {
-					$znacka->vypisOptionznacka();
+					$znacka->vypisOptionznackaFiltr();
 				}
 				?>
 			</select><br>
@@ -230,23 +232,48 @@ if ($_SESSION["prava"] < 1) {
 				$typ = new Typ();
 				$typy = $db->nactiTypy();
 				foreach ($typy as $typ) {
-					$typ->vypisOptiontyp();
+					$typ->vypisOptiontypFiltr();
 				}
 				?>
+			</select>
+			<select name="pohlavi" class="input">
+				<option value="">Vyberte jednu z pohlaví</option>
+				<option value="Muz">Pánské</option>
+				<option value="Zena">Dámské</option>
+				<option value="Dite">Děti</option>
+				<option value="Unisex">Unisex</option>
 			</select>
 			<input type="search" name="hledany_text" placeholder="search...">
 			<input type="submit" name="vyfiltruj" value="Vyfiltruj">
 	</section>
+	</form>
 	<main>
 		<?php
 		spl_autoload_register(function ($trida) {
 			include_once "Class/$trida.php";
 		});
-		$db = new ProduktDB();
-		$produkt = new Produkt();
-		$produkty = $db->nactiProdukty();
-		foreach ($produkty as $produkt) {
-			$produkt->vypisBaneruProduktuAdministace();
+		if (isset($_GET["vyfiltruj"])) {
+			$db = new ProduktDB();
+			$produkt = new Produkt();
+			$produkty  = $db->filtraceProdkutu($_GET["pohlavi"], $_GET["kategorie_id"], $_GET["typy_id"], $_GET["akce_id"], $_GET["materialy_id"], $_GET["znacky_id"], $_GET["hledany_text"]);
+			foreach ($produkty as $produkt) {
+				var_dump($produkt);
+				$produkt->vypisBaneruProduktuAdministace();
+			}
+		} elseif (isset($_GET["hledany_text"])) {
+			$db = new ProduktDB();
+			$produkt = new Produkt();
+			$produkty = $db->najdiProdukt($_GET["hledany_text"]);
+			foreach ($produkty as $produkt) {
+				$produkt->vypisBaneruProduktuAdministace();
+			}
+		} else {
+			$db = new ProduktDB();
+			$produkt = new Produkt();
+			$produkty = $db->nactiProdukty();
+			foreach ($produkty as $produkt) {
+				$produkt->vypisBaneruProduktuAdministace();
+			}
 		}
 		?>
 	</main>

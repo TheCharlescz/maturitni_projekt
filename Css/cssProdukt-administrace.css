@@ -160,6 +160,9 @@ footer {
 	height: 220px;
 	width: 100%;
 }
+#black_background {
+	background-color: black;
+}
 #MyheaderAdmin{
 	justify-content: space-around;
 }

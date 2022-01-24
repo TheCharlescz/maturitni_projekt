@@ -61,7 +61,6 @@ if ($_SESSION["prava"] < 1) {
 								if (!file_exists("img_produkt/" . $txtGalleryName . "/" . $file_name)) {
 									move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $file_name);
 								} else {
-									header("Location: Produkt-pridat.php ");
 									$filename = basename($file_name, $ext);
 									$newFileName = $filename . time() . "." . $ext;
 									move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $newFileName);
@@ -153,7 +152,7 @@ if ($_SESSION["prava"] < 1) {
 							<input type="number" name="cena" placeholder="Cena" required><br>
 							<input type="number" name="sleva" placeholder="Sleva (vyplnte v procentech)"><br>
 							<select name="pohlavi" class="input">
-								<option value="">Vyberte jednu z možností</option>
+								<option value="">Vyberte jednu z pohlaví</option>
 								<option value="Muz">Pánské</option>
 								<option value="Zena">Dámské</option>
 								<option value="Dite">Děti</option>

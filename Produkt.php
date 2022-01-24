@@ -59,9 +59,7 @@ session_start();
 			<a class="grey" href="">Kolekce</a>
 
 		</nav>
-		<a href="index.php" id=aLogo><svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg"
-				xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50"
-				style="enable-background:new 0 0 50 50;" xml:space="preserve">
+		<a href="index.php" id=aLogo><svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 				<g transform="translate(0.000000,1640.000000) scale(0.100000,-0.100000)">
 					<path class="st0" d="M30.9,16343.7l-7.3-0.2l0.1-6.3l0.1-6.3l3.2-0.2c5.5-0.2,16.8-1.8,19.9-2.7c9.3-2.7,13.3-8,15.6-20
           c0.7-3.7,0.8-13,1-74.7l0.2-70.5H42H20.2l-1.2-1.4c-3-3.4-2.5-11.5,0.8-14.1c1-0.8,3.9-0.9,22.3-0.9c20.5,0,21.2-0.1,21.5-1.1
@@ -112,73 +110,72 @@ session_start();
 			</svg></a>
 		<div id="SaN">
 			<div id="search">
-				<input type="search" name="" placeholder="search...">
-				<a href="" id="search-icon"><span class="material-icons">
-						search
-					</span>
-				</a>
+				<form action="Produkty.php" method="get">
+					<input type="search" name="hledany_text" placeholder="search...">
+					<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+				</form>
 			</div>
 			<nav>
 				<?php
-        if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] == 3) {
-          echo "<a href='Uzivatel-administrace.php' title='Oprávnění, kontakty, hesla'>
+				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] == 3) {
+					echo "<a href='Uzivatel-administrace.php' title='Oprávnění, kontakty, hesla'>
         <span class='material-icons'>
         manage_accounts
         </span>
         </a>";
-        } else {
-          echo "<a href='Uzivatel-profil.php'>
+				} else {
+					echo "<a href='Uzivatel-profil.php'>
       <span class='material-icons'>
        person
       </span>
       </a>";
-        }
+				}
 
-        if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
-          echo "<a href='Produkt-administrace.php' title='Správa a administrace produktů'>
+				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
+					echo "<a href='Produkt-administrace.php' title='Správa a administrace produktů'>
     <span class='material-icons'>
     inventory
     </span>
     </a>";
-        } else {
-          echo "<a href='Uzivatel-oblibene.php' title='Oblíbené produkty'>
+				} else {
+					echo "<a href='Uzivatel-oblibene.php' title='Oblíbené produkty'>
         <span class='material-icons'>
         favorite_border
         </span>
         </a>";
-        }
+				}
 
-        if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
-          echo "<a href='Produkt-sprava.php' title='Správa a administrace produktů'>
+				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
+					echo "<a href='Produkt-sprava.php' title='Správa a administrace produktů'>
     <span class='material-icons'>
     settings
     </span>
     </a>";
-        } else {
-          echo "<a href='Uzivazel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
-        }
+				} else {
+					echo "<a href='Uzivazel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+				}
 
-        if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
-          echo "<a href='Uzivatel-odhlaseni.php' title='Odhlášení'><i class='material-icons'>logout</i></a>";
-        } else {
-          echo "<a href='Uzivatel-prihlaseni.php' title='Přihlášení'><i class='material-icons'>login</i></a>";
-        }
-        ?>
+				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
+					echo "<a href='Uzivatel-odhlaseni.php' title='Odhlášení'><i class='material-icons'>logout</i></a>";
+				} else {
+					echo "<a href='Uzivatel-prihlaseni.php' title='Přihlášení'><i class='material-icons'>login</i></a>";
+				}
+				?>
 			</nav>
 		</div>
 	</header>
 	<main>
 		<?php
 
-spl_autoload_register(function ($trida) {
-    include_once "Class/$trida.php";
-});
+		spl_autoload_register(function ($trida) {
+			include_once "Class/$trida.php";
+		});
 
-$db = new ProduktDB();
-$produkt = new Produkt();
-$produkt = $db->nactiProdukt($_GET["id"]);
-$produkt->vypisProduktu();
-?>
+		$db = new ProduktDB();
+		$produkt = new Produkt();
+		$produkt = $db->nactiProdukt($_GET["id"]);
+		$produkt->vypisProduktu();
+		?>
 		<section id=products>
 			<h2> Další produkty do kolekce</h2>
 			<div id="showProducts" class="purple">
@@ -186,8 +183,7 @@ $produkt->vypisProduktu();
 		</section>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span
-				style="color:green">Charles</span>.</p>
+		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
 	</footer>
 
 </body>

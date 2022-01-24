@@ -10,6 +10,10 @@ class Znacka {
 public function vypisOptionZnacka() {
     echo "<option value='$this->id'>$this->znacka</option>\n";
 }
+	public function vypisOptionZnackaFiltr()
+	{
+		echo "<option value='$this->znacka'>$this->znacka</option>\n";
+	}
 
 public function __toString(){
     return "<p>zanr: $this->id $this->znacka</p>";

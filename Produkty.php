@@ -31,12 +31,13 @@ session_start();
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 				<ul id="menu">
-					<a href="">Muži</a>
-					<a href="">Ženy</a>
-					<a href="">děti</a>
-					<a class="grey" href="">Sporty</a>
-					<a class="grey" href="">Značky</a>
-					<a class="grey" href="">Kolekce</a>
+					<a href="Produkty.php?pohlavi_odkaz=Muz">Muži</a>
+					<a href="Produkty.php?pohlavi_odkaz=Zena">Ženy</a>
+					<a href="Produkty.php?pohlavi_odkaz=Dite">děti</a>
+					<a href="Produkty.php?pohlavi_odkaz=Unisex">Unisex</a>
+					<a href="Produkty.php">Produkty</a>
+					<a href="Produkty.php?kategorie=sport">Sporty</a>
+					<a href="Produkty.php?znacka">Značky</a>
 					<div id="searchNav">
 						<form action="Produkty.php" method="get">
 							<input type="search" name="hledany_text" placeholder="search...">
@@ -47,12 +48,13 @@ session_start();
 			</div>
 		</nav>
 		<nav id="navigation">
-			<a href="">Muži</a>
-			<a href="">Ženy</a>
-			<a href="">děti</a>
-			<a class="grey" href="">Sporty</a>
-			<a class="grey" href="">Značky</a>
-			<a class="grey" href="">Kolekce</a>
+			<a href="Produkty.php?pohlavi_odkaz=Muz">Muži</a>
+			<a href="Produkty.php?pohlavi_odkaz=Zena">Ženy</a>
+			<a href="Produkty.php?pohlavi_odkaz=Dite">děti</a>
+			<a href="Produkty.php?pohlavi_odkaz=Unisex">Unisex</a>
+			<a href="Produkty.php">Produkty</a>
+			<a href="Produkty.php?kategorie=sport">Sporty</a>
+			<a href="Produkty.php?znacka">Značky</a>
 		</nav>
 		<a href="index.php" id=aLogo><svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 				<g transform="translate(0.000000,1640.000000) scale(0.100000,-0.100000)">
@@ -171,7 +173,7 @@ session_start();
 				$akce = new Akce();
 				$akce = $db->nactiAkce();
 				foreach ($akce as $akci) {
-					$akci->vypisOptionAkce();
+					$akci->vypisOptionAkceFiltr();
 				}
 				?>
 			</select><br>
@@ -185,7 +187,7 @@ session_start();
 				$kategorie = new Kategorie();
 				$kategorie = $db->nactiKategorie();
 				foreach ($kategorie as $kategorii) {
-					$kategorii->vypisOptionkategorie();
+					$kategorii->vypisOptionkategorieFiltr();
 				}
 				?>
 			</select><br>
@@ -199,7 +201,7 @@ session_start();
 				$material = new Material();
 				$materialy = $db->nactiMaterialy();
 				foreach ($materialy as $material) {
-					$material->vypisOptionmaterial();
+					$material->vypisOptionmaterialFiltr();
 				}
 				?>
 			</select><br>
@@ -213,7 +215,7 @@ session_start();
 				$znacka = new Znacka();
 				$znacky = $db->nactiZnacky();
 				foreach ($znacky as $znacka) {
-					$znacka->vypisOptionznacka();
+					$znacka->vypisOptionznackaFiltr();
 				}
 				?>
 			</select><br>
@@ -227,9 +229,16 @@ session_start();
 				$typ = new Typ();
 				$typy = $db->nactiTypy();
 				foreach ($typy as $typ) {
-					$typ->vypisOptiontyp();
+					$typ->vypisOptionTypFiltr();
 				}
 				?>
+			</select>
+			<select name="pohlavi" class="input">
+				<option value="">Vyberte jednu z pohlaví</option>
+				<option value="Muz">Pánské</option>
+				<option value="Zena">Dámské</option>
+				<option value="Dite">Děti</option>
+				<option value="Unisex">Unisex</option>
 			</select>
 			<input type="search" name="hledany_text" placeholder="search...">
 			<input type="submit" name="vyfiltruj" value="Vyfiltruj">
@@ -239,7 +248,29 @@ session_start();
 		spl_autoload_register(function ($trida) {
 			include_once "Class/$trida.php";
 		});
-		if (isset($_GET["hledany_text"])) {
+        if (isset($_GET["kategorie_odkaz"])) {
+            $db = new ProduktDB();
+            $produkt = new Produkt();
+            $produkty  = $db->nactiproduktykategorie($_GET["kategorie_odkaz"]);
+            foreach ($produkty as $produkt) {
+                $produkt->vypisBaneruProduktu();
+            }
+        }
+		elseif (isset($_GET["pohlavi_odkaz"])) {
+			$db = new ProduktDB();
+			$produkt = new Produkt();
+			$produkty  = $db->nactiproduktypohlavi($_GET["pohlavi_odkaz"]);
+			foreach ($produkty as $produkt) {
+				$produkt->vypisBaneruProduktu();
+			}
+		} elseif (isset($_GET["vyfiltruj"])) {
+			$db = new ProduktDB();
+			$produkt = new Produkt();
+			$produkty  = $db->filtraceProdkutu($_GET["pohlavi"], $_GET["kategorie_id"], $_GET["typy_id"], $_GET["akce_id"], $_GET["materialy_id"], $_GET["znacky_id"], $_GET["hledany_text"]);
+			foreach ($produkty as $produkt) {
+				$produkt->vypisBaneruProduktu();
+			}
+		} elseif (isset($_GET["hledany_text"])) {
 			$db = new ProduktDB();
 			$produkt = new Produkt();
 			$produkty = $db->najdiProdukt($_GET["hledany_text"]);

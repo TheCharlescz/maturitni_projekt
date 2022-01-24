@@ -35,29 +35,30 @@ session_start();
 				<span class="menuSpan"></span>
 
 				<ul id="menu">
-					<a href="">Muži</a>
-					<a href="">Ženy</a>
-					<a href="">děti</a>
-					<a class="grey" href="">Sporty</a>
-					<a class="grey" href="">Značky</a>
-					<a class="grey" href="">Kolekce</a>
+					<a href="Produkty.php?pohlavi_odkaz=Muz">Muži</a>
+					<a href="Produkty.php?pohlavi_odkaz=Zena">Ženy</a>
+					<a href="Produkty.php?pohlavi_odkaz=Dite">děti</a>
+					<a href="Produkty.php?pohlavi_odkaz=Unisex">Unisex</a>
+					<a href="Produkty.php">Produkty</a>
+					<a href="Produkty.php?kategorie=sport">Sporty</a>
+					<a href="Produkty.php?znacka">Značky</a>
 					<div id="searchNav">
 						<form action="Produkty.php" method="get">
-							<input id="white_input"type="search" name="hledany_text" placeholder="search...">
-							<button type="submit" id="noBorder" ><span class="material-icons">search</span></button>
+							<input id="white_input" type="search" name="hledany_text" placeholder="search...">
+							<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
 						</form>
 					</div>
 				</ul>
 			</div>
 		</nav>
 		<nav id="navigation">
-			<a href="">Muži</a>
-			<a href="">Ženy</a>
-			<a href="">děti</a>
-			<a class="grey" href="">Sporty</a>
-			<a class="grey" href="">Značky</a>
-			<a class="grey" href="">Kolekce</a>
-
+			<a href="Produkty.php?pohlavi_odkaz=Muz">Muži</a>
+			<a href="Produkty.php?pohlavi_odkaz=Zena">Ženy</a>
+			<a href="Produkty.php?pohlavi_odkaz=Dite">děti</a>
+			<a href="Produkty.php?pohlavi_odkaz=Unisex">Unisex</a>
+			<a href="Produkty.php">Produkty</a>
+			<a href="Produkty.php?kategorie=sport">Sporty</a>
+			<a href="Produkty.php?znacka">Značky</a>
 		</nav>
 		<a href="index.php" id=aLogo>
 			<svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
@@ -106,9 +107,10 @@ session_start();
           c0.3-0.5,1.5-2.3,2.5-4c1-1.7,2.7-4.5,3.8-6.2c1.1-1.7,2.7-4.5,3.5-6c0.8-1.6,1.8-3,2-3s0.4-0.4,0.4-0.8c0-0.7-0.6-0.8-2.7-0.8
           c-1.5,0-2.7,0.3-2.7,0.6c0,0.3-0.3,0.6-0.7,0.6s-0.7-0.3-0.7-0.7c0-0.6-7.7-0.7-36.7-0.7h-36.7l-0.3,61.2
           c-0.2,33.6-0.5,63-0.6,65.1c-0.6,7.5,1.2,17.2,4.5,23.7c2.5,4.9,8.1,11.2,11.5,13.1c4.1,2.2,10.9,3.8,17.3,4.2
-          c8.7,0.5,7.9-0.2,7.9,7v6.1l-20.9,0.3C106.1,16344.1,46.7,16344,30.9,16343.7z" /></g>
-				</svg>
-			</a>
+          c8.7,0.5,7.9-0.2,7.9,7v6.1l-20.9,0.3C106.1,16344.1,46.7,16344,30.9,16343.7z" />
+				</g>
+			</svg>
+		</a>
 		<div id="SaN">
 			<div id="search">
 				<form action="Produkty.php" method="get">
@@ -239,20 +241,19 @@ session_start();
 			<h2>Pro koho nakupujete?</h2>
 			<div class="showCategories">
 
-				<a href="" class="showCategory">
-
+				<a href="Produkty.php?pohlavi_odkaz=Muz" class="showCategory">
 					<img src="img/img_muzi.jpg" alt="">
 					<div class="centered">
 						<h2>Pánské</h2>
 					</div>
 				</a>
-				<a href="" class="showCategory">
+				<a href="Produkty.php?pohlavi_odkaz=Zena" class="showCategory">
 					<img src="img/img_zeny.jpg" alt="">
 					<div class="centered">
 						<h2>Dámské</h2>
 					</div>
 				</a>
-				<a href="" class="showCategory">
+				<a href="Produkty.php?pohlavi_odkaz=Dite" class="showCategory">
 					<img src="img/img_deti.jpg" alt="">
 					<div class="centered">
 						<h2>Děti</h2>
@@ -274,20 +275,20 @@ session_start();
 			<h2>Za jakým účelem nakupujete?</h2>
 			<div class="showCategories">
 
-				<a href="" class="showCategory">
+				<a href="Produkty.php?kategorie_odkaz=1" class="showCategory">
 
 					<img src="img/img_sport.jpg" alt="">
 					<div class="centered">
 						<h2>Na Sport</h2>
 					</div>
 				</a>
-				<a href="" class="showCategory">
+				<a href="Produkty.php?kategorie_odkaz=3" class="showCategory">
 					<img src="img/img_party.jpg" alt="">
 					<div class="centered">
 						<h2> Na Party</h2>
 					</div>
 				</a>
-				<a href="" class="showCategory">
+				<a href="Produkty.php?kategorie_odkaz=2" class="showCategory">
 					<img src="img/img_doma.jpg" alt="">
 					<div class="centered">
 						<h2>Na Doma</h2>

@@ -118,7 +118,7 @@ public function vypisBaneruProduktu() {
           </div>
           <div class='sPflex'>
             <div>
-              <h3>$this->typ $this->nazev</h3>
+              <h3> $this->typ $this->nazev</h3>
               <p>$this->znacka</p>
             </div>
             <div>
@@ -157,6 +157,7 @@ public function vypisBaneruProduktuAdministace() {
       <div>
       <h2>$this->nazev</h2>
       <p>$this->kategorie : $this->pohlavi : $this->typ</p>
+			<p>$this->material </p>
       <p>"; $this->vypisBarev1();echo "</p>
       </div>
       <div class='velikosti'>";
@@ -166,14 +167,14 @@ public function vypisBaneruProduktuAdministace() {
     </div>
 		<div>
 	<button id='noBorder' onclick='openModalSmaz($this->id)' id='myBtn'><span class='material-icons'>delete</span></button>
-    <a id='noBorder'  class='input'href='Produkt-editace.php?id=$this->id'><span class='material-icons'>edit</span></a>
+    <a id='noBorder' class='input'href='Produkt-editace.php?id=$this->id'><span class='material-icons'>edit</span></a>
 		</div>
 </div>
  <div id='$this->id smaz' class='modal'>
     <div class='modal-content'>
         <span onclick='closeModalSmaz($this->id)' class='close'>&times;</span>
         <h2> Opravdu chcete smazat produkt: " . $this->id  . " " . $this->nazev . "</h2>
-        <a class='input' href='Produkt-administrace.php?id_smaz=$this->id'>Ano chci smazat tento produkt</a>
+        <a class='input' id='black_background' href='Produkt-administrace.php?id_smaz=$this->id'>Ano chci smazat tento produkt</a>
         <button onclick='closeModalSmaz($this->id)' id='myBtn'>Nechci smazat tento profil</button>
     </div>
     </div>";

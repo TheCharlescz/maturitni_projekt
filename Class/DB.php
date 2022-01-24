@@ -5,8 +5,7 @@ class DB {
     private const UZIVATEL = "root";
     private const HESLO = "";
     private static $spojeni;
-
-
+		
     public static function vytvorSpojeni() {
 
     if(!isset(self::$spojeni)){
