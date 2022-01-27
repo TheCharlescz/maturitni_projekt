@@ -104,7 +104,7 @@ class  ProduktDB {
 		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
 		return $sql->fetchAll();
 	}
-	public function nactitopprodukty($pohlavi, $razeni = "datum_vydani DESC")
+	public function nactiTopProdukty($razeni = "datum_vydani DESC")
 	{
 		$moznosti_razeni = array("id", "nazev", "text", "popis", "datum DESC");
 		if (!in_array(strtolower($razeni), $moznosti_razeni)) {
@@ -133,15 +133,55 @@ class  ProduktDB {
         barvy,
         velikosti,
         produkt
-    JOIN akce ON produkt.akce_id = akce.id
+    JOIN akce ON produkt.akce_id = 1
     JOIN typy ON produkt.typy_id = typy.id
     JOIN kategorie ON produkt.kategorie_id = kategorie.id
     JOIN znacky ON produkt.znacky_id = znacky.id
     JOIN materialy ON produkt.materialy_id = materialy.id
-		where produkt.pohlavi = :pohlavi
-        group by produkt.nazev";
+        group by produkt.nazev
+				LIMIT 4";
 		$sql = $this->spojeni->prepare($dotaz);
-		$sql->bindParam(":pohlavi", $pohlavi);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
+		return $sql->fetchAll();
+	}
+	public function nactiZlevneneProdukty($razeni = "datum_vydani DESC")
+	{
+		$moznosti_razeni = array("id", "nazev", "text", "popis", "datum DESC");
+		if (!in_array(strtolower($razeni), $moznosti_razeni)) {
+			$razeni = "vytvoreno_v DESC";
+		}
+		$dotaz = "SELECT DISTINCT
+        velikosti.velikost,
+        barvy.barva ,
+        akce.akce,
+        kategorie.kategorie,
+        materialy.material,
+        znacky.znacka,
+        produkt.uzivatel_id,
+        typy.typ,
+        produkt.id,
+        produkt.nazev,
+        produkt.popis,
+        produkt.pohlavi,
+        produkt.cena,
+        produkt.sleva,
+        produkt.dostupnost,
+        produkt.vytvoreno_v
+    FROM
+        produkt_ma_barvy,
+        produkt_ma_velikosti,
+        barvy,
+        velikosti,
+        produkt
+    JOIN akce ON produkt.akce_id = 2
+    JOIN typy ON produkt.typy_id = typy.id
+    JOIN kategorie ON produkt.kategorie_id = kategorie.id
+    JOIN znacky ON produkt.znacky_id = znacky.id
+    JOIN materialy ON produkt.materialy_id = materialy.id
+    group by produkt.nazev
+		LIMIT 4";
+		$sql = $this->spojeni->prepare($dotaz);
 		$sql->execute();
 		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
 		return $sql->fetchAll();
@@ -187,6 +227,7 @@ class  ProduktDB {
 		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
 		return $sql->fetchAll();
 	}
+
 	public function filtraceProdkutu($pohlavi, $kategorie, $typ, $akce, $material, $znacka,$hledany_text)
 	{
 			$dotaz = "SELECT DISTINCT materialy.*, kategorie.*, akce.*, znacky.* , typy.* , produkt.* FROM produkt
@@ -243,7 +284,6 @@ class  ProduktDB {
 			$dotaz .= " WHERE " . implode(' AND ', $where);
 		}
 		//$dotaz .= " group by produkt.nazev;";
-		var_dump($dotaz);
 		//$moznosti_razeni = array("id", "nazev", "text", "popis", "datum DESC");
 		$sql = $this->spojeni->prepare($dotaz);
 		$sql->bindParam(":text", $text);

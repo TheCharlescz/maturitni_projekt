@@ -13,11 +13,6 @@
 display: flex;
 margin: 0 10%;
 }
-.top-right {
-  position: absolute;
-  top: 8px;
-  right: 16px;
-}
 .showCategory{
   margin: 20px;
   position: relative;

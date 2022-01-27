@@ -155,7 +155,7 @@ session_start();
     </span>
     </a>";
 				} else {
-					echo "<a href='Uzivazel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
@@ -227,8 +227,7 @@ session_start();
 				});
 				$db = new ProduktDB();
 				$produkt = new Produkt();
-
-				$produkty = $db->nactiprodukty();
+				$produkty = $db->nactiTopProdukty();
 				foreach ($produkty as $produkt) {
 					$produkt->vypisBaneruProduktu();
 				}
@@ -299,98 +298,17 @@ session_start();
 		<section id=products>
 			<h2> Zlevěné produkty!</h2>
 			<div id="showProducts" class="purple">
-				<div class=showProduct>
-					<div class="sPtextInImg">
-						<img src="img/img5.jpg" style="width: 100%;" alt="">
-						<div class="sPbottom-left">
-							1050 Kč
-						</div>
-					</div>
-					<div class="sPflex">
-						<div>
-							<h3>Pohodlná Mikina</h3>
-							<p>Puma</p>
-						</div>
-						<div>
-
-							<a href=""><span class="material-icons">
-									shopping_cart
-								</span></a>
-							<a href=""><span class="material-icons">
-									favorite_border
-								</span> </a>
-						</div>
-					</div>
-				</div>
-				<div class=showProduct>
-					<div class="sPtextInImg">
-						<img src="img/boty5.jpg" style="width: 100%;" alt="">
-						<div class="sPbottom-left">
-							2000 Kč
-						</div>
-					</div>
-					<div class="sPflex">
-						<div>
-							<h3> Turistická obuv</h3>
-							<p>Adidas</p>
-						</div>
-						<div>
-
-							<a href=""><span class="material-icons">
-									shopping_cart
-								</span></a>
-							<a href=""><span class="material-icons">
-									favorite_border
-								</span> </a>
-						</div>
-					</div>
-				</div>
-				<div class=showProduct>
-					<div class="sPtextInImg">
-						<img src="img/img4.jpg" style="width: 100%;" alt="">
-						<div class="sPbottom-left">
-							400 Kč
-						</div>
-					</div>
-					<div class="sPflex">
-						<div>
-							<h3>Stylové triko</h3>
-							<p>Stay wild</p>
-						</div>
-						<div>
-
-							<a href=""><span class="material-icons">
-									shopping_cart
-								</span></a>
-							<a href=""><span class="material-icons">
-									favorite_border
-								</span> </a>
-						</div>
-					</div>
-				</div>
-				<div class=showProduct>
-					<div class="sPtextInImg">
-						<img src="img/boty7.jpg" style="width: 100%;" alt="">
-						<div class="sPbottom-left">
-							1850 Kč
-						</div>
-					</div>
-					<div class="sPflex">
-						<div>
-							<h3>Tenisky</h3>
-							<p>Nike</p>
-						</div>
-						<div>
-
-							<a href=""><span class="material-icons">
-									shopping_cart
-								</span></a>
-							<a href=""><span class="material-icons">
-									favorite_border
-								</span> </a>
-						</div>
-					</div>
-				</div>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new ProduktDB();
+				$produkt = new Produkt();
+				$produkty = $db->nactiZlevneneProdukty();
+				foreach ($produkty as $produkt) {
+					$produkt->vypisBaneruProduktu();
+				}
+				?>
 			</div>
 		</section>
 	</main>

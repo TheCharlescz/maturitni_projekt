@@ -107,7 +107,7 @@ include_once "Class/$trida.php";
                 </span>
                 </a>";
                 } else {
-                    echo "<a href='Uzivatel-profil.php'>        
+                    echo "<a href='Uzivatel-profil.php'>
                 <span class='material-icons'>
                 person
                 </span>
@@ -135,7 +135,7 @@ include_once "Class/$trida.php";
                 </span>
                 </a>";
     } else {
-        echo "<a href='Uzivazel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+        echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
     }
 
     if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
@@ -154,7 +154,7 @@ include_once "Class/$trida.php";
                 <input type="password" name="heslo" required placeholder="Heslo"><br>
                 <input class="ulozit" type="submit" name="prihlasit" value="Přihlásit">
             </form>
-           
+
         </div>
         <div class="prihlaseni-blok">
             <H2>Registrace</H2>

@@ -60,11 +60,6 @@ main {
   position: relative;
   width: 100%;
 }
-.top-right {
-  position: absolute;
-  top: 8px;
-  right: 16px;
-}
 .sPflex{
   display: flex;
   justify-content: space-between;
@@ -166,9 +161,14 @@ footer {
 #MyheaderAdmin{
 	justify-content: space-around;
 }
+@media(max-width:1000px){
+  .showProduct{
+    flex: 1 0 45%;
+  }
+}
+
 @media(max-width:600px){
   .showProduct{
-    margin: 1%;
     flex: 1 0 100%;
   }
 }

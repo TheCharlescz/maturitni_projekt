@@ -245,8 +245,11 @@ if ($_SESSION["prava"] < 1) {
 			</select>
 			<input type="search" name="hledany_text" placeholder="search...">
 			<input type="submit" name="vyfiltruj" value="Vyfiltruj">
+			<a class="input" href="Produkt-pridat.php">Přidat produkt</a>
+		</form>
+
 	</section>
-	</form>
+
 	<main>
 		<?php
 		spl_autoload_register(function ($trida) {
@@ -257,7 +260,6 @@ if ($_SESSION["prava"] < 1) {
 			$produkt = new Produkt();
 			$produkty  = $db->filtraceProdkutu($_GET["pohlavi"], $_GET["kategorie_id"], $_GET["typy_id"], $_GET["akce_id"], $_GET["materialy_id"], $_GET["znacky_id"], $_GET["hledany_text"]);
 			foreach ($produkty as $produkt) {
-				var_dump($produkt);
 				$produkt->vypisBaneruProduktuAdministace();
 			}
 		} elseif (isset($_GET["hledany_text"])) {
