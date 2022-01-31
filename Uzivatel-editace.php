@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start();require("Url-ultra-zkrasnovac.php");
 if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 	header("Location: Uzivatel-prihlaseni.php ");
 }
@@ -109,11 +109,11 @@ if ($_SESSION["prava"] < 1) {
 							<select class="select" name="prava" required>
 								<option value="">Zvolte práva zaměstnance</option>
 								<?php
-								echo "<option value='-1'" . (-1 == $uzivatel->prava ? 'selected' : '') . " >BAN(bez Opravnění)</option>";
-								echo "<option value='0'" . (0 == $uzivatel->prava ? 'selected' : '') . " >Nepřihlášen</option>";
-								echo "<option value='1' " . (1 == $uzivatel->prava ? 'selected' : '') . ">Uzivatel</option>";
-								echo "<option value='2' " . (2 == $uzivatel->prava ? 'selected' : '') . ">Správce administrace produktů</option>";
-								echo "<option value='3' " . (3 == $uzivatel->prava ? 'selected' : '') . ">Admin</option>";
+								echo "<option disabled value='-1'" . (-1 == $uzivatel->prava ? 'selected' : '') . " >BAN(bez Opravnění)</option>";
+								echo "<option style='display:none;' value='0'" . (0 == $uzivatel->prava ? 'selected' : '') . " >Nepřihlášen</option>";
+								echo "<option disabled value='1' " . (1 == $uzivatel->prava ? 'selected' : '') . ">Uzivatel</option>";
+								echo "<option disabled value='2' " . (2 == $uzivatel->prava ? 'selected' : '') . ">Správce administrace produktů</option>";
+								echo "<option disabled value='3' " . (3 == $uzivatel->prava ? 'selected' : '') . ">Admin</option>";
 								?>
 							</select><br>
 							<input type="password" name="heslo" placeholder="Heslo" required><br>

@@ -291,6 +291,73 @@ class  ProduktDB {
 		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
 		return $sql->fetchAll();
 	}
+	public function filtraceOblibenychProdkutu($pohlavi, $kategorie, $typ, $akce, $material, $znacka, $hledany_text, $id)
+	{
+		$dotaz = "SELECT DISTINCT materialy.*, kategorie.*, akce.*, znacky.* , typy.* , produkt.* FROM produkt
+			JOIN znacky ON produkt.znacky_id= znacky.id
+			JOIN typy ON produkt.typy_id= typy.id
+			JOIN materialy ON produkt.materialy_id = materialy.id
+			JOIN akce ON produkt.akce_id = akce.id
+			JOIN kategorie ON produkt.kategorie_id = kategorie.id
+			join oblibene on oblibene.produkt_id = produkt.id";
+		//$joiny = array();
+		$where = array();
+		//	if (!empty($kategorie)) {
+		//		$joiny[] = "JOIN kategorie ON produkt.kategorie_id = $kategorie";
+		//	}
+		//	if (!empty($akce)) {
+		//		$joiny[] = "JOIN akce ON produkt.akce_id = akce.id = $akce";
+		//	}
+		//if (!empty($material)) {
+		//	$joiny[] = "JOIN materialy ON produkt.materialy_id = $material";
+		//}
+		//$joiny[] = "JOIN znacky ON produkt.znacky_id= znacky.id";
+		//$joiny[] = "JOIN typy ON produkt.typy_id= typy.id";
+		//if (!empty($barva)) {
+		//		$joiny[] = "barva='$barva'";
+		//	}
+		//	if (!empty($velikost)) {
+		//		$joiny[] = "$velikost='$velikost'";
+		//	}
+		//foreach ($joiny as $join) {
+		//	$dotaz .=  " $join";
+		//}
+		if (!empty($pohlavi)) {
+			$where[] = "produkt.pohlavi = '$pohlavi'";
+		}
+		if (!empty($znacka)) {
+			$where[] = "znacky.znacka = '$znacka'";
+		}
+		if (!empty($typ)) {
+			$where[] = "typy.typ = '$typ'";
+		}
+		if (!empty($material)) {
+			$where[] = "materialy.material = '$material'";
+		}
+		if (!empty($kategorie)) {
+			$where[] = "kategorie.kategorie = '$kategorie'";
+		}
+		if (!empty($akce)) {
+			$where[] = "akce.akce = '$akce'";
+		}
+
+		if (!empty($hledany_text)) {
+			$text = "%" . mb_strtolower($hledany_text, "UTF-8") . "%";
+			$where[] = " lower(produkt.nazev) like :text";
+		}
+		if (count($where) > 0) {
+			$dotaz .= " WHERE " . implode(' AND ', $where);
+		}
+		$dotaz .= " AND oblibene.uzivatel_id = :id";
+		//$dotaz .= " group by produkt.nazev;";
+		//$moznosti_razeni = array("id", "nazev", "text", "popis", "datum DESC");
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":text", $text);
+		$sql->bindParam(":id", $id);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
+		return $sql->fetchAll();
+	}
     public function nactiProduktyUzivatele($uzivatel_id, $razeni = "datum DESC"){
 
         $moznosti_razeni = array("id", "nadpis", "datum", "datum DESC");
@@ -324,7 +391,82 @@ class  ProduktDB {
         $sql->setFetchMode(PDO::FETCH_CLASS,"produkt");
         return $sql->fetchAll();
     }
-
+	public function nactiOblibeneProduktyUzivatele($uzivatel_id, $razeni = "datum DESC")
+	{
+		$moznosti_razeni = array("id", "nadpis", "datum", "datum DESC");
+		if (!in_array(strtolower($razeni), $moznosti_razeni)) {
+			$razeni = "vytvoreno_v DESC";
+		}
+		$dotaz = "select DISTINCT
+        produkt.id,
+        akce.akce,
+        kategorie.kategorie,
+        materialy.material,
+        znacky.znacka,
+        typy.typ,
+        produkt.nazev,
+        produkt.popis,
+        produkt.pohlavi,
+        produkt.cena,
+        produkt.sleva,
+        produkt.dostupnost,
+        produkt.vytvoreno_v,
+        oblibene.*
+        from  produkt
+        join akce on produkt.akce_id = akce.id
+        join typy on produkt.typy_id = typy.id
+        join kategorie on produkt.kategorie_id = kategorie.id
+        join znacky on produkt.znacky_id = znacky.id
+        join materialy on produkt.materialy_id = materialy.id
+        join oblibene on oblibene.produkt_id = produkt.id
+        where oblibene.uzivatel_id = :id
+        order by $razeni";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":id", $uzivatel_id);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
+		return $sql->fetchAll();
+	}
+	public function nactiPocetOblibenychProduktuUzivatele($uzivatel_id, $razeni = "datum DESC")
+	{
+		$moznosti_razeni = array("id", "nadpis", "datum", "datum DESC");
+		if (!in_array(strtolower($razeni), $moznosti_razeni)) {
+			$razeni = "vytvoreno_v DESC";
+		}
+		$dotaz = "
+	select DISTINCT
+				COUNT(*) as 'pocet',
+        oblibene.*
+        from  produkt
+        join oblibene on oblibene.produkt_id = produkt.id
+        where oblibene.uzivatel_id = :id";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":id", $uzivatel_id);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
+		return $sql->fetch();
+	}
+	public function ulozOblibenyProduktUzivatele($uzivatel_id, $produkt_id)
+	{
+		$dotaz = "INSERT INTO `oblibene` (`produkt_id`, `uzivatel_id`) VALUES (:produkt_id, :uzivatel_id);";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":produkt_id", $produkt_id);
+		$sql->bindParam(":uzivatel_id", $uzivatel_id);
+		if ($sql->execute()) {
+			return $this->spojeni->lastInsertId();
+		} else {
+			return false;
+		}
+	}
+	public function smazOblibeneProduktyUzivatele($id_uzivatel, $id_produkt)
+	{
+		$dotaz = "DELETE FROM oblibene
+     WHERE oblibene.uzivatel_id = :id_uzivatel and oblibene.produkt_id = :id_produkt";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":id_uzivatel", $id_uzivatel);
+		$sql->bindParam(":id_produkt", $id_produkt);
+		return $sql->execute();
+	}
     public function najdiProdukt($text, $razeni = "datum DESC"){
         $moznosti_razeni = array("id", "nazev", "datum", "datum DESC");
         if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = "vytvoreno_v DESC";}
@@ -363,8 +505,51 @@ class  ProduktDB {
         $sql->execute();
         $sql->setFetchMode(PDO::FETCH_CLASS,"produkt");
         return $sql->fetchAll();
-
     }
+	public function najdiOblibenyProdukt($text, $id, $razeni = "datum DESC")
+	{
+		$moznosti_razeni = array("id", "nazev", "datum", "datum DESC");
+		if (!in_array(strtolower($razeni), $moznosti_razeni)) {
+			$razeni = "vytvoreno_v DESC";
+		}
+		$text = "%" . mb_strtolower($text, "UTF-8") . "%";
+		$dotaz = "select
+        produkt.id,
+        akce.akce,
+        kategorie.kategorie,
+        materialy.material,
+        znacky.znacka,
+        produkt.uzivatel_id,
+        typy.typ,
+        produkt.nazev,
+        produkt.popis,
+        produkt.pohlavi,
+        produkt.cena,
+        produkt.sleva,
+        produkt.dostupnost,
+        produkt.vytvoreno_v
+        from produkt
+        join akce on produkt.akce_id = akce.id
+        join typy on produkt.typy_id = typy.id
+        join kategorie on produkt.kategorie_id = kategorie.id
+        join znacky on produkt.znacky_id = znacky.id
+        join materialy on produkt.materialy_id = materialy.id
+				join oblibene on oblibene.produkt_id = produkt.id
+        where oblibene.uzivatel_id = :id AND
+				lower(nazev) like :text OR
+				lower(znacka) like :text OR
+				lower(pohlavi) like :text OR
+				lower(material) like :text OR
+				lower(kategorie) like :text OR
+				lower(typ) like :text OR
+				lower(akce) like :text";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":text", $text);
+		$sql->bindParam(":id", $id);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
+		return $sql->fetchAll();
+	}
     public function nactiProdukt($id) {
         $dotaz ="SELECT DISTINCT
         velikosti.velikost,

@@ -1,5 +1,6 @@
 <?php
-session_start();
+session_start();require("Urlzkrasnovac.php");
+require("Urlzkrasnovac.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -17,11 +18,9 @@ session_start();
 	<link rel="stylesheet" href="Css/cssSlideshow.css">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
-
 	<title>Infiltrated</title>
 	<script onload="" src="Script/scriptSlideshow.js"></script>
 </head>
-
 <body>
 	<header id="Myheader">
 		<nav role="navigation" id="resNavigation">
@@ -144,8 +143,16 @@ session_start();
 					echo "<a href='Uzivatel-oblibene.php' title='Oblíbené produkty'>
         <span class='material-icons'>
         favorite_border
-        </span>
-        </a>";
+        </span>";
+                spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});if (isset($_SESSION["id_uzivatele"])) {
+                    $db = new ProduktDB();
+                    $produkt = new Produkt();
+                    $a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
+                    echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
+                }
+				 echo "</a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
@@ -239,7 +246,6 @@ session_start();
 		<section id=Categories>
 			<h2>Pro koho nakupujete?</h2>
 			<div class="showCategories">
-
 				<a href="Produkty.php?pohlavi_odkaz=Muz" class="showCategory">
 					<img src="img/img_muzi.jpg" alt="">
 					<div class="centered">
@@ -302,12 +308,18 @@ session_start();
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});
+				if (isset($_GET["pridat-oblibene"])) {
+					$db = new ProduktDB();
+					$db->ulozOblibenyProduktUzivatele($_SESSION["id_uzivatele"], $_GET["pridat-oblibene"]);
+				}
+
 				$db = new ProduktDB();
 				$produkt = new Produkt();
 				$produkty = $db->nactiZlevneneProdukty();
 				foreach ($produkty as $produkt) {
 					$produkt->vypisBaneruProduktu();
 				}
+
 				?>
 			</div>
 		</section>

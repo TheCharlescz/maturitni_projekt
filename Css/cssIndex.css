@@ -46,11 +46,11 @@ margin: 0 10%;
 }
 button{
     font-family: 'Bebas Neue', cursive;
-    font-size: large;
+    font-size: x-large;
     text-decoration: none;
     background-color: black;
     color: rgb(165, 163, 163);
-    padding: 10px;
+    padding: 0 10px;
 		cursor: pointer;
 }
 button:hover{
@@ -129,6 +129,9 @@ button:hover{
 #adver  {
   margin:2% 10% ;
 }
+form {
+	margin: 0;
+}
 .adver{
   position: relative;
   text-align: left;
@@ -174,6 +177,26 @@ footer{
   border-bottom: 1px solid grey;
   border-left: none;
   border-right: none;
+}
+.badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+  background-color: #c67605;
+}
+#lblCartCount {
+    font-size: 12px;
+    background: #ff0000;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -10px;
 }
 @media(max-width:1100px) {
 #showProducts{

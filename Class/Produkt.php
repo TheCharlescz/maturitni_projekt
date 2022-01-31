@@ -97,6 +97,7 @@ public function vypisVelikosti($id) {
 public function vypisBaneruProduktu() {
 		$sleva = $this->cena / 100 * $this->sleva;
 		$zlevnena_cena = $this->cena - $sleva;
+		$url = $_SERVER['SCRIPT_NAME'];
   echo "
   <div class=showProduct>
           <div class='sPtextInImg'>
@@ -125,13 +126,53 @@ public function vypisBaneruProduktu() {
               <a href=''><span class='material-icons'>
                   shopping_cart
                 </span></a>
-              <a href=''><span class='material-icons'>
+              <a href='$url?pridat-oblibene=$this->id'><span class='material-icons'>
                   favorite_border
                 </span></a>
             </div>
           </div>
         </div>";
 }
+
+	public function vypisBaneruOblibenychProduktu()
+	{
+		$sleva = $this->cena / 100 * $this->sleva;
+		$zlevnena_cena = $this->cena - $sleva;
+		echo "
+  <div class=showProduct>
+          <div class='sPtextInImg'>
+          ";
+		$obrazky = scandir("img_produkt/$this->id");
+		foreach ($obrazky as $file) {
+			if ($file === '.' || $file === '..') continue;
+			$ext = pathinfo($file, PATHINFO_EXTENSION);
+			if ($file == "$this->id.1.$ext") {
+				echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file' style = 'width: 100%'></a>";
+			}
+		}
+		echo "
+            <div class='sPbottom-left'>
+					"	/* . (!empty($this->sleva) ? "<span id='puvodni_cena'> $this->cena Kč </span>" : "") . "<br>*/
+			/* 	"*/ . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
+            </div>
+						" . (!empty($this->sleva) ? "	<div class='top-right'>-$this->sleva %</div>" : "") . "
+          </div>
+          <div class='sPflex'>
+            <div>
+              <h3> $this->typ $this->nazev</h3>
+              <p>$this->znacka</p>
+            </div>
+            <div>
+              <a href=''><span class='material-icons'>
+                  shopping_cart
+                </span></a>
+              <a href='Uzivatel-oblibene.php?odstran=$this->id'><span class='material-icons'>
+                  heart_broken
+                </span></a>
+            </div>
+          </div>
+        </div>";
+	}
 public function vypisBaneruProduktuAdministace() {
 		$sleva = $this->cena / 100 * $this->sleva;
 		$zlevnena_cena = $this->cena - $sleva;
@@ -180,6 +221,7 @@ public function vypisBaneruProduktuAdministace() {
     </div>";
 }
 public function vypisProduktu() {
+		$url = $_SERVER['SCRIPT_NAME'];
     echo "<section id='flex'>
     <div class='container'>";
 		$obrazky = scandir("img_produkt/$this->id");
@@ -218,12 +260,15 @@ echo "
         $this->vypisVelikosti($_GET["id"]);
         echo "</div>
         </div>
-        <div id='buy'>
-           <input class='input'  type='button' value='Přidat do Košíku '>
-           <span class='material-icons'>
+				<div id='buy'>
+           <a href=''>
+					 <span class='material-icons'>
+                  shopping_cart
+                </span></a>
+              <a href='Produkt.php?id=$this->id&pridat-oblibene=$this->id'><span class='material-icons'>
                   favorite_border
-                </span>
-        </div>
+                </span></a>
+				<div>
     </div>
     </section>
     <section id='moreInfo'>

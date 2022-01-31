@@ -2,6 +2,7 @@
 <html lang="en">
 <?php
 session_start();
+require("Urlzkrasnovac.php");
 spl_autoload_register(
 function ($trida) {
 include_once "Class/$trida.php";

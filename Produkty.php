@@ -1,5 +1,7 @@
+
 <?php
 session_start();
+require("Urlzkrasnovac.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -18,10 +20,8 @@ session_start();
 	<link rel="stylesheet" href="Css/cssProdukt-administrace.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
 	<title>Infiltrated</title>
-	<script onload="" src="Script/scriptSlideshow.js"></script>
 </head>
 <div id="black-block"></div>
-
 <body>
 	<header id="Myheader">
 		<nav role="navigation" id="resNavigation">
@@ -39,10 +39,6 @@ session_start();
 					<a href="Produkty.php?kategorie=sport">Sporty</a>
 					<a href="Produkty.php?znacka">Značky</a>
 					<div id="searchNav">
-						<form action="Produkty.php" method="get">
-							<input type="search" name="hledany_text" placeholder="search...">
-							<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
-						</form>
 					</div>
 				</ul>
 			</div>
@@ -107,10 +103,6 @@ session_start();
 			</svg></a>
 		<div id="SaN">
 			<div id="search">
-				<form action="Produkty.php" method="get">
-					<input type="search" name="hledany_text" placeholder="search...">
-					<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
-				</form>
 			</div>
 			<nav>
 				<?php
@@ -138,8 +130,16 @@ session_start();
 					echo "<a href='Uzivatel-oblibene.php' title='Oblíbené produkty'>
         <span class='material-icons'>
         favorite_border
-        </span>
-        </a>";
+        </span>";
+                spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});if (isset($_SESSION["id_uzivatele"])) {
+                    $db = new ProduktDB();
+                    $produkt = new Produkt();
+                    $a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
+                    echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
+                }
+					echo " </a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
@@ -248,15 +248,18 @@ session_start();
 		spl_autoload_register(function ($trida) {
 			include_once "Class/$trida.php";
 		});
-        if (isset($_GET["kategorie_odkaz"])) {
-            $db = new ProduktDB();
-            $produkt = new Produkt();
-            $produkty  = $db->nactiproduktykategorie($_GET["kategorie_odkaz"]);
-            foreach ($produkty as $produkt) {
-                $produkt->vypisBaneruProduktu();
-            }
-        }
-		elseif (isset($_GET["pohlavi_odkaz"])) {
+		if (isset($_GET["pridat-oblibene"])) {
+			$db = new ProduktDB();
+			$db->ulozOblibenyProduktUzivatele($_SESSION["id_uzivatele"], $_GET["pridat-oblibene"]);
+		}
+		if (isset($_GET["kategorie_odkaz"])) {
+			$db = new ProduktDB();
+			$produkt = new Produkt();
+			$produkty  = $db->nactiproduktykategorie($_GET["kategorie_odkaz"]);
+			foreach ($produkty as $produkt) {
+				$produkt->vypisBaneruProduktu();
+			}
+		} elseif (isset($_GET["pohlavi_odkaz"])) {
 			$db = new ProduktDB();
 			$produkt = new Produkt();
 			$produkty  = $db->nactiproduktypohlavi($_GET["pohlavi_odkaz"]);
@@ -290,6 +293,4 @@ session_start();
 			<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
 		</footer>
 	</main>
-
-
 </body>

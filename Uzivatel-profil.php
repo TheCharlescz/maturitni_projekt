@@ -1,5 +1,5 @@
 <?php
-session_start();
+session_start();require("Urlzkrasnovac.php");
 if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
     header("Location: Uzivatel-prihlaseni.php ");
 }
@@ -91,7 +91,7 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
                 </span>
                 </a>";
                 } else {
-                    echo "<a href='Uzivatel-profil.php'>        
+                    echo "<a href='Uzivatel-profil.php'>
                 <span class='material-icons'>
                 person
                 </span>
@@ -142,15 +142,15 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
             $db = new UzivatelDB();
             $uzivatel = new Uzivatel();
             $uzivatel = $db->nactiUzivatel($_SESSION["id_uzivatele"]);
-            
+
         if ($_SESSION["prava"] == 2) {
             $uzivatel->vypisUzivatele();
 
         }
             if ($_SESSION["prava"] == 1) {
                 $uzivatel->vypisUzivateleVlastniProfil();
-                
-                }    
+
+                }
             ?>
         </div>
     </main>

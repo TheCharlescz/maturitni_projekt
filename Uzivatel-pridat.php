@@ -1,7 +1,7 @@
 <?php
-session_start();
+session_start();require("Urlzkrasnovac.php");
 if(!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])){
-    header("Location: Uzivatel-prihlaseni.php ");    
+    header("Location: Uzivatel-prihlaseni.php ");
 }
 
 if($_SESSION["prava"] < 1){
@@ -53,7 +53,7 @@ if($_SESSION["prava"] < 1){
                 } else {
                     echo "<h2 class='chyba'>Registrace nebyla provedena</h2>\n";
                 }
-            } 
+            }
         }
     }
     ?>

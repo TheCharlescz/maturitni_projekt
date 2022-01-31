@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 class UzivatelDB {
     private $spojeni;
@@ -16,7 +16,7 @@ class UzivatelDB {
 }
 
 public function pridatUzivatele($uzivatel) {
-    $dotaz= "INSERT INTO `uzivatel` (`id`, `jmeno`, `prijmeni`, `heslo`,`login`, `email`, `mesto`, `ulice`, `telkontakt`, `cislo_popisne`, `PSC`,`prava`,`registrovan_v`, `upraveno_v`) 
+    $dotaz= "INSERT INTO `uzivatel` (`id`, `jmeno`, `prijmeni`, `heslo`,`login`, `email`, `mesto`, `ulice`, `telkontakt`, `cislo_popisne`, `PSC`,`prava`,`registrovan_v`, `upraveno_v`)
     VALUES (NULL, :jmeno, :prijmeni, :heslo, :login,:email, :mesto, :ulice, :telkontakt, :cislo_popisne, :PSC,:prava, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);";
     $sql = $this->spojeni->prepare($dotaz);
     $sql->bindParam(":jmeno",$uzivatel->jmeno);
@@ -51,7 +51,7 @@ public function overUzivatele($login,$heslo){
 public function nactiUzivatele($razeni = "prava DESC") {
     $moznosti_razeni = array("id","jmeno","prijmeni","login","heslo", "prava");
     if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = "prava DESC";}
-    $dotaz = "select * from uzivatel 
+    $dotaz = "select * from uzivatel
     where uzivatel.prava <= 1
     order by $razeni";
     $sql = $this->spojeni->prepare($dotaz);
@@ -62,7 +62,7 @@ public function nactiUzivatele($razeni = "prava DESC") {
 public function nactiZamestnance($razeni = "prava DESC") {
     $moznosti_razeni = array("id","jmeno","prijmeni","login","heslo", "prava");
     if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = "prava DESC";}
-    $dotaz = "select * from uzivatel 
+    $dotaz = "select * from uzivatel
     where uzivatel.prava = 2
     order by $razeni";
     $sql = $this->spojeni->prepare($dotaz);
@@ -90,7 +90,7 @@ public function smazUzivatele($id) {
 }
 
 public function ulozUzivatele($uzivatel) {
-    $dotaz = "update uzivatel set jmeno=:jmeno, prijmeni=:prijmeni,email=:email, login=:login, heslo=:heslo, prava=:prava, mesto=:mesto, ulice=:ulice, 
+    $dotaz = "update uzivatel set jmeno=:jmeno, prijmeni=:prijmeni,email=:email, login=:login, heslo=:heslo, prava=:prava, mesto=:mesto, ulice=:ulice,
     cislo_popisne=:cislo_popisne, PSC=:PSC, telkontakt=:telkontakt where id=:id";
     $sql = $this->spojeni->prepare($dotaz);
     $sql->bindParam(":jmeno",$uzivatel->jmeno);
@@ -108,5 +108,6 @@ public function ulozUzivatele($uzivatel) {
     if($sql->execute()){return $uzivatel->id;}
     else {return false;}
 }
+
 }
 ?>

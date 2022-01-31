@@ -1,5 +1,6 @@
 <?php
 session_start();
+require("Urlzkrasnovac.php");
 if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 	header("Location: Uzivatel-prihlaseni.php ");
 }
@@ -140,8 +141,16 @@ if ($_SESSION["prava"] < 1) {
 						echo "<a href='Uzivatel-oblibene.php' title='Oblíbené produkty'>
         <span class='material-icons'>
         favorite_border
-        </span>
-        </a>";
+        </span>";
+                spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});if (isset($_SESSION["id_uzivatele"])) {
+                    $db = new ProduktDB();
+                    $produkt = new Produkt();
+                    $a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
+                    echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
+                }
+        echo "</a>";
 					}
 
 					if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
