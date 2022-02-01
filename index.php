@@ -1,5 +1,6 @@
 <?php
-session_start();require("Urlzkrasnovac.php");
+session_start();
+require("Urlzkrasnovac.php");
 require("Urlzkrasnovac.php");
 ?>
 <!DOCTYPE html>
@@ -21,6 +22,7 @@ require("Urlzkrasnovac.php");
 	<title>Infiltrated</title>
 	<script onload="" src="Script/scriptSlideshow.js"></script>
 </head>
+
 <body>
 	<header id="Myheader">
 		<nav role="navigation" id="resNavigation">
@@ -144,15 +146,16 @@ require("Urlzkrasnovac.php");
         <span class='material-icons'>
         favorite_border
         </span>";
-                spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});if (isset($_SESSION["id_uzivatele"])) {
-                    $db = new ProduktDB();
-                    $produkt = new Produkt();
-                    $a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
-                    echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
-                }
-				 echo "</a>";
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					if (isset($_SESSION["id_uzivatele"])) {
+						$db = new ProduktDB();
+						$produkt = new Produkt();
+						$a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
+						echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
+					}
+					echo "</a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
@@ -203,11 +206,9 @@ require("Urlzkrasnovac.php");
 				<span class="dot"></span>
 				<span class="dot"></span>
 			</div>
-
 			<script>
 				var slideIndex = 0;
 				showSlides();
-
 				function showSlides() {
 					var i;
 					var slides = document.getElementsByClassName("mySlides");
@@ -239,9 +240,7 @@ require("Urlzkrasnovac.php");
 					$produkt->vypisBaneruProduktu();
 				}
 				?>
-
 			</div>
-
 		</section>
 		<section id=Categories>
 			<h2>Pro koho nakupujete?</h2>
@@ -266,8 +265,7 @@ require("Urlzkrasnovac.php");
 				</a>
 			</div>
 		</section>
-		<section id="adver">
-			<div class=adver>
+			<div class=adver id="adver">
 				<img src="img/img_zima.jpg" style="width: 100%;" alt="">
 				<div class="top-left">
 					<h2>Zima se blíží.</h2>
@@ -275,13 +273,10 @@ require("Urlzkrasnovac.php");
 					<a class="input" href="">Zobrazit více...</a>
 				</div>
 			</div>
-		</section>
 		<section id=Categories>
 			<h2>Za jakým účelem nakupujete?</h2>
 			<div class="showCategories">
-
 				<a href="Produkty.php?kategorie_odkaz=1" class="showCategory">
-
 					<img src="img/img_sport.jpg" alt="">
 					<div class="centered">
 						<h2>Na Sport</h2>

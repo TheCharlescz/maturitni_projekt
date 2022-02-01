@@ -76,6 +76,10 @@ footer{
 #border {
     border-top: 1px solid rgb(165, 163, 163);
     border-bottom: 1px solid rgb(165, 163, 163);
+
+}
+#cena {
+	display: flex;
 }
 #moreInfo {
     display: flex;

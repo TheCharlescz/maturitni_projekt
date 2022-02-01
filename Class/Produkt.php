@@ -112,8 +112,8 @@ public function vypisBaneruProduktu() {
 								}
           echo "
             <div class='sPbottom-left'>
-					"	/* . (!empty($this->sleva) ? "<span id='puvodni_cena'> $this->cena Kč </span>" : "") . "<br>*/
-					/* 	"*/ . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
+					" . (!empty($this->sleva) ? "<span id='puvodni_cena'> $this->cena Kč   </span>" : "") ."
+					 	   " . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
             </div>
 						" . (!empty($this->sleva) ? "	<div class='top-right'>-$this->sleva %</div>" : "") . "
           </div>
@@ -152,8 +152,8 @@ public function vypisBaneruProduktu() {
 		}
 		echo "
             <div class='sPbottom-left'>
-					"	/* . (!empty($this->sleva) ? "<span id='puvodni_cena'> $this->cena Kč </span>" : "") . "<br>*/
-			/* 	"*/ . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
+					". (!empty($this->sleva) ? "<span id='puvodni_cena'> $this->cena Kč </span>" : "") . "
+				" . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
             </div>
 						" . (!empty($this->sleva) ? "	<div class='top-right'>-$this->sleva %</div>" : "") . "
           </div>
@@ -221,7 +221,9 @@ public function vypisBaneruProduktuAdministace() {
     </div>";
 }
 public function vypisProduktu() {
-		$url = $_SERVER['SCRIPT_NAME'];
+		$sleva = $this->cena / 100 * $this->sleva;
+		$zlevnena_cena = $this->cena - $sleva;
+		//$url = $_SERVER['SCRIPT_NAME'];
     echo "<section id='flex'>
     <div class='container'>";
 		$obrazky = scandir("img_produkt/$this->id");
@@ -252,7 +254,11 @@ echo "
       <div id='flex'><p>".$this->kategorie." :  ".$this->znacka."  : ".$this->pohlavi."  </p></div>
       <div id='border'>
         <h1>".$this->nazev."</h1>
-        <h3>".$this->cena." Kč</h3>
+				<div id='cena'>
+
+				". (!empty($this->sleva) ? "<h3 id='puvodni_cena'> $this->cena Kč </h3>" : "") . "
+				" . (!empty($this->sleva) ? "<h3 id='zlevnena_cena'> $zlevnena_cena Kč </h3>" : " $this->cena Kč") . "
+				</div>
         </div>
         <div id='Sizes'>
         <h3>Dostupné velikosti:</h3>

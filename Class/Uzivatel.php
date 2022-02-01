@@ -17,7 +17,7 @@ class Uzivatel
     const PRAVA = array(
         -1 => "Bez oprávnění(BAN)" and "Nepřihlášený", 0 => "Nepřiděleno", 1 => "Zaměstnanec", 2 => "Prodejce", 3 => "Admin"
     );
-    public function nastavRegistraci($email, $heslo, $prava = 0, $id = NULL)
+    public function nastavRegistraci($email, $heslo, $prava = 1, $id = NULL)
     {
 
         $redexp = "/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/";
@@ -186,7 +186,7 @@ class Uzivatel
     <a  class='input' href='Uzivatel-editace.php?id=$this->id'>Editovat</a>
     <button onclick='openModalSmaz($this->id)' id='myBtn'>Smazat profil</button>
     </div>
-    
+
     <div id='$this->id smaz' class='modal'>
     <div class='modal-content'>
         <span onclick='closeModalSmaz($this->id)' class='close'>&times;</span>
@@ -202,13 +202,13 @@ class Uzivatel
         echo "<div class='karta'>
     <h3>" . $this->jmeno . " " . $this->prijmeni . "</h3>
     <p>" . $this->prava . " = " . $this->Pravakategorie() . "</p>
-    
+
     <div id='navKarta'>
     <button onclick='openModalInfo($this->id)' id='myBtn'>Info profilu</button>
     <a  class='input'href='Uzivatel-editace.php?id=$this->id'>Editovat profil</a>
     <button onclick='openModalSmaz($this->id)' id='myBtn'>Smazat profil</button>
     </div> </div>
-  
+
     <div id='$this->id' class='modal'>
 
     <div class='modal-content'>
@@ -240,18 +240,18 @@ class Uzivatel
         echo "<div class='karta'>
         <h3>" . $this->jmeno . " " . $this->prijmeni . "</h3>
         <p>" . $this->prava . " = " . $this->Pravakategorie() . "</p>
-        
+
         <div id='navKarta'>
         <button onclick='openModalInfo($this->id)' id='myBtn'>Info profilu</button>
         <a  class='input'href='Uzivatel-editace.php?id=$this->id'>Editovat profil</a>
         </div> </div>
-      
+
         <div id='$this->id' class='modal'>
-    
+
         <div class='modal-content'>
             <span onclick='closeModalInfo($this->id)' class='close'>&times;</span>
             <h1> Profil uživatele: " . $this->jmeno . " " . $this->prijmeni . "</h1>
-        
+
             <p> Zde se můžeš podívat na soukromé informace</p>
             <div id='infoKarta'>
         <p> E-mail: " . $this->email . "</p>
