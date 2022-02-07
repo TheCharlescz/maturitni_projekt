@@ -1,5 +1,6 @@
 <?php
-session_start();require("Url-ultra-zkrasnovac.php");
+session_start();
+require("Url-ultra-zkrasnovac.php");
 if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 	header("Location: Uzivatel-prihlaseni.php ");
 }
@@ -48,7 +49,7 @@ if ($_SESSION["prava"] < 1) {
 					include_once "Class/$trida.php";
 				});
 				$produkt = new Produkt();
-				if ($produkt->nastavHodnoty($_POST['akce_id'], $_POST["kategorie_id"], $_POST["materialy_id"], $_POST["znacky_id"], $_SESSION["id_uzivatele"], $_POST["typy_id"], $_POST["nazev"], $_POST["popis"], $_POST["pohlavi"], $_POST["cena"], $_POST["sleva"], "0", $_GET["id"])) {
+				if ($produkt->nastavHodnoty($_POST['akce_id'], $_POST["kategorie_id"], $_POST["materialy_id"], $_POST["znacky_id"], $_SESSION["id_uzivatele"], $_POST["typy_id"], $_POST["nazev"], $_POST["popis"], $_POST["pohlavi"], $_POST["cena"], $_POST["sleva"], 1, $_GET["id"])) {
 					$db = new ProduktDB();
 					$produkt_id = $db->ulozProdukt($produkt);
 					if ($produkt_id > 0) {

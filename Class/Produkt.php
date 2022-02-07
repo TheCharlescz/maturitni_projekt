@@ -7,7 +7,7 @@ class Produkt {
     public $pohlavi;
     public $cena;
     public $sleva;
-    public $dostupnost;
+    public int $dostupnost;
     public $velikosti;
     public $velikost;
     public $typy_id;
@@ -18,7 +18,7 @@ class Produkt {
     public $znacky_id;
 
 public function nastavHodnoty($akce_id,$kategorie_id,$materialy_id,$znacky_id,
-$uzivatel_id,$typy_id,$nazev,$popis,$pohlavi,$cena,$sleva, $dostupnost, $id = NULL)
+$uzivatel_id,$typy_id,$nazev,$popis,$pohlavi,$cena,$sleva = NULL, $dostupnost, $id = NULL)
  {
 $this->id = $id;
 $this->typy_id = $typy_id;
@@ -39,13 +39,7 @@ $redexp = "/[0-9]+$/";
             <p class='chyba'>Cena musí obsahovat číslo<p>";
             return false;
         }
-        if (preg_match($redexp, $sleva)) {
             $this->sleva = $sleva;
-        } else {
-            echo " <h2 class='chyba'>Špatně zadaná sleva</h2>
-            <p class='chyba'>Sleva musí obsahovat číslo<p>";
-            return false;
-        }
         if (preg_match($redexp, $dostupnost)) {
             $this->dostupnost = $dostupnost;
         } else {
@@ -123,7 +117,7 @@ public function vypisBaneruProduktu() {
               <p>$this->znacka</p>
             </div>
             <div>
-              <a href=''><span class='material-icons'>
+              <a href='$url?pridat-do-kosiku=$this->id'><span class='material-icons'>
                   shopping_cart
                 </span></a>
               <a href='$url?pridat-oblibene=$this->id'><span class='material-icons'>
@@ -174,8 +168,21 @@ public function vypisBaneruProduktu() {
         </div>";
 	}
 public function vypisBaneruProduktuAdministace() {
+		spl_autoload_register(function ($trida) {
+			include_once "Class/$trida.php";
+		});
 		$sleva = $this->cena / 100 * $this->sleva;
 		$zlevnena_cena = $this->cena - $sleva;
+		if (isset($_POST["checkbox$this->id"]) && $this->dostupnost == 0) {
+			$db = new ProduktDB();
+			$db->upravDostupnostProduktu($this->id, 1);
+		}
+
+		if (isset($_POST["checkbox$this->id"]) && $this->dostupnost == 1){
+			echo "dfdsfdsfdsf";
+			$db = new ProduktDB();
+			$db->upravDostupnostProduktu($this->id, 0);
+		}
   echo "
   <div class='showProduct'>
   <div class=img>
@@ -206,9 +213,15 @@ public function vypisBaneruProduktuAdministace() {
       echo "
     </div>
     </div>
-		<div>
+		<div id='flex-just'>
 	<button id='noBorder' onclick='openModalSmaz($this->id)' id='myBtn'><span class='material-icons'>delete</span></button>
     <a id='noBorder' class='input'href='Produkt-editace.php?id=$this->id'><span class='material-icons'>edit</span></a>
+		 <form method='post'>
+<label class='switch'>
+<input type='checkbox' name='checkbox$this->id' value='$this->dostupnost' ". ($this->dostupnost == 1 ? "checked" : "" ) ." onchange='submit();'>
+  <span class='slider round'></span>
+</label>
+</form>
 		</div>
 </div>
  <div id='$this->id smaz' class='modal'>
@@ -220,6 +233,42 @@ public function vypisBaneruProduktuAdministace() {
     </div>
     </div>";
 }
+	public function vypisProduktuvKosiku($poradi_produktu)
+	{
+		$sleva = $this->cena / 100 * $this->sleva;
+		$zlevnena_cena = $this->cena - $sleva;
+		echo "<section id='kosik_produkt'>
+	<div id='img'>
+		";
+		$obrazky = scandir("img_produkt/$this->id/");
+		foreach ($obrazky as $file) {
+			if ($file === '.' || $file === '..') continue;
+			$ext = pathinfo($file, PATHINFO_EXTENSION);
+			if ($file == "$this->id.1.$ext") {
+				echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file'></a>";
+			}
+		}
+		echo "
+	</div>
+	<div id='kosik_info'>
+		<div>
+			<h2>$this->nazev</h2>
+			<h3>$this->znacka</h3>
+			" . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
+		</div>
+		<form id='formin'method='post' action='Uzivatel-kosik.php?pridat-do-kosiku=$this->id'>
+			<input type='number' min='1' name='pocet_kusu' value='$poradi_produktu' id='kosik_input' onchange='this.form.submit()'>
+			<div id='showSizes'>
+			";
+        $this->vypisVelikosti($this->id);
+        echo "
+				</div>
+		</form>
+	</div>
+	<a href='Uzivatel-kosik.php?odebrat-z-kosiku=$this->id '><span class='close'> &times;</span></a>
+
+</section>";
+	}
 public function vypisProduktu() {
 		$sleva = $this->cena / 100 * $this->sleva;
 		$zlevnena_cena = $this->cena - $sleva;
@@ -262,15 +311,17 @@ echo "
         </div>
         <div id='Sizes'>
         <h3>Dostupné velikosti:</h3>
+				<form method='post' action='Produkt.php?id=$this->id&pridat-do-kosiku=$this->id'>
         <div id='showSizes'>";
-        $this->vypisVelikosti($_GET["id"]);
+        $this->vypisVelikosti($this->id);
         echo "</div>
         </div>
 				<div id='buy'>
-           <a href=''>
+           <button class='button' type='submit'>
 					 <span class='material-icons'>
                   shopping_cart
-                </span></a>
+                </span></button>
+								</form>
               <a href='Produkt.php?id=$this->id&pridat-oblibene=$this->id'><span class='material-icons'>
                   favorite_border
                 </span></a>

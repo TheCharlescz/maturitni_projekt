@@ -88,11 +88,11 @@
                 if ($id > 0) {
                     echo "<h2 class='spravne'>Registrace byla provedena</h2>\n
                     <a href='prihlaseni.php' '></a>";
-                   
+
                 } else {
                     echo "<h2 class='chyba'>Registrace nebyla provedena</h2>\n";
                 }
-            } 
+            }
         }
     }
     ?>
@@ -107,7 +107,7 @@
                 </span>
                 </a>";
                 } else {
-                    echo "<a href='Uzivatel-profil.php'>        
+                    echo "<a href='Uzivatel-profil.php'>
                 <span class='material-icons'>
                 person
                 </span>
@@ -135,7 +135,7 @@
                 </span>
                 </a>";
     } else {
-        echo "<a href='Uzivazel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+        echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
     }
 
     if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {

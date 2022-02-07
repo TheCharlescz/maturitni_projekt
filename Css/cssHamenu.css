@@ -152,6 +152,50 @@ input {
   border-left: none;
   border-right: none;
 }
+.badge {
+  padding-left: 9px;
+  padding-right: 9px;
+  -webkit-border-radius: 9px;
+  -moz-border-radius: 9px;
+  border-radius: 9px;
+}
+
+.label-warning[href],
+.badge-warning[href] {
+  background-color: #c67605;
+}
+#lblCartCount {
+    font-size: 12px;
+    background: #ff0000;
+    color: #fff;
+    padding: 0 5px;
+    vertical-align: top;
+    margin-left: -10px;
+}
+button{
+    font-family: 'Bebas Neue', cursive;
+    font-size: x-large;
+    text-decoration: none;
+    background-color: black;
+    color: rgb(165, 163, 163);
+    padding: 0 10px;
+		cursor: pointer;
+}
+#noBorder {
+	border: none;
+	background-color: rgba(0, 0, 0, 0);
+}
+form {
+    margin: 0;
+}
+footer {
+    background-color: black;
+    padding: 20px 0;
+    text-align: center;
+}
+h1{
+	font-size: 2em;
+}
 @media(max-width:1100px) {
   #searchNav {
 		display: block;
@@ -204,9 +248,6 @@ header {
 a h1{
   font-size: 1.5em;
   margin: 0;
-}
-footer{
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 #menuToggle
 {

@@ -1,0 +1,377 @@
+main{
+display: flex;
+justify-content: center;
+}
+#hledat{
+width: auto;
+}
+.blok{
+margin: 1%;
+padding: 5%;
+background-color: black;
+display: flex;
+flex-direction: column;
+justify-content: center;
+background-color: black;
+box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;;
+border-radius: 20px;
+}
+header{
+position: relative;
+padding: 30px;
+top: 0;
+width: auto;
+background-color: black;
+box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;;
+}
+button{
+font-family: 'Bebas Neue', cursive;
+font-size: large;
+text-decoration: none;
+background-color: black;
+color: rgb(165, 163, 163);
+padding: 10px;
+margin: 10px;
+border-top: 1px solid grey;
+border-bottom: 1px solid grey;
+border-left:none;
+border-right: none;
+}
+button:hover{
+color: rgb(255, 255, 255);
+border-top: 1px solid white;
+border-bottom: 1px solid white;
+cursor: pointer;
+}
+.input{
+text-align: center;
+background-color: black;
+color: rgb(165, 163, 163);
+padding: 10px;
+margin: 10px;
+border-top: 1px solid grey;
+border-bottom: 1px solid grey;
+border-left:none;
+border-right: none;
+}
+input:hover{
+color: white;
+border-top: 1px solid white;
+border-bottom: 1px solid white;
+}
+input {
+	width: 100%;
+  font-family: "Bebas Neue", cursive;
+  font-size: larger;
+  background-color: black;
+  color: rgb(255, 255, 255);
+  padding: 10px;
+  margin: 25px 15px 25px 0;
+  border: 1px solid grey;
+}
+	#infoAndBuy {
+    background-color: black;
+    padding: 3%;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+}
+.sirka{
+width: 93%;
+}
+.flex1{
+display: flex;
+flex-direction: row;
+flex-wrap: nowrap;
+justify-content: space-between;
+}
+.flex {
+	display: flex;
+	justify-content: space-between;
+}
+#pridat{
+margin: 30px 20%;
+}
+#prihlaseni {
+  display: flex;
+}
+#registrace {
+  margin: 100px 30% 0 30%;
+}
+.prihlaseni-blok {
+  margin: 35px 0;
+}
+#flex_big{
+	width: auto;
+flex: 0 1 50%
+}
+#flex_small{
+flex: 0 1 30%
+}
+#flex-avrag {
+flex: 0 1 40%
+}
+.next {
+color: black;
+border: 2px solid black;
+background-color: white;
+text-align: center;
+padding: 20px 0 ;
+display: flex;
+font-size: xx-large;
+justify-content: center;
+cursor: pointer;
+width: 96%;
+}
+.next:hover{
+color: white;
+border: 2px solid white;
+background-color: black;
+transition: 2s;
+}
+img {
+width: 240px;
+}
+#img {
+width: 240px;
+}
+#kosik_produkt{
+	margin: 5px;
+	position: relative;
+	border: 1px white solid;
+	display: flex;
+	width: auto;
+	flex-direction: row;
+}
+#kosik_info{
+	padding: 10px;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: column;
+}
+ .close {
+    color: #aaa;
+    float: right;
+    font-size: 38px;
+    font-weight: bold;
+		position: absolute;
+  	top: 8px;
+  	right: 16px;
+  }
+	.noMargin { margin: 0;}
+	h2,h3 {
+		margin: 2px;
+	}
+#showSizes {
+	margin-top: 22px;
+	height: fit-content;
+	display: flex;
+	flex-wrap: nowrap;
+	flex-direction: row;
+}
+
+/* Customize the label (the container) */
+.container {
+  display: block;
+  position: relative;
+  padding-left: 35px;
+  margin-bottom: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+/* Hide the browser's default radio button */
+.container input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+/* Create a custom radio button */
+.mark {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 25px;
+  width: 25px;
+  background-color: #eee;
+  border-radius: 50%;
+}
+
+/* On mouse-over, add a grey background color */
+.container:hover input ~ .mark {
+  background-color: #ccc;
+}
+
+/* When the radio button is checked, add a blue background */
+.container input:checked ~ .mark {
+  background-color: #2196F3;
+}
+
+/* Create the indicator (the dot/circle - hidden when not checked) */
+.mark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+
+/* Show the indicator (dot/circle) when checked */
+.container input:checked ~ .mark:after {
+  display: block;
+}
+
+/* Style the indicator (dot/circle) */
+.container .mark:after {
+  top: 9px;
+  left: 9px;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: white;
+}
+.radio {
+	height: fit-content;
+  display: block;
+  position: relative;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.radio:hover{
+	color: black;
+}
+.radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+.checkmark {
+	top: 1px;
+	left: 1px;
+	width: fit-content;
+  border: 1px solid white;
+  display: block;
+  padding: 12px;
+  cursor: pointer;
+  font-size: 22px;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+#formin {
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+}
+.radio:hover input ~ .checkmark {
+  background-color: white;
+}
+
+.radio input:checked ~ .checkmark {
+	color: black;
+  background-color: white;
+	border: 1px solid white;
+}
+
+.radio input:checked ~ .checkmark:after {
+  display: block;
+}
+
+.radio .checkmark:after {
+  right: 8px;
+  top: 20px;
+  width: 15px;
+  height: 20px;
+  border: solid black;
+  border-width: 0 3px 3px 0;
+	  -webkit-transform: rotate(45deg);
+  -ms-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+.checkmark:after {
+  content: "";
+  position: absolute;
+  display: none;
+}
+@media(max-width:1151px) {
+	#flex_big{
+flex: 0 1 60%
+}
+#flex_small{
+flex: 0 1 40%
+}
+}
+@media(max-width:800px) {
+	#formin {
+	flex-direction: column;
+}
+main{
+flex-direction: column;
+}
+#kosik_produkt {
+	display: flex;
+	flex-direction: column;
+}
+img {
+	 width: 100%;
+}
+#img {
+	 width: 100%;
+}
+ .close {
+    color: black;
+		background-color: rgba(255, 255, 255, 0.5);
+		border-radius: 50%;
+		padding: 0 10px;
+	}
+}
+#search input{
+	width: fit-content;
+}
+@media(max-width:1200px) {
+#infoAndBuy {
+        position: relative;
+        margin-left: 0;
+        width: 100%;
+        margin-top: 3%;
+				padding: 0;
+				margin-bottom: 0;
+    }
+.next {
+        position: relative;
+        margin-top: 3%;
+				padding: 20px 0;
+}
+#kosik_produkt {
+	display: flex;
+	flex-direction: column;
+}
+.next:hover {
+	transition: 2s;
+	color: white;
+	border: white 2px solid;
+	background-color: black;
+padding: 20px 0;
+}
+.kosik{
+		margin: 10%;
+		width: 80%;
+	}
+}
+@media(max-width:650px) {
+					.kosik{
+		margin: 1%;
+		width: 92%;
+	}
+}

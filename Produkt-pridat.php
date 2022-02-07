@@ -41,7 +41,7 @@ if ($_SESSION["prava"] < 1) {
 					include_once "Class/$trida.php";
 				});
 				$produkt = new Produkt();
-				if ($produkt->nastavHodnoty($_POST["akce_id"], $_POST["kategorie_id"], $_POST["materialy_id"], $_POST["znacky_id"], $_SESSION["id_uzivatele"], $_POST["typy_id"], $_POST["nazev"], $_POST["popis"], $_POST["pohlavi"], $_POST["cena"], $_POST["sleva"], "1")) {
+				if ($produkt->nastavHodnoty($_POST["akce_id"], $_POST["kategorie_id"], $_POST["materialy_id"], $_POST["znacky_id"], $_SESSION["id_uzivatele"], $_POST["typy_id"], $_POST["nazev"], $_POST["popis"], $_POST["pohlavi"], $_POST["cena"], $_POST["sleva"], 1)) {
 					$db = new ProduktDB();
 					$produkt_id = $db->vlozProdukt($produkt);
 					if ($produkt_id > 0) {

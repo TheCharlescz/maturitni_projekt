@@ -1,5 +1,6 @@
 <?php
-session_start();require("Urlzkrasnovac.php");
+session_start();
+require("Urlzkrasnovac.php");
 if(!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])){
     header("Location: Uzivatel-prihlaseni.php ");
 }
@@ -65,19 +66,19 @@ if($_SESSION["prava"] < 1){
             <form method="post">
                 <div id="flex">
                     <label> Osobní údaje
-                        <div class="reg">
+                        <div>
                             <input type="text" name="jmeno" placeholder="Jméno" required> <br>
                             <input type="text" name="prijmeni" placeholder="Příjmení" required><br>
                             <input type="email" name="email" placeholder="E-mail" required><br>
                             <input type="tel" name="telkontakt" placeholder="Telefonní číslo" required><br>
-                            <input type="text" name="ulice" placeholder="Ulice" required>
-                            <input  type="number" name="cislo_popisne" placeholder="Císlo popisné" required>
+                            <input type="text" name="ulice" placeholder="Ulice" required><br>
+                            <input  type="number" name="cislo_popisne" placeholder="Císlo popisné" required><br>
                             <input type="text" name="mesto" placeholder="Město" required><br>
                             <input type="number" name="PSC" placeholder="PSC" required><br>
                         </div>
                     </label>
                     <label> Přihlašovací údaje
-                        <div class="reg">
+                        <div>
                             <input type="text" name="login" placeholder="Přihlašovací login" required> <br>
                             <select class="select" name="prava" required>
                                 <option value="">Zvolte práva zaměstnance</option>

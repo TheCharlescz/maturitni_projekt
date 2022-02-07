@@ -2,6 +2,7 @@
 <?php
 session_start();
 require("Urlzkrasnovac.php");
+require("cookies.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -248,10 +249,6 @@ require("Urlzkrasnovac.php");
 		spl_autoload_register(function ($trida) {
 			include_once "Class/$trida.php";
 		});
-		if (isset($_GET["pridat-oblibene"])) {
-			$db = new ProduktDB();
-			$db->ulozOblibenyProduktUzivatele($_SESSION["id_uzivatele"], $_GET["pridat-oblibene"]);
-		}
 		if (isset($_GET["kategorie_odkaz"])) {
 			$db = new ProduktDB();
 			$produkt = new Produkt();

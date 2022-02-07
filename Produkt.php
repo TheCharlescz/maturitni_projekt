@@ -1,6 +1,7 @@
 <?php
 session_start();
 require("Url-ultra-zkrasnovac.php");
+require("cookies.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -58,7 +59,6 @@ require("Url-ultra-zkrasnovac.php");
 			<a class="grey" href="">Sporty</a>
 			<a class="grey" href="">Značky</a>
 			<a class="grey" href="">Kolekce</a>
-
 		</nav>
 		<a href="index.php" id=aLogo><svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 				<g transform="translate(0.000000,1640.000000) scale(0.100000,-0.100000)">
@@ -180,6 +180,9 @@ require("Url-ultra-zkrasnovac.php");
 			include_once "Class/$trida.php";
 		});
 		if (isset($_GET["pridat-oblibene"])) {
+			if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
+				header("Location: Uzivatel-prihlaseni.php ");
+			}
 			$db = new ProduktDB();
 			$db->ulozOblibenyProduktUzivatele($_SESSION["id_uzivatele"], $_GET["pridat-oblibene"]);
 		}

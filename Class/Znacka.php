@@ -12,7 +12,7 @@ public function vypisOptionZnacka() {
 }
 	public function vypisOptionZnackaFiltr()
 	{
-		echo "<option value='$this->znacka'>$this->znacka</option>\n";
+		echo "<option value='$this->znacka' onchange='document.getElementById('filtr_menu').submit()'>$this->znacka</option>\n";
 	}
 
 public function __toString(){

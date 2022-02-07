@@ -1,5 +1,7 @@
 <?php
-session_start();require("Urlzkrasnovac.php");
+session_start();
+require("Urlzkrasnovac.php");
+require("cookies.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +16,7 @@ session_start();require("Urlzkrasnovac.php");
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
+	<link rel="stylesheet" href="Css/cssKosikUdaje.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
 
 	<title>Infiltrated</title>
@@ -33,32 +36,33 @@ session_start();require("Urlzkrasnovac.php");
 				<span class="menuSpan"></span>
 
 				<ul id="menu">
-					<a href="">Muži</a>
-					<a href="">Ženy</a>
-					<a href="">děti</a>
-					<a class="grey" href="">Sporty</a>
-					<a class="grey" href="">Značky</a>
-					<a class="grey" href="">Kolekce</a>
+					<a href="Produkty.php?pohlavi_odkaz=Muz">Muži</a>
+					<a href="Produkty.php?pohlavi_odkaz=Zena">Ženy</a>
+					<a href="Produkty.php?pohlavi_odkaz=Dite">děti</a>
+					<a href="Produkty.php?pohlavi_odkaz=Unisex">Unisex</a>
+					<a href="Produkty.php">Produkty</a>
+					<a href="Produkty.php?kategorie=sport">Sporty</a>
+					<a href="Produkty.php?znacka">Značky</a>
 					<div id="searchNav">
-						<input type="search" name="" placeholder="search...">
-						<a href="" id="search-icon"><span class="material-icons">
-								search
-							</span>
-						</a>
+						<form action="Produkty.php" method="get">
+							<input id="white_input" type="search" name="hledany_text" placeholder="search...">
+							<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+						</form>
 					</div>
 				</ul>
 			</div>
 		</nav>
 		<nav id="navigation">
-			<a href="">Muži</a>
-			<a href="">Ženy</a>
-			<a href="">děti</a>
-			<a class="grey" href="">Sporty</a>
-			<a class="grey" href="">Značky</a>
-			<a class="grey" href="">Kolekce</a>
-
+			<a href="Produkty.php?pohlavi_odkaz=Muz">Muži</a>
+			<a href="Produkty.php?pohlavi_odkaz=Zena">Ženy</a>
+			<a href="Produkty.php?pohlavi_odkaz=Dite">děti</a>
+			<a href="Produkty.php?pohlavi_odkaz=Unisex">Unisex</a>
+			<a href="Produkty.php">Produkty</a>
+			<a href="Produkty.php?kategorie=sport">Sporty</a>
+			<a href="Produkty.php?znacka">Značky</a>
 		</nav>
-		<a href="index.php" id=aLogo><svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+		<a href="index.php" id=aLogo>
+			<svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 				<g transform="translate(0.000000,1640.000000) scale(0.100000,-0.100000)">
 					<path class="st0" d="M30.9,16343.7l-7.3-0.2l0.1-6.3l0.1-6.3l3.2-0.2c5.5-0.2,16.8-1.8,19.9-2.7c9.3-2.7,13.3-8,15.6-20
           c0.7-3.7,0.8-13,1-74.7l0.2-70.5H42H20.2l-1.2-1.4c-3-3.4-2.5-11.5,0.8-14.1c1-0.8,3.9-0.9,22.3-0.9c20.5,0,21.2-0.1,21.5-1.1
@@ -106,14 +110,14 @@ session_start();require("Urlzkrasnovac.php");
           c-0.2,33.6-0.5,63-0.6,65.1c-0.6,7.5,1.2,17.2,4.5,23.7c2.5,4.9,8.1,11.2,11.5,13.1c4.1,2.2,10.9,3.8,17.3,4.2
           c8.7,0.5,7.9-0.2,7.9,7v6.1l-20.9,0.3C106.1,16344.1,46.7,16344,30.9,16343.7z" />
 				</g>
-			</svg></a>
+			</svg>
+		</a>
 		<div id="SaN">
 			<div id="search">
-				<input type="search" name="" placeholder="search...">
-				<a href="" id="search-icon"><span class="material-icons">
-						search
-					</span>
-				</a>
+				<form action="Produkty.php" method="get">
+					<input type="search" name="hledany_text" placeholder="search...">
+					<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+				</form>
 			</div>
 			<nav>
 				<?php
@@ -142,15 +146,16 @@ session_start();require("Urlzkrasnovac.php");
         <span class='material-icons'>
         favorite_border
         </span>";
-                spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});if (isset($_SESSION["id_uzivatele"])) {
-                    $db = new ProduktDB();
-                    $produkt = new Produkt();
-                    $a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
-                    echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
-                }
-					echo " </a>";
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					if (isset($_SESSION["id_uzivatele"])) {
+						$db = new ProduktDB();
+						$produkt = new Produkt();
+						$a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
+						echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
+					}
+					echo "</a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
@@ -160,7 +165,7 @@ session_start();require("Urlzkrasnovac.php");
     </span>
     </a>";
 				} else {
-					echo "<a href='Uzivazel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
@@ -172,6 +177,56 @@ session_start();require("Urlzkrasnovac.php");
 			</nav>
 		</div>
 	</header>
+	<main>
+		<section id="flex_big">
+			<div class="blok">
+				<h1>Váš Nakupní košík</h1>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$produkt = new Produkt();
+				$db = new ProduktDB();
+				if (isset($_COOKIE['produkt_id'])) {
+					foreach ($_COOKIE['produkt_id'] as $name => $value) {
+						foreach ($_COOKIE["pocet_produktu"] as $index2 => $value2) {
+							$key = array_search($value, $_COOKIE["produkt_id"]);
+							$name = htmlspecialchars($name);
+							$value = htmlspecialchars($value);
+							$produkt = $db->nactiProdukt($value);
+							if ($key == $index2) {
+								$produkt->vypisProduktuvKosiku($value2);
+							}
+						}
+					}
+				} else {
+					echo "V nákupní košíku stále nic není... Běžte nakupovat.";
+				}
+				?>
+			</div>
+		</section>
+		<section id="flex_small" class="">
+			<div class="blok">
+				<h2>Shrnutí objednávky</h2>
+				<span class="flex">
+					<p>Pocet produktů</p>
+					<p>cena prodkutů</p>
+				</span>
+				<span class="flex">
+					<p>Doručení</p>
+					<p>Zdarma</p>
+				</span>
+				<span class="flex">
+					<h3>Celkem (včetně DPH [vypočet dph])</h3>
+					<p>Cena Kč</p>
+				</span>
+			</div>
+			<a href="Kosik-udaje.php" class="next">Pokračovat v nákupu <span id="material-icons" class="material-icons">
+					arrow_forward
+				</span>
+			</a>
+		</section>
+	</main>
 	<footer>
 		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
 	</footer>

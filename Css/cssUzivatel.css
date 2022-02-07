@@ -77,32 +77,6 @@ button:hover{
 #pridat{
     margin: 30px 20%;
 }
-html {
-   margin: 0px;
-   height: 100%;
-   width: 100%;
-}
-
-body {
-   margin: 0px;
-   min-height: 100%;
-   width: 100%;
-}
-/* Trick: */
-body {
-  position: relative;
-}
-
-body::after {
-  content: '';
-  display: block;
-}
-
-footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-}
 @media(max-width:800px) {
     #aLogo {
         display: none;

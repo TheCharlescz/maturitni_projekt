@@ -1,6 +1,6 @@
 <?php
 session_start();
-require("Urlzkrasnovac.php");
+//require("Url-ultra-zkrasnovac.php");
 if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 	header("Location: Uzivatel-prihlaseni.php ");
 }
@@ -91,6 +91,7 @@ if ($_SESSION["prava"] < 1) {
 				});
 				$produkt = new Produkt();
 				$db = new ProduktDB();
+				$db->smazOblibeneProduktyUživatelu($_GET["id_smaz"]);
 				$produkt = $db->nactiProdukt($_GET["id_smaz"]);
 				$obrazky = scandir("img_produkt/$produkt->id/");
 				foreach ($obrazky as $file) {
@@ -106,6 +107,7 @@ if ($_SESSION["prava"] < 1) {
 				$db_velikost = new BarvaDB();
 				$vysledek_barva =  $db_velikost->smazBarvyProduktu($_GET["id_smaz"]);
 				$vysledek = $db->smazProdukt($_GET["id_smaz"]);
+
 				if ($vysledek && $vysledek_barva &&  $vysledek_velikost == true) {
 					//header("Location: Produkt-administrace.php ");
 					echo "<h3 class='spravne'>Produkt byl smazán</h3>";
@@ -114,7 +116,8 @@ if ($_SESSION["prava"] < 1) {
 						Na serveru to funguje</h2>
             <a href='Produkt-administrace.php'>Zpět na admministraci produktu</a>";
 				}
-			} ?>
+			}
+			?>
 			<div id="SaN">
 				<nav>
 					<?php
@@ -142,15 +145,16 @@ if ($_SESSION["prava"] < 1) {
         <span class='material-icons'>
         favorite_border
         </span>";
-                spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});if (isset($_SESSION["id_uzivatele"])) {
-                    $db = new ProduktDB();
-                    $produkt = new Produkt();
-                    $a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
-                    echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
-                }
-        echo "</a>";
+						spl_autoload_register(function ($trida) {
+							include_once "Class/$trida.php";
+						});
+						if (isset($_SESSION["id_uzivatele"])) {
+							$db = new ProduktDB();
+							$produkt = new Produkt();
+							$a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
+							echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
+						}
+						echo "</a>";
 					}
 
 					if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
@@ -256,9 +260,7 @@ if ($_SESSION["prava"] < 1) {
 			<input type="submit" name="vyfiltruj" value="Vyfiltruj">
 			<a class="input" href="Produkt-pridat.php">Přidat produkt</a>
 		</form>
-
 	</section>
-
 	<main>
 		<?php
 		spl_autoload_register(function ($trida) {
@@ -267,21 +269,21 @@ if ($_SESSION["prava"] < 1) {
 		if (isset($_GET["vyfiltruj"])) {
 			$db = new ProduktDB();
 			$produkt = new Produkt();
-			$produkty  = $db->filtraceProdkutu($_GET["pohlavi"], $_GET["kategorie_id"], $_GET["typy_id"], $_GET["akce_id"], $_GET["materialy_id"], $_GET["znacky_id"], $_GET["hledany_text"]);
+			$produkty  = $db->filtraceProdkutuAdministrace($_GET["pohlavi"], $_GET["kategorie_id"], $_GET["typy_id"], $_GET["akce_id"], $_GET["materialy_id"], $_GET["znacky_id"], $_GET["hledany_text"]);
 			foreach ($produkty as $produkt) {
 				$produkt->vypisBaneruProduktuAdministace();
 			}
 		} elseif (isset($_GET["hledany_text"])) {
 			$db = new ProduktDB();
 			$produkt = new Produkt();
-			$produkty = $db->najdiProdukt($_GET["hledany_text"]);
+			$produkty = $db->najdiProduktAdministrace($_GET["hledany_text"]);
 			foreach ($produkty as $produkt) {
 				$produkt->vypisBaneruProduktuAdministace();
 			}
 		} else {
 			$db = new ProduktDB();
 			$produkt = new Produkt();
-			$produkty = $db->nactiProdukty();
+			$produkty = $db->nactiProduktyAdministrace();
 			foreach ($produkty as $produkt) {
 				$produkt->vypisBaneruProduktuAdministace();
 			}
