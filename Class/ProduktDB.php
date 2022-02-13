@@ -57,12 +57,55 @@ class  ProduktDB {
     JOIN znacky ON produkt.znacky_id = znacky.id
     JOIN materialy ON produkt.materialy_id = materialy.id
 		where produkt.dostupnost = 1
-        group by produkt.nazev";
+        group by produkt.nazev
+				";
         $sql = $this->spojeni->prepare($dotaz);
         $sql->execute();
         $sql->setFetchMode(PDO::FETCH_CLASS,"produkt");
         return $sql->fetchAll();
     }
+	public function nactiProduktyLimit($razeni = "datum_vydani DESC")
+	{
+		$moznosti_razeni = array("id", "nazev", "text", "popis", "datum DESC");
+		if (!in_array(strtolower($razeni), $moznosti_razeni)) {
+			$razeni = "vytvoreno_v DESC";
+		}
+		$dotaz = "SELECT DISTINCT
+        velikosti.velikost,
+        barvy.barva ,
+        akce.akce,
+        kategorie.kategorie,
+        materialy.material,
+        znacky.znacka,
+        produkt.uzivatel_id,
+        typy.typ,
+        produkt.id,
+        produkt.nazev,
+        produkt.popis,
+        produkt.pohlavi,
+        produkt.cena,
+        produkt.sleva,
+        produkt.dostupnost,
+        produkt.vytvoreno_v
+    FROM
+        produkt_ma_barvy,
+        produkt_ma_velikosti,
+        barvy,
+        velikosti,
+        produkt
+    JOIN akce ON produkt.akce_id = akce.id
+    JOIN typy ON produkt.typy_id = typy.id
+    JOIN kategorie ON produkt.kategorie_id = kategorie.id
+    JOIN znacky ON produkt.znacky_id = znacky.id
+    JOIN materialy ON produkt.materialy_id = materialy.id
+		where produkt.dostupnost = 1
+		group by produkt.nazev
+		LIMIT 4";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
+		return $sql->fetchAll();
+	}
 	public function nactiproduktyAdministrace($razeni = "datum_vydani DESC")
 	{
 		$moznosti_razeni = array("id", "nazev", "text", "popis", "datum DESC");

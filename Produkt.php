@@ -143,14 +143,15 @@ require("cookies.php");
         <span class='material-icons'>
         favorite_border
         </span>";
-                spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});if (isset($_SESSION["id_uzivatele"])) {
-                    $db = new ProduktDB();
-                    $produkt = new Produkt();
-                    $a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
-                    echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
-                }
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					if (isset($_SESSION["id_uzivatele"])) {
+						$db = new ProduktDB();
+						$produkt = new Produkt();
+						$a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
+						echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
+					}
 					echo " </a>";
 				}
 
@@ -194,6 +195,14 @@ require("cookies.php");
 		<section id=products>
 			<h2> Další produkty do kolekce</h2>
 			<div id="showProducts" class="purple">
+				<?php
+				$db = new ProduktDB();
+				$produkt = new Produkt();
+				$produkty = $db->nactiProduktyLimit();
+				foreach ($produkty as $produkt) {
+					$produkt->vypisBaneruProduktu();
+				}
+				?>
 			</div>
 		</section>
 	</main>

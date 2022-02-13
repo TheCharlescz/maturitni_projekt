@@ -229,6 +229,7 @@ require("cookies.php");
 			<h2>TOP produkty!</h2>
 			<div id="showProducts" class="purple">
 				<?php
+
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});

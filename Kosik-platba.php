@@ -186,7 +186,7 @@ require("Urlzkrasnovac.php");
 		</div>
 	</header>
 	<main class="blok">
-
+				<h1>Work in Progress</h1>
 	</main>
 	<footer>
 		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:purple">Charles</span>.</p>

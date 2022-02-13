@@ -18,7 +18,6 @@ require("cookies.php");
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssKosikUdaje.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
-
 	<title>Infiltrated</title>
 	<script onload="" src="Script/scriptSlideshow.js"></script>
 </head>
@@ -185,22 +184,45 @@ require("cookies.php");
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});
-				$produkt = new Produkt();
-				$db = new ProduktDB();
 				if (isset($_COOKIE['produkt_id'])) {
-					foreach ($_COOKIE['produkt_id'] as $name => $value) {
-						foreach ($_COOKIE["pocet_produktu"] as $index2 => $value2) {
-							$key = array_search($value, $_COOKIE["produkt_id"]);
-							$name = htmlspecialchars($name);
-							$value = htmlspecialchars($value);
-							$produkt = $db->nactiProdukt($value);
-							if ($key == $index2) {
-								$produkt->vypisProduktuvKosiku($value2);
-							}
-						}
+
+					$produkt = new Produkt();
+					$db = new ProduktDB();
+					foreach ($_COOKIE['produkt_id'] as $i => $val) {
+						//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
+						$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+						$produkt->vypisProduktuvKosiku($_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
 					}
+
+					//$mi = new MultipleIterator();
+					//$mi->attachIterator(new ArrayIterator($_COOKIE['pocet']));
+					//$mi->attachIterator(new ArrayIterator($_COOKIE['produkt_id']));
+					//$mi->attachIterator(new ArrayIterator($_COOKIE["pocet_produktu"]));
+					//$mi->attachIterator(new ArrayIterator($_COOKIE["velikost"]));
+					//foreach ($mi as $index => $hodnoty) {
+					//	list( $id, $kusyvKosiku, $velikost) = $hodnoty;
+					//	echo  $id, ' => ', $kusyvKosiku, ' => ', $velikost, PHP_EOL;
+					//	$produkt = $db->nactiProdukt($id);
+					//	$produkt->vypisProduktuvKosiku($kusyvKosiku, $velikost);
+					//}
+
+					//foreach ($_COOKIE["velikost"] as $velikost) {
+					//foreach ($_COOKIE['produkt_id'] as $name => $value) {
+					//	foreach ($_COOKIE["pocet_produktu"] as $index2 => $pocet_kusuvkosi) {
+					//			$key = array_search($value, $_COOKIE["produkt_id"]);
+					///		$produkt = new Produkt();
+					//		$db = new ProduktDB();
+					//			$name = htmlspecialchars($name);
+					//			$value = htmlspecialchars($value);
+				//				$produkt = $db->nactiProdukt($value);
+				//				if ($key == $index2) {
+				///					$produkt->vypisProduktuvKosiku($pocet_kusuvkosi, $index2);
+				////				}
+				///			}
+				//		}
+					//	}
 				} else {
-					echo "V nákupní košíku stále nic není... Běžte nakupovat.";
+					echo "<h2>V nákupní košíku stále nic není... Běžte nakupovat.</h2>";
 				}
 				?>
 			</div>

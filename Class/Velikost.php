@@ -19,10 +19,18 @@ public function vypisOptionVelikost() {
 public function vypisVelikosti(){
     echo "
 		<label class='radio'>
-					<input type='radio' name='velikost' class='showSize'></input>
+					<input type='radio' name='velikost' value='$this->velikost' class='showSize' required ></input>
 					<span class='checkmark'>$this->velikost</span>
 				</label>";
 }
+public function vypisVelikostiKosik($velikost)
+	{
+                echo "
+		<label class='radio'>
+					<input type='radio' name='velikost' value='$this->velikost' class='showSize' ". ($velikost == $this->velikost ? "checked" : "")  ." required onchange='this.form.submit()' ></input>
+					<span class='checkmark'>$this->velikost</span>
+				</label>";
+            }
 public function vypisVelikostiaPoctuKusu() {
     echo "<p >".$this->velikost." ".$this->pocet_kusu."</p>";
 }

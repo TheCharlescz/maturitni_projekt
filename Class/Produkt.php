@@ -46,7 +46,6 @@ $redexp = "/[0-9]+$/";
             echo " <h2 class='chyba'>Špatně zadané množství</h2>
             <p class='chyba'>Množtví musí obsahovat číslo<p>";
             return false;
-
 }
 return true;
 }
@@ -55,9 +54,18 @@ public function vypisVelikosti($id) {
   $velikost = new Velikost();
       $velikosti = $db->nactiVelikostiProduktu($id);
       foreach ($velikosti as $velikost) {
-          $velikost->vypisVelikosti($velikost);
+          $velikost->vypisVelikosti();
       }
   }
+	public function vypisVelikostivKosiku($id , $velikost1)
+	{
+		$db = new VelikostDB();
+		$velikost = new Velikost();
+		$velikosti = $db->nactiVelikostiProduktu($id);
+		foreach ($velikosti as $velikost) {
+			$velikost->vypisVelikostiKosik($velikost1);
+		}
+	}
   public function vypisVelikostiaPoctuKusu() {
     $db = new VelikostDB();
     $velikost = new Velikost();
@@ -87,7 +95,6 @@ public function vypisVelikosti($id) {
 			var_dump($zlevnena_cena);
 			return $zlevnena_cena;
 		}
-
 public function vypisBaneruProduktu() {
 		$sleva = $this->cena / 100 * $this->sleva;
 		$zlevnena_cena = $this->cena - $sleva;
@@ -116,10 +123,13 @@ public function vypisBaneruProduktu() {
               <h3> $this->typ $this->nazev</h3>
               <p>$this->znacka</p>
             </div>
-            <div>
-              <a href='$url?pridat-do-kosiku=$this->id'><span class='material-icons'>
+            <div id='flex'>
+							<form method='post'  >
+              <button class='button' type='submit' name='pridat-do-kosiku' value='$this->id'>
+					 					<span class='material-icons'>
                   shopping_cart
-                </span></a>
+                </span></button>
+							</form>
               <a href='$url?pridat-oblibene=$this->id'><span class='material-icons'>
                   favorite_border
                 </span></a>
@@ -233,7 +243,7 @@ public function vypisBaneruProduktuAdministace() {
     </div>
     </div>";
 }
-	public function vypisProduktuvKosiku($poradi_produktu)
+	public function vypisProduktuvKosiku($kusyvKosiku, $velikost)
 	{
 		$sleva = $this->cena / 100 * $this->sleva;
 		$zlevnena_cena = $this->cena - $sleva;
@@ -256,11 +266,13 @@ public function vypisBaneruProduktuAdministace() {
 			<h3>$this->znacka</h3>
 			" . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
 		</div>
-		<form id='formin'method='post' action='Uzivatel-kosik.php?pridat-do-kosiku=$this->id'>
-			<input type='number' min='1' name='pocet_kusu' value='$poradi_produktu' id='kosik_input' onchange='this.form.submit()'>
+		<form id='formin' method='post'>
+			<input type='number' min='1' name='pocet_kusu' name='pridat-do-kosiku' value='$kusyvKosiku' id='kosik_input' onchange='this.form.submit()'>
 			<div id='showSizes'>
+		</form>
+		<form method='post' id='flex4'>
 			";
-        $this->vypisVelikosti($this->id);
+        $this->vypisVelikostivKosiku($this->id , $velikost);
         echo "
 				</div>
 		</form>
@@ -311,17 +323,17 @@ echo "
         </div>
         <div id='Sizes'>
         <h3>Dostupné velikosti:</h3>
-				<form method='post' action='Produkt.php?id=$this->id&pridat-do-kosiku=$this->id'>
-        <div id='showSizes'>";
+				<form method='post'>
+        <div id='showSizes'>
+				";
         $this->vypisVelikosti($this->id);
         echo "</div>
         </div>
 				<div id='buy'>
-           <button class='button' type='submit'>
+           <button class='button' name='pridat-do-kosiku' value='$this->id'>
 					 <span class='material-icons'>
                   shopping_cart
                 </span></button>
-								</form>
               <a href='Produkt.php?id=$this->id&pridat-oblibene=$this->id'><span class='material-icons'>
                   favorite_border
                 </span></a>
@@ -337,7 +349,7 @@ echo "
         <h3>Podrobné informace</h3>
         <ul>
           <li>Barvy:";
-          $this->vypisBarev($_GET["id"]);
+          $this->vypisBarev($this->id);
           echo "</li>
           <li>Materiál: ".$this->material." </li>
           <li>Id produktu: ".$this->id." </li>
