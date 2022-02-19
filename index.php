@@ -1,6 +1,6 @@
 <?php
 session_start();
-require("Urlzkrasnovac.php");
+//require("Urlzkrasnovac.php");
 require("cookies.php");
 ?>
 <!DOCTYPE html>

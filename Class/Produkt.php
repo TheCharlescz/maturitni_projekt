@@ -266,20 +266,35 @@ public function vypisBaneruProduktuAdministace() {
 			<h3>$this->znacka</h3>
 			" . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
 		</div>
-		<form id='formin' method='post'>
+		<form id='formin' method='post' action='Uzivatel-kosik.php?id_produktu=$this->id'>
 			<input type='number' min='1' name='pocet_kusu' name='pridat-do-kosiku' value='$kusyvKosiku' id='kosik_input' onchange='this.form.submit()'>
 			<div id='showSizes'>
 		</form>
-		<form method='post' id='flex4'>
+		<form method='post' action='Uzivatel-kosik.php?id_produktu=$this->id' id='flex4'>
 			";
         $this->vypisVelikostivKosiku($this->id , $velikost);
         echo "
 				</div>
 		</form>
 	</div>
-	<a href='Uzivatel-kosik.php?odebrat-z-kosiku=$this->id '><span class='close'> &times;</span></a>
-
+	<form method='post'>
+	<button id='noBorder' type='submit' name='odebrat-z-kosiku' value=$this->id><span class='close'> &times;</span></button>
+	</form>
 </section>";
+	}
+	public function vypisLegendyKosiku($pocet_kusu = 1)
+	{
+		$sleva = $this->cena  / 100 * $this->sleva;
+		$zlevnena_cena = ($this->cena - $sleva) * $pocet_kusu;
+		$cena = $this->cena * $pocet_kusu;
+		echo "
+		<span class='flex'>
+					<p> $pocet_kusu x $this->nazev</p>
+				<span class='flex'>
+					" . (!empty($this->sleva) ? "<h3 id='puvodni_cena'> $cena Kč </h3>" : "") . "
+				" . (!empty($this->sleva) ? "<h3 id='zlevnena_cena'> $zlevnena_cena Kč </h3>" : " $this->cena Kč") . "</p>
+				</span>
+				</span>";
 	}
 public function vypisProduktu() {
 		$sleva = $this->cena / 100 * $this->sleva;
@@ -316,7 +331,6 @@ echo "
       <div id='border'>
         <h1>".$this->nazev."</h1>
 				<div id='cena'>
-
 				". (!empty($this->sleva) ? "<h3 id='puvodni_cena'> $this->cena Kč </h3>" : "") . "
 				" . (!empty($this->sleva) ? "<h3 id='zlevnena_cena'> $zlevnena_cena Kč </h3>" : " $this->cena Kč") . "
 				</div>

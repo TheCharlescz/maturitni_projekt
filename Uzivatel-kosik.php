@@ -214,12 +214,12 @@ require("cookies.php");
 					//		$db = new ProduktDB();
 					//			$name = htmlspecialchars($name);
 					//			$value = htmlspecialchars($value);
-				//				$produkt = $db->nactiProdukt($value);
-				//				if ($key == $index2) {
-				///					$produkt->vypisProduktuvKosiku($pocet_kusuvkosi, $index2);
-				////				}
-				///			}
-				//		}
+					//				$produkt = $db->nactiProdukt($value);
+					//				if ($key == $index2) {
+					///					$produkt->vypisProduktuvKosiku($pocet_kusuvkosi, $index2);
+					////				}
+					///			}
+					//		}
 					//	}
 				} else {
 					echo "<h2>V nákupní košíku stále nic není... Běžte nakupovat.</h2>";
@@ -230,17 +230,51 @@ require("cookies.php");
 		<section id="flex_small" class="">
 			<div class="blok">
 				<h2>Shrnutí objednávky</h2>
-				<span class="flex">
-					<p>Pocet produktů</p>
-					<p>cena prodkutů</p>
-				</span>
+				<?php
+				if (isset($_COOKIE['produkt_id'])) {
+					$produkt = new Produkt();
+					$db = new ProduktDB();
+					foreach ($_COOKIE['produkt_id'] as $i => $val) {
+						//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
+						$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+						$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
+					}
+				} else {
+					echo "<h2>Empty...</h2>";
+				}
+				?>
 				<span class="flex">
 					<p>Doručení</p>
-					<p>Zdarma</p>
+					<?php if (isset($_SESSION["id_uzivatele"])) {
+						echo "<p>Zdarma</p>";
+					} else {
+						echo "<p>40 Kč</p>";
+					}
+					?>
 				</span>
 				<span class="flex">
-					<h3>Celkem (včetně DPH [vypočet dph])</h3>
-					<p>Cena Kč</p>
+					<?php
+					$celkova_cena = 0;
+					$DPH = 0;
+					if (isset($_COOKIE['produkt_id'])) {
+						foreach ($_COOKIE['produkt_id'] as $i => $val) {
+							//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
+							$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+							$sleva = $produkt->cena  / 100 * $produkt->sleva;
+							$DHP_vypocet =  ($produkt->cena / 100 * 21) * $_COOKIE['pocet_produktu'][$i];
+							//var_dump($DHP_vypocet);
+							$zlevnena_a_vynasobena_cena = ($produkt->cena - $sleva) * $_COOKIE['pocet_produktu'][$i];
+							$celkova_cena += $zlevnena_a_vynasobena_cena;
+							$DPH += $DHP_vypocet;
+							//var_dump($DPH);
+							if (!isset($_SESSION["id_uzivatel"])) {
+								$celkova_cena += 40;
+							}
+						}
+					}
+					echo "<h3>Celkem (včetně DPH(21%) $DPH Kč )</h3>";
+					echo "<p> $celkova_cena Kč</p>";
+					?>
 				</span>
 			</div>
 			<a href="Kosik-udaje.php" class="next">Pokračovat v nákupu <span id="material-icons" class="material-icons">

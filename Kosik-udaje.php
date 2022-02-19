@@ -193,16 +193,16 @@ require("Urlzkrasnovac.php");
 						<h1>Adresní informace</h1>
 						<div>
 							<div class="flex1">
-								<input type="text" name="jmeno" placeholder="Jméno" value="<?php echo "$uzivatel->jmeno" ?>" required>
-								<input type="text" name="prijmeni" placeholder="Příjmení" echo" value="<?php echo "$uzivatel->prijmeni" ?>" required>
+								<input id="input" type="text" name="jmeno" placeholder="Jméno" value="<?php echo "$uzivatel->jmeno" ?>" required>
+								<input id="input" type="text" name="prijmeni" placeholder="Příjmení" echo" value="<?php echo "$uzivatel->prijmeni" ?>" required>
 							</div>
 							<div class="flex1">
-								<input type="text" name="ulice" placeholder="Ulice" value="<?php echo "$uzivatel->ulice" ?>" required>
-								<input type="number" name="cislo_popisne" placeholder="Císlo popisné" value="<?php echo "$uzivatel->cislo_popisne" ?>" required>
+								<input id="input" type="text" name="ulice" placeholder="Ulice" value="<?php echo "$uzivatel->ulice" ?>" required>
+								<input id="input" type="number" name="cislo_popisne" placeholder="Císlo popisné" value="<?php echo "$uzivatel->cislo_popisne" ?>" required>
 							</div>
 							<div class="flex1">
-								<input type="text" name="mesto" placeholder="Město" value="<?php echo "$uzivatel->mesto" ?>" required>
-								<input type="number" name="PSC" placeholder="PSC" value="<?php echo "$uzivatel->PSC" ?>" required>
+								<input id="input" type="text" name="mesto" placeholder="Město" value="<?php echo "$uzivatel->mesto" ?>" required>
+								<input id="input" type="number" name="PSC" placeholder="PSC" value="<?php echo "$uzivatel->PSC" ?>" required>
 							</div>
 						</div>
 					</label>
@@ -212,8 +212,8 @@ require("Urlzkrasnovac.php");
 					<h2>Kontaktní údaje</h2>
 					<div>
 						<p>Prostřednictvím těchto údajů tě budeme informovat o doručení objednávky.</p>
-						<input type="email" name="email" class="sirka" placeholder="E-mail" echo" value="<?php echo "$uzivatel->email" ?>" required><br>
-						<input type="tel" name="telkontakt" class="sirka" placeholder="Telefonní číslo" value="<?php echo "$uzivatel->telkontakt" ?>" required><br>
+						<input id="input" type="email" name="email" class="sirka" placeholder="E-mail" echo" value="<?php echo "$uzivatel->email" ?>" required><br>
+						<input id="input" type="tel" name="telkontakt" class="sirka" placeholder="Telefonní číslo" value="<?php echo "$uzivatel->telkontakt" ?>" required><br>
 					</div>
 				</label>
 			</div>
@@ -237,9 +237,9 @@ require("Urlzkrasnovac.php");
 				<form method="post">
 					<label>
 						<h1>Přihlaš se</h1>
-						<input type="text" name="login" required placeholder="E-mail"> <br>
-						<input type="password" name="heslo" required placeholder="Heslo"><br>
-						<input class="ulozit" type="submit" name="prihlasit" value="Přihlásit">
+						<input id="input" type="text" name="login" required placeholder="E-mail"> <br>
+						<input id="input" type="password" name="heslo" required placeholder="Heslo"><br>
+						<input id="input" class="ulozit" type="submit" name="prihlasit" value="Přihlásit">
 					</label>
 					<div class="prihlaseni-blok">
 						<p>STAŇ&nbsp;SE&nbsp;ČLENEM&nbsp;KLUBU.&nbsp;ZÍSKEJ&nbsp;ODMĚNY. <a class="input" id=registr href="Uzivatel-registrace.php">Zaregistruj&nbsp;se&nbsp;zde</a> </p>
@@ -248,17 +248,51 @@ require("Urlzkrasnovac.php");
 			</div>
 			<div class="blok" id="infoAndBuy">
 				<h1>Shrnutí objednávky</h1>
-				<span class="flex">
-					<p>Pocet produktů</p>
-					<p>cena prodkutů</p>
-				</span>
+				<?php
+				if (isset($_COOKIE['produkt_id'])) {
+					$produkt = new Produkt();
+					$db = new ProduktDB();
+					foreach ($_COOKIE['produkt_id'] as $i => $val) {
+						//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
+						$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+						$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
+					}
+				} else {
+					echo "<h2>Empty...</h2>";
+				}
+				?>
 				<span class="flex">
 					<p>Doručení</p>
-					<p>Zdarma</p>
+					<?php if (isset($_SESSION["id_uzivatele"])) {
+						echo "<p>Zdarma</p>";
+					} else {
+						echo "<p>40 Kč</p>";
+					}
+					?>
 				</span>
 				<span class="flex">
-					<h3>Celkem (včetně DPH [vypočet dph])</h3>
-					<p>Cena Kč</p>
+					<?php
+					$celkova_cena = 0;
+					$DPH = 0;
+					if (isset($_COOKIE['produkt_id'])) {
+						foreach ($_COOKIE['produkt_id'] as $i => $val) {
+							//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
+							$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+							$sleva = $produkt->cena  / 100 * $produkt->sleva;
+							$DHP_vypocet =  ($produkt->cena / 100 * 21) * $_COOKIE['pocet_produktu'][$i];
+							//var_dump($DHP_vypocet);
+							$zlevnena_a_vynasobena_cena = ($produkt->cena - $sleva) * $_COOKIE['pocet_produktu'][$i];
+							$celkova_cena += $zlevnena_a_vynasobena_cena;
+							$DPH += $DHP_vypocet;
+							if (!isset($_SESSION["id_uzivatele"])) {
+								$celkova_cena += 40;
+							}
+							//var_dump($DPH);
+						}
+					}
+					echo "<h3>Celkem (včetně DPH(21%) $DPH Kč )</h3>";
+					echo "<p> $celkova_cena Kč</p>";
+					?>
 				</span>
 			</div>
 			</span>
@@ -270,4 +304,5 @@ require("Urlzkrasnovac.php");
 	</footer>
 
 </body>
+
 </html>

@@ -37,7 +37,7 @@ if (isset($_POST["pridat-do-kosiku"])) {
 }
 if (isset($_POST["pocet_kusu"])) {
 	foreach ($_COOKIE["pocet_produktu"] as $index => $value) {
-		$key = array_search($_GET["pridat-do-kosiku"], $_COOKIE["produkt_id"]);
+		$key = array_search($_GET["id_produktu"], $_COOKIE["produkt_id"]);
 		if ($key == $index) {
 			setcookie("pocet_produktu[$index]", $_POST["pocet_kusu"], time() + (86400 * 30));
 			header("Refresh:0");
@@ -45,20 +45,20 @@ if (isset($_POST["pocet_kusu"])) {
 	}
 }
 if (isset($_POST["velikost"])) {
-	foreach ($_COOKIE["pocet_produktu"] as $index => $value) {
-		$key = array_search($_POST["velikost-v-kosiku"], $_COOKIE["produkt_id"]);
+	foreach ($_COOKIE["velikost"] as $index => $value) {
+		$key = array_search($_GET["id_produktu"], $_COOKIE["produkt_id"]);
 		if ($key == $index) {
 				setcookie("velikost[$index]", $_POST["velikost"], time() + (86400 * 30));
 			header("Refresh:0");
 		}
 	}
 }
-if (isset($_GET["odebrat-z-kosiku"])) {
+if (isset($_POST["odebrat-z-kosiku"])) {
 	if (!empty($_COOKIE["produkt_id"])) {
 		foreach ($_COOKIE["produkt_id"] as $index => $value) {
-			$key = array_search($_GET["odebrat-z-kosiku"], $_COOKIE["produkt_id"]);
+			$key = array_search($_POST["odebrat-z-kosiku"], $_COOKIE["produkt_id"]);
 			if ($key == $index) {
-				setcookie("produkt_id[$index]", $_GET["odebrat-z-kosiku"], time() - 1);
+				setcookie("produkt_id[$index]", $_POST["odebrat-z-kosiku"], time() - 1);
 				setcookie("pocet_produktu[$index]", 1, time() - 1);
 				setcookie("velikost[$index]", "", time() - 1);
 				header("Refresh:0");

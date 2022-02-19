@@ -1,3 +1,6 @@
+* {
+    box-sizing: border-box;
+}
 body{
   font-family: 'Bebas Neue', cursive;
   font-size: larger;
@@ -189,11 +192,7 @@ button{
 form {
     margin: 0;
 }
-footer {
-    background-color: black;
-    padding: 20px 0;
-    text-align: center;
-}
+
 h1{
 	font-size: 2em;
 }
@@ -201,10 +200,20 @@ h1{
 	border: none;
 	margin: 5px;
 }
-#flex {
+/*#flex {
 	display: flex;
 	flex-direction: row;
 	align-items: center;
+}*/
+footer {
+	position:fixed;
+   bottom: 0;
+   width:100%;
+   background:black;
+	 text-align: center;
+}
+main {
+	margin-bottom: 120px;
 }
 @media(max-width:1100px) {
   #searchNav {
@@ -289,8 +298,9 @@ margin: 20px;
   width: 40px;
   height: 32px;
   position: absolute;
-  bottom: 50px;
-  right: 25px;
+	margin-left: 20px;
+  bottom: 20px;
+  right: 15px;
   cursor: pointer;
   opacity: 0;
   z-index: 2;
