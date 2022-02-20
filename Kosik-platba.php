@@ -187,6 +187,7 @@ require("Urlzkrasnovac.php");
 	</header>
 	<main class="blok">
 				<h1>Work in Progress</h1>
+				<p>Fakt nepobírám, že se ti podařilo dostat, až sem. Zasloužil by sis Zlatého bludištáka.</p>
 	</main>
 	<footer>
 		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:purple">Charles</span>.</p>

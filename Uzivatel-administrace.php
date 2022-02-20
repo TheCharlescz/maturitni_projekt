@@ -1,5 +1,6 @@
 <?php
-session_start();require("Urlzkrasnovac.php");
+session_start();
+require("Urlzkrasnovac.php");
 if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 	header("Location: Uzivatel-prihlaseni.php ");
 }

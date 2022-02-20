@@ -1,6 +1,8 @@
+
 <?php
 session_start();
-//require("Url-ultra-zkrasnovac.php");
+require("Urlzkrasnovac.php");
+
 if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 	header("Location: Uzivatel-prihlaseni.php ");
 }

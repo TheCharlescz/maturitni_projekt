@@ -253,9 +253,11 @@ require("Urlzkrasnovac.php");
 					$produkt = new Produkt();
 					$db = new ProduktDB();
 					foreach ($_COOKIE['produkt_id'] as $i => $val) {
-						//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
-						$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
-						$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
+						if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+							//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
+							$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+							$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
+						}
 					}
 				} else {
 					echo "<h2>Empty...</h2>";
@@ -276,16 +278,18 @@ require("Urlzkrasnovac.php");
 					$DPH = 0;
 					if (isset($_COOKIE['produkt_id'])) {
 						foreach ($_COOKIE['produkt_id'] as $i => $val) {
-							//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
-							$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
-							$sleva = $produkt->cena  / 100 * $produkt->sleva;
-							$DHP_vypocet =  ($produkt->cena / 100 * 21) * $_COOKIE['pocet_produktu'][$i];
-							//var_dump($DHP_vypocet);
-							$zlevnena_a_vynasobena_cena = ($produkt->cena - $sleva) * $_COOKIE['pocet_produktu'][$i];
-							$celkova_cena += $zlevnena_a_vynasobena_cena;
-							$DPH += $DHP_vypocet;
-							if (!isset($_SESSION["id_uzivatele"])) {
-								$celkova_cena += 40;
+							if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+								//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
+								$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+								$sleva = $produkt->cena  / 100 * $produkt->sleva;
+								$DHP_vypocet =  ($produkt->cena / 100 * 21) * $_COOKIE['pocet_produktu'][$i];
+								//var_dump($DHP_vypocet);
+								$zlevnena_a_vynasobena_cena = ($produkt->cena - $sleva) * $_COOKIE['pocet_produktu'][$i];
+								$celkova_cena += $zlevnena_a_vynasobena_cena;
+								$DPH += $DHP_vypocet;
+								if (!isset($_SESSION["id_uzivatele"])) {
+									$celkova_cena += 40;
+								}
 							}
 							//var_dump($DPH);
 						}

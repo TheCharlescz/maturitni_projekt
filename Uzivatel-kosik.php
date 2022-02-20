@@ -185,13 +185,14 @@ require("cookies.php");
 					include_once "Class/$trida.php";
 				});
 				if (isset($_COOKIE['produkt_id'])) {
-
 					$produkt = new Produkt();
 					$db = new ProduktDB();
 					foreach ($_COOKIE['produkt_id'] as $i => $val) {
 						//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
-						$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
-						$produkt->vypisProduktuvKosiku($_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
+						if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+							$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+							$produkt->vypisProduktuvKosiku($_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
+						}
 					}
 
 					//$mi = new MultipleIterator();
@@ -231,13 +232,17 @@ require("cookies.php");
 			<div class="blok">
 				<h2>Shrnutí objednávky</h2>
 				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
 				if (isset($_COOKIE['produkt_id'])) {
 					$produkt = new Produkt();
 					$db = new ProduktDB();
 					foreach ($_COOKIE['produkt_id'] as $i => $val) {
-						//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
-						$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
-						$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
+						if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+							$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+							$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
+						}
 					}
 				} else {
 					echo "<h2>Empty...</h2>";
@@ -254,21 +259,25 @@ require("cookies.php");
 				</span>
 				<span class="flex">
 					<?php
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
 					$celkova_cena = 0;
 					$DPH = 0;
 					if (isset($_COOKIE['produkt_id'])) {
 						foreach ($_COOKIE['produkt_id'] as $i => $val) {
-							//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
-							$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
-							$sleva = $produkt->cena  / 100 * $produkt->sleva;
-							$DHP_vypocet =  ($produkt->cena / 100 * 21) * $_COOKIE['pocet_produktu'][$i];
-							//var_dump($DHP_vypocet);
-							$zlevnena_a_vynasobena_cena = ($produkt->cena - $sleva) * $_COOKIE['pocet_produktu'][$i];
-							$celkova_cena += $zlevnena_a_vynasobena_cena;
-							$DPH += $DHP_vypocet;
-							//var_dump($DPH);
-							if (!isset($_SESSION["id_uzivatel"])) {
-								$celkova_cena += 40;
+							if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+								$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+								$sleva = $produkt->cena  / 100 * $produkt->sleva;
+								$DHP_vypocet =  ($produkt->cena / 100 * 21) * $_COOKIE['pocet_produktu'][$i];
+								//var_dump($DHP_vypocet);
+								$zlevnena_a_vynasobena_cena = ($produkt->cena - $sleva) * $_COOKIE['pocet_produktu'][$i];
+								$celkova_cena += $zlevnena_a_vynasobena_cena;
+								$DPH += $DHP_vypocet;
+								//var_dump($DPH);
+								if (!isset($_SESSION["id_uzivatel"])) {
+									$celkova_cena += 40;
+								}
 							}
 						}
 					}

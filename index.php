@@ -1,10 +1,11 @@
 <?php
 session_start();
-//require("Urlzkrasnovac.php");
+require("Urlzkrasnovac.php");
 require("cookies.php");
 ?>
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
@@ -14,9 +15,9 @@ require("cookies.php");
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-	<link rel="stylesheet" href="Css/cssIndex.css">
 	<link rel="stylesheet" href="Css/cssSlideshow.css">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
+	<link rel="stylesheet" href="Css/cssIndex.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
 	<title>Infiltrated</title>
 	<script onload="" src="Script/scriptSlideshow.js"></script>
@@ -208,6 +209,7 @@ require("cookies.php");
 			<script>
 				var slideIndex = 0;
 				showSlides();
+
 				function showSlides() {
 					var i;
 					var slides = document.getElementsByClassName("mySlides");
@@ -265,14 +267,14 @@ require("cookies.php");
 				</a>
 			</div>
 		</section>
-			<div class=adver id="adver">
-				<img src="img/img_zima.jpg" style="width: 100%;" alt="">
-				<div class="top-left">
-					<h2>Zima se blíží.</h2>
-					<p>Podívejte se na zímní kolekci oblečení.</p>
-					<a class="input" href="">Zobrazit více...</a>
-				</div>
+		<div class=adver id="adver">
+			<img src="img/img_zima.jpg" style="width: 100%;" alt="">
+			<div class="top-left">
+				<h2>Zima se blíží.</h2>
+				<p>Podívejte se na zímní kolekci oblečení.</p>
+				<a class="input" href="">Zobrazit více...</a>
 			</div>
+		</div>
 		<section id=Categories>
 			<h2>Za jakým účelem nakupujete?</h2>
 			<div class="showCategories">

@@ -176,6 +176,11 @@ footer{
   border-left: none;
   border-right: none;
 }
+#flex {
+	display: flex;
+	justify-content: baseline;
+}
+
 @media(max-width:1100px) {
 #showProducts{
   display: flex;
@@ -211,4 +216,7 @@ footer{
     margin: 1%;
     flex: 1 0 100%;
   }
+}
+.button {
+	margin: 10px;
 }
