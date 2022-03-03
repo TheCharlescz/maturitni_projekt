@@ -1,14 +1,10 @@
-footer{
-    background-color: black;
-    padding: 20px 0;
-    text-align: center;
-  }
   .img {
     width: 100%;
 }
 img{
   width: 100%;
     border-radius: 10px;
+		z-index: -1;
     box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
 }
 .showProduct {
@@ -54,7 +50,7 @@ main {
   display: flex;
 	justify-content: center;
   flex-wrap: wrap;
-  padding: 2.5%;
+  padding: 2.5% 0 5% 0;
 }
 .img {
   position: relative;
@@ -152,7 +148,7 @@ footer {
 #black-block{
 	background-color: black;
 	box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
-	height: 220px;
+	height: 260px;
 	width: 100%;
 }
 #black_background {
@@ -215,12 +211,10 @@ input:checked + .slider:before {
   -ms-transform: translateX(26px);
   transform: translateX(26px);
 }
-
 /* Rounded sliders */
 .slider.round {
   border-radius: 34px;
 }
-
 .slider.round:before {
   border-radius: 50%;
 }
@@ -229,7 +223,8 @@ input:checked + .slider:before {
     flex: 1 0 45%;
   }
 }
-
+@media(max-width:800px){
+  }
 @media(max-width:600px){
   .showProduct{
     flex: 1 0 100%;

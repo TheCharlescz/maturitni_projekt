@@ -1,9 +1,9 @@
-<?php
-session_start();require("Urlzkrasnovac.php");
-?>
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="cz">
+<?php
+session_start();
+require("Urlzkrasnovac.php");
+?>
 <head>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
@@ -141,14 +141,15 @@ session_start();require("Urlzkrasnovac.php");
         <span class='material-icons'>
         favorite_border
         </span>";
-                spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});if (isset($_SESSION["id_uzivatele"])) {
-                    $db = new ProduktDB();
-                    $produkt = new Produkt();
-                    $a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
-                    echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
-                }
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					if (isset($_SESSION["id_uzivatele"])) {
+						$db = new ProduktDB();
+						$produkt = new Produkt();
+						$a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
+						echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
+					}
 					echo " </a>";
 				}
 

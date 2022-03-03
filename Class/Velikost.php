@@ -19,7 +19,7 @@ public function vypisOptionVelikost() {
 public function vypisVelikosti(){
     echo "
 		<label class='radio'>
-					<input type='radio' name='velikost' value='$this->velikost' class='showSize' required ></input>
+					<input type='radio' name='velikost_v_produktu' value='$this->velikost' class='showSize' required ></input>
 					<span class='checkmark'>$this->velikost</span>
 				</label>";
 }
@@ -31,6 +31,14 @@ public function vypisVelikostiKosik($velikost)
 					<span class='checkmark'>$this->velikost</span>
 				</label>";
             }
+	public function vypisVelikostiObjednavka($velikost)
+	{
+		echo "
+		<label class='radio'>
+					<input type='radio' name='velikost' value='$this->velikost' class='showSize' " . ($velikost == $this->velikost ? "checked" : "")  . ">
+					<span class='checkmark'>$this->velikost</span>
+				</label>";
+	}
 public function vypisVelikostiaPoctuKusu() {
     echo "<p >".$this->velikost." ".$this->pocet_kusu."</p>";
 }

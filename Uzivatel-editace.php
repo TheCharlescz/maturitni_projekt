@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="cz">
 <?php
 session_start();
 require("Url-ultra-zkrasnovac.php");
@@ -9,8 +11,6 @@ if ($_SESSION["prava"] < 1) {
 	header("Location: Uzivatel-profil.php");
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
@@ -52,22 +52,22 @@ if ($_SESSION["prava"] < 1) {
 					echo "<p class='chyba'> Hesla se neshoduji</p>";
 				} else {
 					$uzivatel = new Uzivatel();
-                    if ($_SESSION["prava"] == 1) {
-                        $uzivatel->nastavHodnoty(
-                            $_POST["jmeno"],
-                            $_POST["prijmeni"],
-                            $_POST["email"],
-                            $_POST["login"],
-                            $_POST["heslo"],
-                            $_POST["ulice"],
-                            $_POST["mesto"],
-                            $_POST["telkontakt"],
-                            $_POST["cislo_popisne"],
-                            $_POST["PSC"],
-                            1,
-                            $_GET["id"]
-                        );
-                    } else {
+					if ($_SESSION["prava"] == 1) {
+						$uzivatel->nastavHodnoty(
+							$_POST["jmeno"],
+							$_POST["prijmeni"],
+							$_POST["email"],
+							$_POST["login"],
+							$_POST["heslo"],
+							$_POST["ulice"],
+							$_POST["mesto"],
+							$_POST["telkontakt"],
+							$_POST["cislo_popisne"],
+							$_POST["PSC"],
+							1,
+							$_GET["id"]
+						);
+					} else {
 						$uzivatel->nastavHodnoty(
 							$_POST["jmeno"],
 							$_POST["prijmeni"],
@@ -82,7 +82,7 @@ if ($_SESSION["prava"] < 1) {
 							$_POST["prava"],
 							$_GET["id"]
 						);
-										}
+					}
 					if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
 						echo "<p class='chyba'> Špatně zadaná e-mail</p>";;
 					}
@@ -125,17 +125,17 @@ if ($_SESSION["prava"] < 1) {
 						<div class="reg">
 							<input type="text" name="login" placeholder="Přihlašovací login" value="<?php echo "$uzivatel->login" ?>" required> <br>
 							<?php
-                            if ($_SESSION["prava"] == 3) {
-                                echo "<select class='select' name='prava' required>";
-                                echo	"<option value=''>Zvolte práva zaměstnance</option>";
-                                echo "<option value='-1'" . (-1 == $uzivatel->prava ? 'selected' : '') . " >BAN(bez Opravnění)</option>";
-                                echo "<option  value='0'" . (0 == $uzivatel->prava ? 'selected' : '') . " >Nepřihlášen</option>";
-                                echo "<option value='1' " . (1 == $uzivatel->prava ? 'selected' : '') . ">Uzivatel</option>";
-                                echo "<option value='2' " . (2 == $uzivatel->prava ? 'selected' : '') . ">Správce administrace produktů</option>";
-                                echo "<option value='3' " . (3 == $uzivatel->prava ? 'selected' : '') . ">Admin</option>";
-																echo "</select><br>";
-                            }
-								?>
+							if ($_SESSION["prava"] == 3) {
+								echo "<select class='select' name='prava' required>";
+								echo	"<option value=''>Zvolte práva zaměstnance</option>";
+								echo "<option value='-1'" . (-1 == $uzivatel->prava ? 'selected' : '') . " >BAN(bez Opravnění)</option>";
+								echo "<option  value='0'" . (0 == $uzivatel->prava ? 'selected' : '') . " >Nepřihlášen</option>";
+								echo "<option value='1' " . (1 == $uzivatel->prava ? 'selected' : '') . ">Uzivatel</option>";
+								echo "<option value='2' " . (2 == $uzivatel->prava ? 'selected' : '') . ">Správce administrace produktů</option>";
+								echo "<option value='3' " . (3 == $uzivatel->prava ? 'selected' : '') . ">Admin</option>";
+								echo "</select><br>";
+							}
+							?>
 
 							<input type="password" name="heslo" placeholder="Heslo" required><br>
 							<input type="password" name="heslo-opakovani" placeholder="Heslo znovu" required><br>

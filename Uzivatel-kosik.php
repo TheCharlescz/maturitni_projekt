@@ -1,10 +1,10 @@
+<!DOCTYPE html>
+<html lang="cz">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
 require("cookies.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
@@ -16,10 +16,9 @@ require("cookies.php");
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
-	<link rel="stylesheet" href="Css/cssKosikUdaje.css">
+	<link rel="stylesheet" href="Css/cssKosik.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
 	<title>Infiltrated</title>
-	<script onload="" src="Script/scriptSlideshow.js"></script>
 </head>
 
 <body>
@@ -164,7 +163,21 @@ require("cookies.php");
     </span>
     </a>";
 				} else {
-					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i>
+					<span class='badge badge-warning' id='lblCartCount'>";
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					$db = new ProduktDB();
+					$pocet = 0;
+					if (isset($_COOKIE['produkt_id'])) {
+						foreach ($_COOKIE['produkt_id'] as $i => $val) {
+							if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+								$pocet++;
+							}
+						}
+					}
+					echo "$pocet </span></a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
@@ -194,7 +207,6 @@ require("cookies.php");
 							$produkt->vypisProduktuvKosiku($_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
 						}
 					}
-
 					//$mi = new MultipleIterator();
 					//$mi->attachIterator(new ArrayIterator($_COOKIE['pocet']));
 					//$mi->attachIterator(new ArrayIterator($_COOKIE['produkt_id']));
@@ -286,14 +298,12 @@ require("cookies.php");
 					?>
 				</span>
 			</div>
-			<a href="Kosik-udaje.php" class="next">Pokračovat v nákupu <span id="material-icons" class="material-icons">
+			<a href="Kosik-udaje.php" <?php if(!isset($_COOKIE["produkt_id"])) {
+					echo "id='disabled'";
+			}?> class="next">Pokračovat v nákupu <span id="material-icons" class="material-icons">
 					arrow_forward
 				</span>
 			</a>
 		</section>
 	</main>
-	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
-	</footer>
-
 </body>

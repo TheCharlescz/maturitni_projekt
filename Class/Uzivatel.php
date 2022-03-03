@@ -133,6 +133,80 @@ class Uzivatel
         $this->id = $id;
         return true;
     }
+	public function nastavneRegistraci($jmeno, $prijmeni, $email, $ulice, $mesto, $telkontakt, $cislo_popisne, $PSC, $prava = 1, $id = NULL)
+	{
+
+		$redexp = "/^[A-Za-z0-9ĚŠČŘŽÝÁÍÉŇŤěščřžýáíéťň]+$/";
+		if (preg_match($redexp, $jmeno)) {
+			$this->jmeno = $jmeno;
+		} else {
+			echo " <h2 class='chyba'>Špatně zadané jméno</h2>
+            <p class='chyba'>Podívejte se jestli neobsahuje mezery nebo nepovolené znaky<p>";
+			return false;
+		}
+		$redexp = "/^[A-Za-z0-9ĚŠČŘŽÝÁÍÉŇŤěščřžýáíéťň]+$/";
+		if (preg_match($redexp, $prijmeni)) {
+			$this->prijmeni = $prijmeni;
+		} else {
+			echo " <h2 class='chyba'>Špatně zadané příjmené</h2>
+            <p class='chyba'>Podívejte se jestli neobsahuje mezery nebo nepovolené znaky<p>";
+			return false;
+		}
+		$redexp = "/[A-Za-z0-9ĚŠČŘŽÝÁÍÉŇŤěščřžýáíéťň]+$/";
+		if (preg_match($redexp, $mesto)) {
+			$this->mesto = $mesto;
+		} else {
+			echo " <h2 class='chyba'>Špatně zadané město</h2>
+            <p class='chyba'>Podívejte se jestli neobsahuje nepovolené znaky<p>";
+			return false;
+		}
+		$redexp = "/^[A-Za-z0-9ĚŠČŘŽÝÁÍÉŇŤěščřžýáíéťň]+$/";
+		if (preg_match($redexp, $ulice)) {
+			$this->ulice = $ulice;
+		} else {
+			echo " <h2 class='chyba'>Špatně zadaná ulice</h2>
+            <p class='chyba'>Podívejte se jestli neobsahuje mezery nebo nepovolené znaky<p>";
+			return false;
+		}
+		//$redexp = "/+?([0-9]{2})-?([0-9]{3})-?([0-9]{6,7})/";
+		//if (preg_match($redexp, $telkontakt)) {
+		//    $this->telkontakt = $telkontakt;
+		//} else {
+		//    return false;
+		//}
+
+		$this->telkontakt = $telkontakt;
+
+		$redexp = "/^[0-9]+$/";
+		if (preg_match($redexp, $cislo_popisne)) {
+			$this->cislo_popisne = $cislo_popisne;
+		} else {
+			echo " <h2 class='chyba'>Špatně zadané číslo popisné</h2>
+            <p class='chyba'>Podívejte se jestli neobsahuje mezery nebo nepovolené znaky<p>";
+			return false;
+		}
+		$redexp = "/[0-9]+$/";
+		if (preg_match($redexp, $PSC)) {
+			$this->PSC = $PSC;
+		} else {
+			echo " <h2 class='chyba'>Špatně zadaná PSČ</h2>
+            <p class='chyba'>Podívejte se jestli neobsahuje nepovolené znaky<p>";
+			return false;
+		}
+		$redexp = "/^[-1]|[0-3]$/";
+		if (preg_match($redexp, $prava)) {
+			$this->prava = $prava;
+		} else {
+			return false;
+		}
+		if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+			$this->email = $email;
+		} else {
+			return false;
+		}
+		$this->id = $id;
+		return true;
+	}
     public function Pravakategorie()
     {
         switch ($this->prava) {

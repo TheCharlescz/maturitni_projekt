@@ -8,6 +8,9 @@ class Produkt {
     public $cena;
     public $sleva;
     public int $dostupnost;
+		public $vytvoreno_v;
+		public $upraveno_v;
+		public $publikovano_v;
     public $velikosti;
     public $velikost;
     public $typy_id;
@@ -216,13 +219,22 @@ public function vypisBaneruProduktuAdministace() {
       <h2>$this->nazev</h2>
       <p>$this->kategorie : $this->pohlavi : $this->typ</p>
 			<p>$this->material </p>
-      <p>"; $this->vypisBarev1();echo "</p>
+      <p>"; $this->vypisBarev1();
+			echo "</p>
       </div>
       <div class='velikosti'>";
       $this->vypisVelikostiaPoctuKusu();
       echo "
     </div>
     </div>
+		<div style='padding: 0 15px'>
+			<p>Vytvořen v: ";
+				$date = new DateTime($this->vytvoreno_v);
+				echo $date->format('d/m/y H:i:s'); echo" </p>
+			<p>Upraven v: ";
+				$date = new DateTime($this->upraveno_v);
+				echo $date->format('d/m/y H:i:s'); echo"</p>
+		</div>
 		<div id='flex-just'>
 	<button id='noBorder' onclick='openModalSmaz($this->id)' id='myBtn'><span class='material-icons'>delete</span></button>
     <a id='noBorder' class='input'href='Produkt-editace.php?id=$this->id'><span class='material-icons'>edit</span></a>
@@ -261,16 +273,12 @@ public function vypisBaneruProduktuAdministace() {
 		echo "
 	</div>
 	<div id='kosik_info'>
-		<div>
-			<h2>$this->nazev</h2>
-			<h3>$this->znacka</h3>
-			" . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
+		<div id='flexit'>
+			<h2>$this->nazev</h2><h3>$this->znacka</h3>" . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
 		</div>
 		<form id='formin' method='post' action='Uzivatel-kosik.php?id_produktu=$this->id'>
 			<input type='number' min='1' name='pocet_kusu' name='pridat-do-kosiku' value='$kusyvKosiku' id='kosik_input' onchange='this.form.submit()'>
 			<div id='showSizes'>
-		</form>
-		<form method='post' action='Uzivatel-kosik.php?id_produktu=$this->id' id='flex4'>
 			";
         $this->vypisVelikostivKosiku($this->id , $velikost);
         echo "
@@ -289,10 +297,10 @@ public function vypisBaneruProduktuAdministace() {
 		$cena = $this->cena * $pocet_kusu;
 		echo "
 		<span class='flex'>
-					<p> $pocet_kusu x $this->nazev</p>
+					<h3> $pocet_kusu x $this->nazev</h3>
 				<span class='flex'>
 					" . (!empty($this->sleva) ? "<h3 id='puvodni_cena'> $cena Kč </h3>" : "") . "
-				" . (!empty($this->sleva) ? "<h3 id='zlevnena_cena'> $zlevnena_cena Kč </h3>" : " $this->cena Kč") . "</p>
+				" . (!empty($this->sleva) ? "<h3 id='zlevnena_cena'> $zlevnena_cena Kč </h3>" : " <h3>$this->cena Kč</h3>") . "</p>
 				</span>
 				</span>";
 	}

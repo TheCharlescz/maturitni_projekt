@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="cz">
 <?php
 session_start();
 require("Url-ultra-zkrasnovac.php");
@@ -9,9 +11,6 @@ if ($_SESSION["prava"] < 1) {
 	header("Location: Uzivatel-profil.php");
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
-
 <head>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">

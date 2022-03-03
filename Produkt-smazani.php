@@ -39,7 +39,7 @@ if ($_SESSION["prava"] < 1) {
 		}
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html lang="cz">
 
 <head>
 	<meta charset="UTF-8">

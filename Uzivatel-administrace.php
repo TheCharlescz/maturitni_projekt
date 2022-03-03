@@ -1,3 +1,5 @@
+<!DOCTYPE html>
+<html lang="cz">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
@@ -24,8 +26,6 @@ if (isset($_GET["id"])) {
 	}
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
@@ -137,7 +137,21 @@ if (isset($_GET["id"])) {
                 </span>
                 </a>";
 				} else {
-					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i>
+					<span class='badge badge-warning' id='lblCartCount'>";
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					$db = new ProduktDB();
+					$pocet = 0;
+					if (isset($_COOKIE['produkt_id'])) {
+                    foreach ($_COOKIE['produkt_id'] as $i => $val) {
+                        if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+                            $pocet++;
+                        }
+                    }
+					}
+					echo "$pocet </span></a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {

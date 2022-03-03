@@ -105,9 +105,6 @@ button:hover{
   padding: 10px;
   border: 1px white solid;
 }
-#searchNav {
-  display: none;
-}
 .showProduct:hover{
   transition-duration: 1.5s;
   box-shadow: rgba(255, 255, 255, 0.76) 0px 54px 55px, rgba(5, 87, 15, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.20) 0px 12px 13px, rgba(5, 87, 15, 0.17) 0px -3px 5px;
@@ -133,14 +130,17 @@ form {
 	margin: 0;
 }
 .adver{
+	width: fit-content;
   position: relative;
   text-align: left;
   color: white;
   color: black;
   justify-content: space-between;
   background-color: rgb(212, 212, 212);
-  box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
   }
+	.adver img {
+box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;
+	}
   .adver h2 {
     text-align: left;
     color: white;
@@ -157,12 +157,6 @@ form {
     top: 8px;
     left: 16px;
   }
-footer{
-  background-color: black;
-  padding: 20px 0;
-  text-align: center;
-}
-* {box-sizing:border-box}
 .input {
   font-family: "Bebas Neue", cursive;
   font-size: larger;
@@ -178,9 +172,11 @@ footer{
 }
 #flex {
 	display: flex;
-	justify-content: baseline;
+	align-items: baseline;
 }
-
+.button {
+	margin: 10px;
+}
 @media(max-width:1100px) {
 #showProducts{
   display: flex;
@@ -216,7 +212,4 @@ footer{
     margin: 1%;
     flex: 1 0 100%;
   }
-}
-.button {
-	margin: 10px;
 }

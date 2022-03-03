@@ -43,8 +43,7 @@ class  ProduktDB {
         produkt.pohlavi,
         produkt.cena,
         produkt.sleva,
-        produkt.dostupnost,
-        produkt.vytvoreno_v
+        produkt.dostupnost
     FROM
         produkt_ma_barvy,
         produkt_ma_velikosti,
@@ -128,7 +127,9 @@ class  ProduktDB {
         produkt.cena,
         produkt.sleva,
         produkt.dostupnost,
-        produkt.vytvoreno_v
+        produkt.vytvoreno_v,
+				produkt.upraveno_v,
+				produkt.publikovano_v
     FROM
         produkt_ma_barvy,
         produkt_ma_velikosti,
@@ -318,13 +319,19 @@ class  ProduktDB {
 
 	public function filtraceProdkutu($pohlavi, $kategorie, $typ, $akce, $material, $znacka,$hledany_text)
 	{
+		htmlspecialchars($pohlavi);
+		htmlspecialchars($kategorie);
+		htmlspecialchars($typ);
+		htmlspecialchars($akce);
+		htmlspecialchars($material);
+		htmlspecialchars($znacka);
+		htmlspecialchars($hledany_text);
 			$dotaz = "SELECT DISTINCT materialy.*, kategorie.*, akce.*, znacky.* , typy.* , produkt.* FROM produkt
 			JOIN znacky ON produkt.znacky_id= znacky.id
 			JOIN typy ON produkt.typy_id= typy.id
 			JOIN materialy ON produkt.materialy_id = materialy.id
 			JOIN akce ON produkt.akce_id = akce.id
 			JOIN kategorie ON produkt.kategorie_id = kategorie.id";
-			//$joiny = array();
 			$where = array();
 		//	if (!empty($kategorie)) {
 		//		$joiny[] = "JOIN kategorie ON produkt.kategorie_id = $kategorie";

@@ -1,4 +1,5 @@
-
+<!DOCTYPE html>
+<html lang="cz">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
@@ -11,8 +12,6 @@ if ($_SESSION["prava"] < 1) {
 	header("Location: Uzivatel-profil.php");
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
@@ -28,6 +27,7 @@ if ($_SESSION["prava"] < 1) {
 	<link rel="stylesheet" href="Css/cssModalBox.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
 	<script src="Script/scriptModalBox.js"></script>
+	<script src="Script/scriptNav.js"></script>
 	<title>Infiltrated - administrace produktu</title>
 </head>
 
@@ -178,10 +178,11 @@ if ($_SESSION["prava"] < 1) {
 				</nav>
 			</div>
 	</header>
-	<section>
-		<form id="filtr_menu" action="Produkt-administrace.php" method="get">
+	<section id="filtr_menu">
+		<button class="button" id="form_filtr_button" onclick="myFunction()">Filtr&nbsp;a&nbsp;vyhledávání</button>
+		<form id="filtr_menu_form" action="Produkty.php" method="get">
 			<select name="akce_id" class="input">
-				<option value="">Vyberte jednu z akci</option>
+				<option value="">Akce</option>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -190,12 +191,12 @@ if ($_SESSION["prava"] < 1) {
 				$akce = new Akce();
 				$akce = $db->nactiAkce();
 				foreach ($akce as $akci) {
-					$akci->vypisOptionAkce();
+					$akci->vypisOptionAkceFiltr();
 				}
 				?>
-			</select><br>
+			</select>
 			<select name="kategorie_id" class="input">
-				<option value="">Vyberte jednu z katehorií</option>
+				<option value="">Kategorie</option>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -207,9 +208,9 @@ if ($_SESSION["prava"] < 1) {
 					$kategorii->vypisOptionkategorieFiltr();
 				}
 				?>
-			</select><br>
+			</select>
 			<select name="materialy_id" class="input">
-				<option value="">Vyberte jeden z materiálů</option>
+				<option value="">Materiál</option>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -221,10 +222,9 @@ if ($_SESSION["prava"] < 1) {
 					$material->vypisOptionmaterialFiltr();
 				}
 				?>
-			</select><br>
-
+			</select>
 			<select name="znacky_id" class="input">
-				<option value="">Vyberte jednu ze značek</option>
+				<option value="">Značka</option>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -236,9 +236,9 @@ if ($_SESSION["prava"] < 1) {
 					$znacka->vypisOptionznackaFiltr();
 				}
 				?>
-			</select><br>
+			</select>
 			<select name="typy_id" class="input">
-				<option value="">Vyberte jednu z typů</option>
+				<option value="">Typ</option>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -247,12 +247,12 @@ if ($_SESSION["prava"] < 1) {
 				$typ = new Typ();
 				$typy = $db->nactiTypy();
 				foreach ($typy as $typ) {
-					$typ->vypisOptiontypFiltr();
+					$typ->vypisOptionTypFiltr();
 				}
 				?>
 			</select>
 			<select name="pohlavi" class="input">
-				<option value="">Vyberte jednu z pohlaví</option>
+				<option value="">Pohlaví</option>
 				<option value="Muz">Pánské</option>
 				<option value="Zena">Dámské</option>
 				<option value="Dite">Děti</option>
@@ -260,8 +260,6 @@ if ($_SESSION["prava"] < 1) {
 			</select>
 			<input type="search" name="hledany_text" placeholder="search...">
 			<input type="submit" name="vyfiltruj" value="Vyfiltruj">
-			<a class="input" href="Produkt-pridat.php">Přidat produkt</a>
-		</form>
 	</section>
 	<main>
 		<?php

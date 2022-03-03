@@ -1,11 +1,11 @@
-
+<!DOCTYPE html>
+<html lang="cz">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
 require("cookies.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
@@ -18,10 +18,12 @@ require("cookies.php");
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssIndex.css">
 	<link rel="stylesheet" href="Css/cssProdukt-administrace.css">
+	<script src="Script/scriptNav.js"></script>
 	<link rel="shortcut icon" href="img/logo.ico" />
 	<title>Infiltrated</title>
 </head>
 <div id="black-block"></div>
+
 <body>
 	<header id="Myheader">
 		<nav role="navigation" id="resNavigation">
@@ -131,14 +133,15 @@ require("cookies.php");
         <span class='material-icons'>
         favorite_border
         </span>";
-                spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});if (isset($_SESSION["id_uzivatele"])) {
-                    $db = new ProduktDB();
-                    $produkt = new Produkt();
-                    $a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
-                    echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
-                }
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					if (isset($_SESSION["id_uzivatele"])) {
+						$db = new ProduktDB();
+						$produkt = new Produkt();
+						$a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
+						echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
+					}
 					echo " </a>";
 				}
 
@@ -149,7 +152,21 @@ require("cookies.php");
     </span>
     </a>";
 				} else {
-					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i>
+					<span class='badge badge-warning' id='lblCartCount'>";
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					$db = new ProduktDB();
+					$pocet = 0;
+					if (isset($_COOKIE['produkt_id'])) {
+                    foreach ($_COOKIE['produkt_id'] as $i => $val) {
+                        if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+                            $pocet++;
+                        }
+                    }
+					}
+					echo "$pocet </span></a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
@@ -161,10 +178,11 @@ require("cookies.php");
 			</nav>
 		</div>
 	</header>
-	<section>
-		<form id="filtr_menu" action="Produkty.php" method="get">
+	<section id="filtr_menu">
+		<button class="button" id="form_filtr_button" onclick="myFunction()">Filtr&nbsp;a&nbsp;vyhledávání</button>
+		<form id="filtr_menu_form" action="Produkty.php" method="get">
 			<select name="akce_id" class="input">
-				<option value="">Vyberte jednu z akci</option>
+				<option value="">Akce</option>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -176,9 +194,9 @@ require("cookies.php");
 					$akci->vypisOptionAkceFiltr();
 				}
 				?>
-			</select><br>
+			</select>
 			<select name="kategorie_id" class="input">
-				<option value="">Vyberte jednu z katehorií</option>
+				<option value="">Kategorie</option>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -190,9 +208,9 @@ require("cookies.php");
 					$kategorii->vypisOptionkategorieFiltr();
 				}
 				?>
-			</select><br>
+			</select>
 			<select name="materialy_id" class="input">
-				<option value="">Vyberte jeden z materiálů</option>
+				<option value="">Materiál</option>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -204,9 +222,9 @@ require("cookies.php");
 					$material->vypisOptionmaterialFiltr();
 				}
 				?>
-			</select><br>
+			</select>
 			<select name="znacky_id" class="input">
-				<option value="">Vyberte jednu ze značek</option>
+				<option value="">Značka</option>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -218,9 +236,9 @@ require("cookies.php");
 					$znacka->vypisOptionznackaFiltr();
 				}
 				?>
-			</select><br>
+			</select>
 			<select name="typy_id" class="input">
-				<option value="">Vyberte jednu z typů</option>
+				<option value="">Typ</option>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -234,7 +252,7 @@ require("cookies.php");
 				?>
 			</select>
 			<select name="pohlavi" class="input">
-				<option value="">Vyberte jednu z pohlaví</option>
+				<option value="">Pohlaví</option>
 				<option value="Muz">Pánské</option>
 				<option value="Zena">Dámské</option>
 				<option value="Dite">Děti</option>

@@ -1,5 +1,8 @@
+<!DOCTYPE html>
+<html lang="cz">
 <?php
-session_start();require("Urlzkrasnovac.php");
+session_start();
+require("Urlzkrasnovac.php");
 if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 	header("Location: Uzivatel-prihlaseni.php ");
 }
@@ -8,8 +11,6 @@ if ($_SESSION["prava"] < 1) {
 	header("Location: Uzivatel-profil.php");
 }
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
@@ -131,9 +132,9 @@ if ($_SESSION["prava"] < 1) {
 							}
 						}
 					} else {
-					echo "<h2 class='chyba'>Produkt se nepodařilo vytvořit</h2>\n";
-					echo "<p class='chyba'>Podívejte se jestli nezadáváte název prodkutu, který už byl vytvořen</p>\n";
-						}
+						echo "<h2 class='chyba'>Produkt se nepodařilo vytvořit</h2>\n";
+						echo "<p class='chyba'>Podívejte se jestli nezadáváte název prodkutu, který už byl vytvořen</p>\n";
+					}
 				}
 			}
 

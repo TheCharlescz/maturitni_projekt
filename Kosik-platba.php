@@ -1,9 +1,9 @@
+<!DOCTYPE html>
+<html lang="cz">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
@@ -15,7 +15,7 @@ require("Urlzkrasnovac.php");
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
-	<link rel="stylesheet" href="Css/cssKosikUdaje.css">
+	<link rel="stylesheet" href="Css/cssKosik.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
 	<title>Infiltrated</title>
 </head>
@@ -73,54 +73,6 @@ require("Urlzkrasnovac.php");
 				</g>
 			</svg>
 		</a>
-		<?php
-		spl_autoload_register(function ($trida) {
-			include_once "Class/$trida.php";
-		});
-		if (isset($_POST["prihlasit"])) {
-			//echo password_hash($_POST["heslo"],PASSWORD_DEFAULT);
-			if (empty($_POST["login"] || empty($_POST["heslo"]))) {
-				echo "<div class='chyba'>Nezadán e-mail a heslo.</div>";
-			} else {
-				$db = new UzivatelDB();
-				$uzivatel = new Uzivatel();
-				if ($uzivatel = $db->overUzivatele($_POST["login"], $_POST["heslo"])) {
-					$_SESSION["id_uzivatele"] = $uzivatel->id;
-					$_SESSION["uzivatel_id"] = $uzivatel->id;
-					//$_SESSION["login"] = $uzivatel->login;
-					$_SESSION["prava"] = $uzivatel->prava;
-					echo "<h2 class='spravne'>Byl jste přihlášen</h2>";
-				} else {
-					echo "<h2 class='chyba'>Zadány nesprávné údaje</h2>";
-				}
-			}
-		}
-		if (isset($_POST["ulozit"])) {
-			if ($_POST["heslo"] != $_POST["heslo-opakovani"]) {
-				echo "<p class='chyba'> Hesla se neshoduji</p>";
-			} else {
-				$uzivatel = new Uzivatel();
-				$uzivatel->nastavHodnoty($_POST["jmeno"], $_POST["prijmeni"], $_POST["email"], $_POST["login"], $_POST["heslo"], $_POST["ulice"], $_POST["mesto"], $_POST["telkontakt"], $_POST["cislo_popisne"], $_POST["PSC"], $_SESSION["prava"], $_GET["id"]);
-				if (!filter_var($_POST["email"], FILTER_VALIDATE_EMAIL)) {
-					echo "<p class='chyba'> Špatně zadaná e-mail</p>";;
-				}
-				$db = new UzivatelDB();
-				$id = $db->ulozUzivatele($uzivatel);
-				if ($id > 0) {
-					echo "<h2 class='spravne'>Data byla změněna</h2>\n";
-				}
-			}
-		} else {
-			if (isset($_SESSION["id_uzivatele"])) {
-				$db = new UzivatelDB();
-				$uzivatel = new Uzivatel();
-				$uzivatel = $db->nactiUzivatel($_SESSION["id_uzivatele"]);
-			} else {
-				$db = new UzivatelDB();
-				$uzivatel = new Uzivatel();
-			}
-		}
-		?>
 		<div id="SaN">
 			<div id="search">
 				<form action="Produkty.php" method="get">
@@ -173,7 +125,21 @@ require("Urlzkrasnovac.php");
     </span>
     </a>";
 				} else {
-					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i>
+					<span class='badge badge-warning' id='lblCartCount'>";
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					$db = new ProduktDB();
+					$pocet = 0;
+					if (isset($_COOKIE['produkt_id'])) {
+						foreach ($_COOKIE['produkt_id'] as $i => $val) {
+							if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+								$pocet++;
+							}
+						}
+					}
+					echo "$pocet </span></a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
@@ -185,12 +151,46 @@ require("Urlzkrasnovac.php");
 			</nav>
 		</div>
 	</header>
-	<main class="blok">
-				<h1>Work in Progress</h1>
-				<p>Fakt nepobírám, že se ti podařilo dostat, až sem. Zasloužil by sis Zlatého bludištáka.</p>
+	<main>
+		<div class="blok" id="flex_avrage">
+			<h1>Work in Progress</h1>
+			<h2>Fakt nepobírám, že se ti podařilo dostat, až sem. Zasloužil by sis Zlatého bludištáka.</h2>
+
+			<?php
+			spl_autoload_register(function ($trida) {
+				include_once "Class/$trida.php";
+			});
+			$objednavka = new Objednavka();
+			$db = new ObjednavkaDB();
+			$polozky = $db->nactiObjednavku($_SESSION["id_objednavky"]);
+			foreach ($polozky as $polozka) {
+				//	$polozka->vypisProduktuvObjednavce();
+			}
+				$produkt = new Produkt();
+				$db = new ProduktDB();
+				foreach ($_COOKIE['produkt_id'] as $i => $val) {
+						//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
+						$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
+						$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
+				}
+			?>
+		</div>
+		<div class="blok" id="flex_avrage">
+			<?php
+			spl_autoload_register(function ($trida) {
+				include_once "Class/$trida.php";
+			});
+			$polozka = new Polozka();
+			$db = new PolozkaDB();
+			$polozky = $db->nactiPolozkyObjednavky($_SESSION["id_objednavky"]);
+			foreach ($polozky as $polozka) {
+				$polozka->vypisProduktuvObjednavce();
+			}
+			?>
+		</div>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:purple">Charles</span>.</p>
+		<p>This website is used only for study purposes and not for commerce. Web created by Charles.</p>
 	</footer>
 
 </body>

@@ -1,9 +1,13 @@
+<!DOCTYPE html>
+<html lang="cz">
 <?php
 session_start();
+if (!isset($_COOKIE["produkt_id"])) {
+	header("Location: Uzivatel-kosik.php ");
+}
 require("Urlzkrasnovac.php");
+require("cookies.php");
 ?>
-<!DOCTYPE html>
-<html lang="en">
 
 <head>
 	<meta charset="UTF-8">
@@ -15,7 +19,7 @@ require("Urlzkrasnovac.php");
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
-	<link rel="stylesheet" href="Css/cssKosikUdaje.css">
+	<link rel="stylesheet" href="Css/cssKosik.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
 	<title>Infiltrated</title>
 </head>
@@ -173,7 +177,22 @@ require("Urlzkrasnovac.php");
     </span>
     </a>";
 				} else {
-					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+					echo
+					"<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i>
+					<span class='badge badge-warning' id='lblCartCount'>";
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					$db = new ProduktDB();
+					$pocet = 0;
+					if (isset($_COOKIE['produkt_id'])) {
+						foreach ($_COOKIE['produkt_id'] as $i => $val) {
+							if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+								$pocet++;
+							}
+						}
+					}
+					echo "$pocet </span></a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
@@ -188,7 +207,7 @@ require("Urlzkrasnovac.php");
 	<main>
 		<section id="flex_big">
 			<div class="blok">
-				<form method="get" action="Kosik-platba.php">
+				<form method="post">
 					<label>
 						<h1>Adresní informace</h1>
 						<div>
@@ -221,19 +240,31 @@ require("Urlzkrasnovac.php");
 			<div class="blok">
 				<h1> Způsob doručení</h1>
 				<label class="container">Česká pošta - 40Kč
-					<input class="input_doruceni" type="radio" name="zpusob_doruceni" Value="40Kč" required>
+					<input class="input_doruceni" type="radio" name="zpusob_doruceni" Value="Česká pošta" required>
 					<span class="mark"></span>
 				</label>
 				<label class="container">Vlastní odběr - zdarma
-					<input class="input_doruceni" type="radio" name="zpusob_doruceni" Value="zdarma" required>
+					<input class="input_doruceni" type="radio" name="zpusob_doruceni" Value="Vlastní odběr" required>
 					<span class="mark"></span>
 				</label>
 			</div>
 		</section>
 		<section id="flex_small">
-			<button class="next" type="submit" name="potvrdit" value="">Pokračovat k Platbě</button>
+			<button id="order3" class="next" type="submit" name="potvrdit_objednavku" value="">Pokračovat k Platbě</button>
+			<?php
+			//if(!isset($_SESSION["id_uzivatele"]))
+			//{
+			//	echo "
+			//	<div class='blok'>
+			//				<label class='container'> Chcete provést registraci?
+			//		<input class='input_doruceni' type='checkbox' name='registrace' Value='0' required>
+			//		<span class='mark'></span>
+			//	</label>
+			//	</div>";
+			//}
+			?>
 			</form>
-			<div class="blok">
+			<div id="order1" class="blok">
 				<form method="post">
 					<label>
 						<h1>Přihlaš se</h1>
@@ -260,7 +291,7 @@ require("Urlzkrasnovac.php");
 						}
 					}
 				} else {
-					echo "<h2>Empty...</h2>";
+					echo "<p>Košík je zatím prázdný</p>";
 				}
 				?>
 				<span class="flex">
@@ -301,7 +332,6 @@ require("Urlzkrasnovac.php");
 			</div>
 			</span>
 		</section>
-
 	</main>
 	<footer>
 		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:purple">Charles</span>.</p>
