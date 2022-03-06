@@ -184,11 +184,14 @@ require("cookies.php");
 						include_once "Class/$trida.php";
 					});
 					$db = new ProduktDB();
+					$produkt = new Produkt();
 					$pocet = 0;
 					if (isset($_COOKIE['produkt_id'])) {
-						foreach ($_COOKIE['produkt_id'] as $i => $val) {
-							if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
-								$pocet++;
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
 							}
 						}
 					}
@@ -303,7 +306,7 @@ require("cookies.php");
 					}
 					?>
 				</span>
-				<span class="flex">
+				<span class="flex" id='borer_top'>
 					<?php
 					$celkova_cena = 0;
 					$DPH = 0;

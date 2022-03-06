@@ -56,10 +56,10 @@ class Polozka
 		$cena = $this->cena * $pocet_kusu;
 		echo "
 		<span class='flex'>
-					<h3> $pocet_kusu x $this->nazev</h3>
+					<h3> $this->pocet_kusu x $this->nazev ($this->produkt_id )</h3>
 				<span class='flex'>
-					" . (!empty($this->sleva) ? "<h3 id='puvodni_cena'> $cena Kč </h3>" : "") . "
-				" . (!empty($this->sleva) ? "<h3 id='zlevnena_cena'> $zlevnena_cena Kč </h3>" : " <h3>$this->cena Kč</h3>") . "</p>
+					" . (!empty($this->sleva) ? "<h3 id='puvodni_cena'> $this->cena Kč </h3>" : "") . "
+				" . (!empty($this->sleva) ? "<h3 id='zlevnena_cena'>  $zlevnena_cena Kč </h3>" : " <h3>$this->cena Kč</h3>") . "</p>
 				</span>
 				</span>";
 	}

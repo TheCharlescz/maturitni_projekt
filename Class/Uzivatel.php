@@ -244,6 +244,17 @@ class Uzivatel
     </div>
     </div>";
     }
+	public function vypisUzivateleVKosiku()
+	{
+		echo "<div class='karta'>
+        <p> Jméno adresáta: " . $this->jmeno . " " . $this->prijmeni . "</p>
+        <p> E-mail: " . $this->email . "</p>
+        <p> Telefoní číslo: " . $this->telkontakt . "</p>
+        <p> Bydliště: " . $this->ulice . " " . $this->cislo_popisne . "</p>
+        <p> Město: " . $this->mesto . "</p>
+        <p> PSC: " . $this->PSC . "</p>
+    </div>";
+	}
     public function vypisUzivateleVlastniProfil()
     {
         echo "<div class='karta'>

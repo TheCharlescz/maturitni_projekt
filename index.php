@@ -170,6 +170,7 @@ require("cookies.php");
 						include_once "Class/$trida.php";
 					});
 					$db = new ProduktDB();
+					$produkt = new Produkt();
 					$pocet = 0;
 					if(isset($_COOKIE['produkt_id'])) {
 					if (isset($_COOKIE['produkt_id'])) {

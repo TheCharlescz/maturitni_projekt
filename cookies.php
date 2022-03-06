@@ -83,11 +83,13 @@ if (isset($_POST["potvrdit_objednavku"])) {
 	$uzivatel = new Uzivatel();
 	$db_objednavka = new ObjednavkaDB();
 	$db_produkt = new ProduktDB();
+	$produkt = new Produkt();
 	$celkova_cena = 0;
     if (!isset($_SESSION["id_uzivatele"])) {
-			$uzivatel->nastavneRegistraci($_POST["jmeno"], $_POST["prijmeni"], $_POST["email"], $_POST["ulice"], $_POST["mesto"], $_POST["telkontakt"], $_POST["cislo_popisne"], $_POST["PSC"], 0, $id = NULL);
+		$uzivatel->nastavneRegistraci($_POST["jmeno"], $_POST["prijmeni"], $_POST["email"], $_POST["ulice"], $_POST["mesto"], $_POST["telkontakt"], $_POST["cislo_popisne"], $_POST["PSC"], 0, $id = NULL);
 		$db_uzivatel = new UzivatelDB();
 		$id = $db_uzivatel->pridatUzivatele($uzivatel);
+		$_SESSION["id_uzivatele_neprihlasen"] = $id;
 		$id_objednavky = $db_objednavka->vytvorObjednavku($id ,  $_POST["zpusob_doruceni"]);
         } else {
 		$id_objednavky = $db_objednavka->vytvorObjednavku($_SESSION["id_uzivatele"] , $_POST["zpusob_doruceni"]);
@@ -110,8 +112,8 @@ if (isset($_POST["potvrdit_objednavku"])) {
       }
 		}
 	}
-	var_dump($celkova_cena);
-	var_dump($id_objednavky);
+	//var_dump($celkova_cena);
+	//var_dump($id_objednavky);
 	$db_objednavka->doplnCenuObjednavky($celkova_cena, $id_objednavky);
 	$_SESSION['id_objednavky'] = $id_objednavky;
 	header("Location: Kosik-platba.php ");

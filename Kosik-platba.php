@@ -131,11 +131,14 @@ require("Urlzkrasnovac.php");
 						include_once "Class/$trida.php";
 					});
 					$db = new ProduktDB();
+					$produkt = new Produkt();
 					$pocet = 0;
 					if (isset($_COOKIE['produkt_id'])) {
-						foreach ($_COOKIE['produkt_id'] as $i => $val) {
-							if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
-								$pocet++;
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
 							}
 						}
 					}
@@ -153,29 +156,39 @@ require("Urlzkrasnovac.php");
 	</header>
 	<main>
 		<div class="blok" id="flex_avrage">
-			<h1>Work in Progress</h1>
-			<h2>Fakt nepobírám, že se ti podařilo dostat, až sem. Zasloužil by sis Zlatého bludištáka.</h2>
-
+			<h1>Shrnutí objednávky</h1>
 			<?php
 			spl_autoload_register(function ($trida) {
 				include_once "Class/$trida.php";
 			});
+			$uzivatel = new Uzivatel();
+			$db_uzivatel = new UzivatelDB();
 			$objednavka = new Objednavka();
-			$db = new ObjednavkaDB();
-			$polozky = $db->nactiObjednavku($_SESSION["id_objednavky"]);
-			foreach ($polozky as $polozka) {
-				//	$polozka->vypisProduktuvObjednavce();
+			$db_objednavka = new ObjednavkaDB();
+			$polozka = new Polozka();
+			$db_polozka = new PolozkaDB();
+			if(isset($_SESSION["id_uzivatele"])) {
+				$uzivatel = $db_uzivatel->nactiUzivatel($_SESSION["id_uzivatele"]);
+				var_dump($_SESSION["id_uzivatele_neprihlasen"]);
+			} else {
+				$uzivatel = $db_uzivatel->nactiUzivatel($_SESSION["id_uzivatele_neprihlasen"]);
 			}
-				$produkt = new Produkt();
-				$db = new ProduktDB();
-				foreach ($_COOKIE['produkt_id'] as $i => $val) {
-						//var_dump($_COOKIE['produkt_id'][$i], $_COOKIE['pocet_produktu'][$i], $_COOKIE['velikost'][$i]);
-						$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
-						$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
-				}
+			$uzivatel->vypisUzivateleVKosiku();
+			//$polozky = $db_polozka->nactiPolozkyObjednavky($_SESSION["id_objednavky"]);
+			//foreach ($polozky as $polozka) {
+			//	$polozka->vypisLegendyKosiku();
+			//}
+			//$objednavka = $db_objednavka->nactiObjednavku($_SESSION["id_objednavky"]);
+			//echo "<span class='flex' id='borer_top'>";
+			//echo "<h3>Celkem</h3>";
+			//echo "<h3> $objednavka->celkova_cena Kč</h3>";
+			//echo "</span>";
+
+		
 			?>
 		</div>
 		<div class="blok" id="flex_avrage">
+			<h1>Zakoupené produkty</h1>
 			<?php
 			spl_autoload_register(function ($trida) {
 				include_once "Class/$trida.php";

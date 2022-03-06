@@ -83,6 +83,7 @@ require("Urlzkrasnovac.php");
 				} else {
 					$db = new UzivatelDB();
 					$uzivatel = new Uzivatel();
+					$produkt = new Produkt();
 					if ($uzivatel = $db->overUzivatele($_POST["login"], $_POST["heslo"])) {
 						$_SESSION["id_uzivatele"] = $uzivatel->id;
 						$_SESSION["uzivatel_id"] = $uzivatel->id;
@@ -134,19 +135,23 @@ require("Urlzkrasnovac.php");
                 </span>
                 </a>";
 				} else {
-					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i>
+					echo
+					"<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i>
 					<span class='badge badge-warning' id='lblCartCount'>";
 					spl_autoload_register(function ($trida) {
 						include_once "Class/$trida.php";
 					});
 					$db = new ProduktDB();
+					$produkt = new Produkt();
 					$pocet = 0;
 					if (isset($_COOKIE['produkt_id'])) {
-                    foreach ($_COOKIE['produkt_id'] as $i => $val) {
-                        if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
-                            $pocet++;
-                        }
-                    }
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
+							}
+						}
 					}
 					echo "$pocet </span></a>";
 				}

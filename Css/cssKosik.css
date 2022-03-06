@@ -90,6 +90,10 @@ justify-content: space-between;
 	display: flex;
 	justify-content: space-between;
 	align-items: baseline;
+
+}
+#borer_top {
+	border-top: 2px solid white;
 }
 #pridat{
 margin: 30px 20%;
@@ -115,7 +119,7 @@ flex: 0 1 30%
 #flex_avrage{
 display: flex;
 flex-direction: column;
-flex: 0 1 50%
+flex: 0 1 40%
 }
 #flex-avrag {
 flex: 0 1 40%
