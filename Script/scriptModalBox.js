@@ -22,4 +22,17 @@ function openModalAdd() {
 function closeModalAdd() {
     document.getElementById("addModal").style.display = "none";
 }
+function openModalZaplaceno() {
+	document.getElementById("zaplaceno").style.display = "block";
+}
 
+function closeModalZaplaceno() {
+	document.getElementById("zaplaceno").style.display = "none";
+}
+function openModalStorno () {
+	document.getElementById("storno").style.display = "block";
+}
+
+function closeModalStorno () {
+	document.getElementById("storno").style.display = "none";
+}

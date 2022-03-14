@@ -25,6 +25,30 @@ class VelikostDB {
         return $sql->fetchAll();
 
     }
+	public function nactiVelikostProduktu($id , $velikost)
+	{
+		$dotaz = "select velikosti.* from produkt_ma_velikosti, velikosti
+        where produkt_ma_velikosti.velikosti_id=velikosti.id and produkt_ma_velikosti.produkt_id= :id and velikosti.velikost = :velikost ";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":id", $id);
+		$sql->bindParam(":velikost", $velikost);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "velikost");
+		return $sql->fetch();
+
+	}
+
+	public function upravVelikost($id, $pocet_kusu ) {
+        $dotaz = "update velikosti set pocet_kusu = :pocet_kusu where velikosti.id=:id";
+        $sql = $this->spojeni->prepare($dotaz);
+				$sql->bindParam(":id", $id);
+		$sql->bindParam(":pocet_kusu", $pocet_kusu);
+        if ($sql->execute()) {
+            return $this->spojeni->lastInsertId();
+        } else {
+            return false;
+        }
+    }
     public function nactiVelikostiProduktuEditace($id) {
         $dotaz ="select distinct velikosti.* from produkt_ma_velikosti, velikosti
         where produkt_ma_velikosti.velikosti_id=velikosti.id and produkt_ma_velikosti.produkt_id=:id";

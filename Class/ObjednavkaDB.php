@@ -9,7 +9,7 @@ class ObjednavkaDB
     }
 	public function vytvorObjednavku($uzivatel_id, $doprava)
 	{
-		$dotaz = "INSERT INTO `objednavka` (`id`, `celkova_cena`, doprava , `zaptaceno`, `zpracovano`, `odeslano`, `vytvoreno_v`, uzivatel_id) VALUES (NULL, NULL, :doprava , NULL, NULL, NULL, CURRENT_TIMESTAMP, :uzivatel_id)";
+		$dotaz = "INSERT INTO `objednavka` (`id`, `celkova_cena`, doprava , `zaplaceno`, `zpracovano`, `odeslano`, `vytvoreno_v`, uzivatel_id) VALUES (NULL, NULL, :doprava , NULL, NULL, NULL, CURRENT_TIMESTAMP, :uzivatel_id)";
 		$sql = $this->spojeni->prepare($dotaz);
 		$sql->bindParam(":uzivatel_id", $uzivatel_id);
 		$sql->bindParam(":doprava", $doprava);
@@ -31,11 +31,10 @@ class ObjednavkaDB
 			return false;
 		}
 	}
-	public function zaplatObjednavku($zaplaceno , $id)
+	public function zaplatObjednavku($id)
 	{
-		$dotaz = "UPDATE `objednavka` SET `zaplaceno` = :zaplaceno WHERE `objednavka`.`id` = :id;";
+		$dotaz = "UPDATE `objednavka` SET `zaplaceno` = CURRENT_TIMESTAMP WHERE `objednavka`.`id` = :id";
 		$sql = $this->spojeni->prepare($dotaz);
-		$sql->bindParam(":zaplaceno", $zaplaceno);
 		$sql->bindParam("id", $id);
 		if ($sql->execute()) {
 			return $this->spojeni->lastInsertId();
@@ -43,11 +42,10 @@ class ObjednavkaDB
 			return false;
 		}
 	}
-	public function zabalObjednavku($zpracovalo, $id)
+	public function zabalObjednavku( $id)
 	{
-		$dotaz = "UPDATE `objednavka` SET `zpracovalo` = :zpracovalo WHERE `objednavka`.`id` = :id;";
+		$dotaz = "UPDATE `objednavka` SET `zpracovano` = CURRENT_TIMESTAMP WHERE `objednavka`.`id` = :id";
 		$sql = $this->spojeni->prepare($dotaz);
-		$sql->bindParam(":zpracovalo", $zpracovalo);
 		$sql->bindParam("id", $id);
 		if ($sql->execute()) {
 			return $this->spojeni->lastInsertId();
@@ -55,17 +53,23 @@ class ObjednavkaDB
 			return false;
 		}
 	}
-	public function odesliObjednavku($odeslano, $id)
+	public function odesliObjednavku( $id)
 	{
-		$dotaz = "UPDATE `objednavka` SET `odeslano` = :odeslano WHERE `objednavka`.`id` = :id;";
+		$dotaz = "UPDATE `objednavka` SET `odeslano` = CURRENT_TIMESTAMP WHERE `objednavka`.`id` = :id";
 		$sql = $this->spojeni->prepare($dotaz);
-		$sql->bindParam(":odeslano", $odeslano);
 		$sql->bindParam("id", $id);
 		if ($sql->execute()) {
 			return $this->spojeni->lastInsertId();
 		} else {
 			return false;
 		}
+	}
+	public function stornoObjednavky($id)
+	{
+		$dotaz = "DELETE FROM `objednavka` WHERE `objednavka`.`id` = :id";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":id", $id);
+		$sql->execute();
 	}
 	public function vlozPolozkuDoObjednavky($objednavka_id, $produkt_id, $pocet_kusu, $velikost )
 	{
@@ -87,13 +91,42 @@ class ObjednavkaDB
         if (!in_array(strtolower($razeni), $moznosti_razeni)) {
             $razeni = "vytvoreno_v DESC";
         }
-        $dotaz = "SELECT DISTINCT objednavka.* FROM objednavka where id=:id";
+        $dotaz = "SELECT objednavka.* FROM objednavka where id=:id";
 				$sql = $this->spojeni->prepare($dotaz);
 				$sql->bindParam(":id", $id);
         $sql->execute();
         $sql->setFetchMode(PDO::FETCH_CLASS, "objednavka");
         return $sql->fetch();
     }
+	public function nactiObjednavkyUzivatele($id_uzivatele, $razeni = "datum_vydani DESC")
+	{
+		$moznosti_razeni = array("id", "nazev", "text", "popis", "datum DESC");
+		if (!in_array(strtolower($razeni), $moznosti_razeni)) {
+			$razeni = "vytvoreno_v DESC";
+		}
+		$dotaz = "SELECT DISTINCT objednavka.* FROM objednavka where uzivatel_id =:id order by vytvoreno_v DESC ";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":id", $id_uzivatele);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "objednavka");
+		return $sql->fetchAll();
+	}
+	public function nactiVsechnyObjednavky()
+	{
+		$dotaz = "SELECT * FROM `objednavka` order by vytvoreno_v DESC ";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "objednavka");
+		return $sql->fetchAll();
+	}
+	public function nactiObjednavkyfiltrovane()
+	{
+		$dotaz = "SELECT * FROM `objednavka` where zaplaceno IS NOT NULL AND odeslano IS NULL  order by vytvoreno_v DESC ";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->execute();
+		$sql->setFetchMode(PDO::FETCH_CLASS, "objednavka");
+		return $sql->fetchAll();
+	}
 	public function nactiprodukty($razeni = "datum_vydani DESC")
 	{
 		$moznosti_razeni = array("id", "nazev", "text", "popis", "datum DESC");

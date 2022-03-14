@@ -19,7 +19,7 @@ public function vypisOptionVelikost() {
 public function vypisVelikosti(){
     echo "
 		<label class='radio'>
-					<input type='radio' name='velikost_v_produktu' value='$this->velikost' class='showSize' required ></input>
+					<input type='radio' name='velikost' value='$this->velikost' class='showSize' required ></input>
 					<span class='checkmark'>$this->velikost</span>
 				</label>";
 }

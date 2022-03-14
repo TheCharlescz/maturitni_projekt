@@ -4,6 +4,7 @@
 session_start();
 require("Urlzkrasnovac.php");
 ?>
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
@@ -16,48 +17,14 @@ require("Urlzkrasnovac.php");
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssProdukt-administrace.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="stylesheet" href="Css/cssKosik.css">
 	<title>Infiltrated</title>
 </head>
 
 <body>
-	<header id="Myheader">
-		<nav role="navigation" id="resNavigation">
-
-			<div id="menuToggle">
-
-				<input id="check" type="checkbox" />
-
-				<span class="menuSpan"></span>
-				<span class="menuSpan"></span>
-				<span class="menuSpan"></span>
-
-				<ul id="menu">
-					<a href="">Muži</a>
-					<a href="">Ženy</a>
-					<a href="">děti</a>
-					<a class="grey" href="">Sporty</a>
-					<a class="grey" href="">Značky</a>
-					<a class="grey" href="">Kolekce</a>
-					<div id="searchNav">
-						<input type="search" name="" placeholder="search...">
-						<a href="" id="search-icon"><span class="material-icons">
-								search
-							</span>
-						</a>
-					</div>
-				</ul>
-			</div>
-		</nav>
-		<nav id="navigation">
-			<a href="">Muži</a>
-			<a href="">Ženy</a>
-			<a href="">děti</a>
-			<a class="grey" href="">Sporty</a>
-			<a class="grey" href="">Značky</a>
-			<a class="grey" href="">Kolekce</a>
-
-		</nav>
-		<a href="index.php" id=aLogo><svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+	<header id="Myheader" style="color:grey">
+		<a href="index.php" id=aLogo>
+			<svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 				<g transform="translate(0.000000,1640.000000) scale(0.100000,-0.100000)">
 					<path class="st0" d="M30.9,16343.7l-7.3-0.2l0.1-6.3l0.1-6.3l3.2-0.2c5.5-0.2,16.8-1.8,19.9-2.7c9.3-2.7,13.3-8,15.6-20
           c0.7-3.7,0.8-13,1-74.7l0.2-70.5H42H20.2l-1.2-1.4c-3-3.4-2.5-11.5,0.8-14.1c1-0.8,3.9-0.9,22.3-0.9c20.5,0,21.2-0.1,21.5-1.1
@@ -105,15 +72,10 @@ require("Urlzkrasnovac.php");
           c-0.2,33.6-0.5,63-0.6,65.1c-0.6,7.5,1.2,17.2,4.5,23.7c2.5,4.9,8.1,11.2,11.5,13.1c4.1,2.2,10.9,3.8,17.3,4.2
           c8.7,0.5,7.9-0.2,7.9,7v6.1l-20.9,0.3C106.1,16344.1,46.7,16344,30.9,16343.7z" />
 				</g>
-			</svg></a>
+			</svg>
+		</a>
+		<h1> Správa objednávek</h1>
 		<div id="SaN">
-			<div id="search">
-				<input type="search" name="" placeholder="search...">
-				<a href="" id="search-icon"><span class="material-icons">
-						search
-					</span>
-				</a>
-			</div>
 			<nav>
 				<?php
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] == 3) {
@@ -150,9 +112,8 @@ require("Urlzkrasnovac.php");
 						$a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
 						echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
 					}
-					echo " </a>";
+					echo "</a>";
 				}
-
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
 					echo "<a href='Produkt-sprava.php' title='Správa a administrace produktů'>
     <span class='material-icons'>
@@ -160,7 +121,24 @@ require("Urlzkrasnovac.php");
     </span>
     </a>";
 				} else {
-					echo "<a href='Uzivazel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i>
+					<span class='badge badge-warning' id='lblCartCount'>";
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					$db = new ProduktDB();
+					$produkt = new Produkt();
+					$pocet = 0;
+					if (isset($_COOKIE['produkt_id'])) {
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
+							}
+						}
+					}
+					echo "$pocet </span></a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
@@ -172,6 +150,21 @@ require("Urlzkrasnovac.php");
 			</nav>
 		</div>
 	</header>
+	<main>
+		<div>
+		</div>
+		<?php
+		spl_autoload_register(function ($trida) {
+			include_once "Class/$trida.php";
+		});
+		$objednavka = new Objednavka();
+		$db_objednavka = new ObjednavkaDB();
+		$objednavky = $db_objednavka->nactiObjednavkyfiltrovane();
+		foreach ($objednavky as $objednavka) {
+			$objednavka->vypisSpravyObjednavek();
+		}
+		?>
+	</main>
 	<footer>
 		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
 	</footer>

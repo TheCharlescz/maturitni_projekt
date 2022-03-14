@@ -1,10 +1,11 @@
-<!DOCTYPE html>
-<html lang="cz">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
 require("cookies.php");
 ?>
+<!DOCTYPE html>
+<html lang="eng">
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
@@ -156,7 +157,6 @@ require("cookies.php");
 					}
 					echo "</a>";
 				}
-
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
 					echo "<a href='Produkt-sprava.php' title='Správa a administrace produktů'>
     <span class='material-icons'>
@@ -172,14 +172,14 @@ require("cookies.php");
 					$db = new ProduktDB();
 					$produkt = new Produkt();
 					$pocet = 0;
-					if(isset($_COOKIE['produkt_id'])) {
 					if (isset($_COOKIE['produkt_id'])) {
-                    foreach ($_COOKIE['produkt_id'] as $i => $val) {
-                        if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
-                            $pocet++;
-                        }
-                    }
-					}
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
+							}
+						}
 					}
 					echo "$pocet </span></a>";
 				}
@@ -243,7 +243,7 @@ require("cookies.php");
 		</div>
 	</div>
 	<main>
-		<section id=products>
+		<section id=products class="order_first">
 			<h2>TOP produkty!</h2>
 			<div id="showProducts" class="purple">
 				<?php
@@ -260,7 +260,7 @@ require("cookies.php");
 				?>
 			</div>
 		</section>
-		<section id=Categories>
+		<section id=Categories class="order_second">
 			<h2>Pro koho nakupujete?</h2>
 			<div class="showCategories">
 				<a href="Produkty.php?pohlavi_odkaz=Muz" class="showCategory">
@@ -291,7 +291,7 @@ require("cookies.php");
 				<a class="input" href="">Zobrazit více...</a>
 			</div>
 		</div>
-		<section id=Categories>
+		<section id=Categories class="order_last">
 			<h2>Za jakým účelem nakupujete?</h2>
 			<div class="showCategories">
 				<a href="Produkty.php?kategorie_odkaz=1" class="showCategory">
@@ -314,7 +314,7 @@ require("cookies.php");
 				</a>
 			</div>
 		</section>
-		<section id=products>
+		<section id=products class="order_third">
 			<h2> Zlevěné produkty!</h2>
 			<div id="showProducts" class="purple">
 				<?php

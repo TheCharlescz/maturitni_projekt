@@ -23,4 +23,11 @@ class PolozkaDB
 		$sql->setFetchMode(PDO::FETCH_CLASS, "polozka");
 		return $sql->fetchAll();
 	}
+	public function odstranitPolozkuzObjednavky($id)
+	{
+		$dotaz = "DELETE FROM `polozka` WHERE `objednavka_id` = :id";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":id", $id);
+		$sql->execute();
+	}
 }

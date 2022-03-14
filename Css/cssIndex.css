@@ -200,6 +200,22 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30p
   #adver  {
     display: none;
   }
+	main {
+		display: flex;
+		flex-direction: column;
+	}
+		.order_first {
+		order: 1;
+	}
+		.order_second {
+		order: 2;
+	}
+	.order_third {
+		order: 3;
+	}
+	.order_last {
+		order: 99;
+	}
 }
 @media(max-width:800px){
   .showCategories{

@@ -2,13 +2,25 @@
 <html lang="cz">
 <?php
 session_start();
+require("Url-ultra-zkrasnovac.php");
 
-require("Urlzkrasnovac.php");
+			if (isset($_GET["id"])) {
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db = new UzivatelDB();
+		$db->smazOblibeneProduktyUzivatele($_SESSION["id_uzivatele"]);
+		$db->smazUzivatele($_SESSION["id_uzivatele"]);
+				unset($_SESSION["id_uzivatele"]);
+					echo "<h2 class= 'spravne'>Příspěvek byl smazán</h2>";
+					header("Location: index.php");
+			}
 
 if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 	header("Location: Uzivatel-prihlaseni.php ");
 }
 ?>
+
 <head>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
@@ -17,6 +29,7 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 	<link rel="shortcut icon" href="img/logo.ico" />
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
+	<link rel="stylesheet" href="Css/cssKosik.css">
 	<link rel="stylesheet" href="Css/cssUzivatel.css">
 	<link rel="stylesheet" href="Css/cssModalBox.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
@@ -106,10 +119,19 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
                 </a>";
 				} else {
 					echo "<a href='Uzivatel-oblibene.php' title='Oblíbené produkty'>
-                    <span class='material-icons'>
-                    favorite_border
-                    </span>
-                    </a>";
+        <span class='material-icons'>
+        favorite_border
+        </span>";
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					if (isset($_SESSION["id_uzivatele"])) {
+						$db = new ProduktDB();
+						$produkt = new Produkt();
+						$a = $db->nactiPocetOblibenychProduktuUzivatele($_SESSION["id_uzivatele"]);
+						echo "<span class='badge badge-warning' id='lblCartCount'> $a->pocet </span>";
+					}
+					echo "</a>";
 				}
 
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"]) && $_SESSION["prava"] >= 2) {
@@ -119,9 +141,25 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
                 </span>
                 </a>";
 				} else {
-					echo "<a href='Uzivazel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i></a>";
+					echo "<a href='Uzivatel-kosik.php'  title='Košík'><i class='material-icons'>shopping_cart</i>
+					<span class='badge badge-warning' id='lblCartCount'>";
+					spl_autoload_register(function ($trida) {
+						include_once "Class/$trida.php";
+					});
+					$db = new ProduktDB();
+					$produkt = new Produkt();
+					$pocet = 0;
+					if (isset($_COOKIE['produkt_id'])) {
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
+							}
+						}
+					}
+					echo "$pocet </span></a>";
 				}
-
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
 					echo "<a href='Uzivatel-odhlaseni.php' title='Odhlášení'><i class='material-icons'>logout</i></a>";
 				} else {
@@ -132,13 +170,11 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 		</div>
 	</header>
 	<main>
-		<div class="kartyUzivatelu">
+		<section class="blok">
 			<?php
 
 			spl_autoload_register(function ($trida) {
-				include_once "Class/$trida.php";
-			});
-
+				include_once "Class/$trida.php";});
 			$db = new UzivatelDB();
 			$uzivatel = new Uzivatel();
 			$uzivatel = $db->nactiUzivatel($_SESSION["id_uzivatele"]);
@@ -150,9 +186,22 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 				$uzivatel->vypisUzivateleVlastniProfil();
 			}
 			?>
-		</div>
-	</main>
+		</section>
+		<?php
+		if($_SESSION["prava"] == 1 )
+		echo "<h1 style='color:black;'>Historie objednávek</h1>";
+		?>
 
+			<?php
+			$objednavka = new Objednavka();
+			$db_objednavka = new ObjednavkaDB();
+			$objednavky = $db_objednavka->nactiObjednavkyUzivatele($_SESSION["id_uzivatele"]);
+			foreach ($objednavky as $objednavka) {
+				$objednavka->vypisHistorieUzivatele();
+			}
+
+			?>
+	</main>
 </body>
 
 </html>

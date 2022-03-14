@@ -145,14 +145,14 @@ if (isset($_GET["id"])) {
 					$db = new ProduktDB();
 					$produkt = new Produkt();
 					$pocet = 0;
-					if(isset($_COOKIE['produkt_id'])) {
 					if (isset($_COOKIE['produkt_id'])) {
-                    foreach ($_COOKIE['produkt_id'] as $i => $val) {
-                        if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
-                            $pocet++;
-                        }
-                    }
-					}
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
+							}
+						}
 					}
 					echo "$pocet </span></a>";
 				}
@@ -166,7 +166,7 @@ if (isset($_GET["id"])) {
 			</nav>
 		</div>
 	</header>
-	<main>
+	<main id="main">
 		<h1>Právě přihlášený:</h1>
 		<div class="kartyUzivatelu">
 			<?php

@@ -121,6 +121,12 @@ display: flex;
 flex-direction: column;
 flex: 0 1 40%
 }
+#flex_avrage1{
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+flex: 0 1 40%
+}
 #flex-avrag {
 flex: 0 1 40%
 }
@@ -175,6 +181,7 @@ width: 240px;
   	top: 8px;
   	right: 16px;
   }
+
 	.noMargin { margin: 0;}
 	h2,h3 {
 		margin: 2px;
@@ -191,7 +198,6 @@ width: 240px;
 	flex-direction: row;
 }
 
-/* Customize the label (the container) */
 .container {
   display: block;
   position: relative;
@@ -205,7 +211,6 @@ width: 240px;
   user-select: none;
 }
 
-/* Hide the browser's default radio button */
 .container input {
   position: absolute;
   opacity: 0;
@@ -214,7 +219,6 @@ width: 240px;
   width: 0;
 }
 
-/* Create a custom radio button */
 .mark {
   position: absolute;
   top: 0;
@@ -225,29 +229,23 @@ width: 240px;
   border-radius: 50%;
 }
 
-/* On mouse-over, add a grey background color */
 .container:hover input ~ .mark {
   background-color: #ccc;
 }
 
-/* When the radio button is checked, add a blue background */
 .container input:checked ~ .mark {
-  background-color: #2196F3;
+  background-color: black;
 }
 
-/* Create the indicator (the dot/circle - hidden when not checked) */
 .mark:after {
   content: "";
   position: absolute;
   display: none;
 }
-
-/* Show the indicator (dot/circle) when checked */
 .container input:checked ~ .mark:after {
   display: block;
 }
 
-/* Style the indicator (dot/circle) */
 .container .mark:after {
   top: 9px;
   left: 9px;

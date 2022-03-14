@@ -454,6 +454,8 @@ class  ProduktDB {
 		$sql->setFetchMode(PDO::FETCH_CLASS, "produkt");
 		return $sql->fetchAll();
 	}
+
+
 	public function filtraceProdkutuAdministrace($pohlavi, $kategorie, $typ, $akce, $material, $znacka, $hledany_text)
 	{
 		$dotaz = "SELECT DISTINCT materialy.*, kategorie.*, akce.*, znacky.* , typy.* , produkt.* FROM produkt
@@ -617,7 +619,7 @@ class  ProduktDB {
 			return false;
 		}
 	}
-	public function smazOblibeneProduktyUzivatele($id_uzivatel, $id_produkt)
+	public function smazOblibeneProduktUzivatele($id_uzivatel, $id_produkt)
 	{
 		$dotaz = "DELETE FROM oblibene
      WHERE oblibene.uzivatel_id = :id_uzivatel and oblibene.produkt_id = :id_produkt";
@@ -626,10 +628,9 @@ class  ProduktDB {
 		$sql->bindParam(":id_produkt", $id_produkt);
 		return $sql->execute();
 	}
-	public function smazOblibeneProduktyUživatelu( $id_produkt)
+	public function smazOblibenyProduktUzivatelu($id_produkt)
 	{
-		$dotaz = "DELETE FROM oblibene
-     WHERE oblibene.produkt_id = :id_produkt";
+		$dotaz = "DELETE FROM oblibene WHERE oblibene.produkt_id = :id_produkt";
 		$sql = $this->spojeni->prepare($dotaz);
 		$sql->bindParam(":id_produkt", $id_produkt);
 		return $sql->execute();
@@ -810,6 +811,7 @@ class  ProduktDB {
         return $sql->execute();
 
     }
+
     public function ulozProdukt($produkt) {
         $dotaz = "update produkt set typy_id=:typy_id,akce_id=:akce_id,uzivatel_id=:uzivatel_id,
         kategorie_id=:kategorie_id, materialy_id=:materialy_id, znacky_id=:znacky_id,

@@ -2,7 +2,7 @@
 <html lang="cz">
 <?php
 session_start();
-require("Urlzkrasnovac.php");
+//require("Urlzkrasnovac.php");
 ?>
 
 <head>
@@ -16,7 +16,9 @@ require("Urlzkrasnovac.php");
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssKosik.css">
+	<link rel="stylesheet" href="Css/cssModalBox.css">
 	<link rel="shortcut icon" href="img/logo.ico" />
+	<script src="Script/scriptModalBox.js"></script>
 	<title>Infiltrated</title>
 </head>
 
@@ -144,7 +146,6 @@ require("Urlzkrasnovac.php");
 					}
 					echo "$pocet </span></a>";
 				}
-
 				if (isset($_SESSION["id_uzivatele"]) && isset($_SESSION["prava"])) {
 					echo "<a href='Uzivatel-odhlaseni.php' title='Odhlášení'><i class='material-icons'>logout</i></a>";
 				} else {
@@ -155,9 +156,49 @@ require("Urlzkrasnovac.php");
 		</div>
 	</header>
 	<main>
-		<div class="blok" id="flex_avrage">
-			<h1>Shrnutí objednávky</h1>
+		<section class="blok" id="flex_avrage">
+			<h2>Shrnutí objednávky</h2>
 			<?php
+			spl_autoload_register(function ($trida) {
+				include_once "Class/$trida.php";
+			});
+			if (isset($_POST["zaplatit"])) {
+				$db_objednavka = new ObjednavkaDB();
+				$db_velikost = new VelikostDB();
+				$db_polozka = new PolozkaDB();
+				$velikost = new Velikost();
+				$objednavka = new Objednavka();
+				$db_objednavka->zaplatObjednavku($_SESSION["id_objednavky"]);
+				//$objednavka = $db_objednavka->nactiObjednavku($_SESSION["id_objednavky"]);
+				$polozky = $db_polozka->nactiPolozkyObjednavky($_SESSION["id_objednavky"]);
+				foreach ($polozky as $polozka) {
+					$velikost = $db_velikost->nactiVelikostProduktu($polozka->produkt_id, $polozka->velikost);
+					$nova_velikost = $velikost->pocet_kusu - $polozka->pocet_kusu;
+					$db_velikost->upravVelikost($velikost->id, $nova_velikost);
+				}
+				//unset($_SESSION["id_objednavky"]);
+			?>
+				<script>
+					location.replace("Uzivatel-profil.php");
+				</script>
+			<?php
+			}
+			if (isset($_POST["storno"])) {
+				$db_objednavka = new ObjednavkaDB();
+				$db_polozka = new PolozkaDB();
+				$polozky = $db_polozka->nactiPolozkyObjednavky($_SESSION["id_objednavky"]);
+				foreach ($polozky as $polozka) {
+					$db_polozka->odstranitPolozkuzObjednavky($_SESSION["id_objednavky"]);
+				}
+				$db_objednavka->stornoObjednavky($_SESSION["id_objednavky"]);
+				unset($_SESSION["id_objednavky"]);
+			?>
+				<script>
+					location.replace("Uzivatel-kosik.php");
+				</script>
+			<?php
+
+			}
 			spl_autoload_register(function ($trida) {
 				include_once "Class/$trida.php";
 			});
@@ -167,45 +208,79 @@ require("Urlzkrasnovac.php");
 			$db_objednavka = new ObjednavkaDB();
 			$polozka = new Polozka();
 			$db_polozka = new PolozkaDB();
-			if(isset($_SESSION["id_uzivatele"])) {
+			if (isset($_SESSION["id_uzivatele"])) {
 				$uzivatel = $db_uzivatel->nactiUzivatel($_SESSION["id_uzivatele"]);
-				var_dump($_SESSION["id_uzivatele_neprihlasen"]);
 			} else {
 				$uzivatel = $db_uzivatel->nactiUzivatel($_SESSION["id_uzivatele_neprihlasen"]);
 			}
 			$uzivatel->vypisUzivateleVKosiku();
-			//$polozky = $db_polozka->nactiPolozkyObjednavky($_SESSION["id_objednavky"]);
-			//foreach ($polozky as $polozka) {
-			//	$polozka->vypisLegendyKosiku();
-			//}
-			//$objednavka = $db_objednavka->nactiObjednavku($_SESSION["id_objednavky"]);
-			//echo "<span class='flex' id='borer_top'>";
-			//echo "<h3>Celkem</h3>";
-			//echo "<h3> $objednavka->celkova_cena Kč</h3>";
-			//echo "</span>";
-
-		
+			$objednavka = $db_objednavka->nactiObjednavku($_SESSION["id_objednavky"]);
+			echo "Doprava: $objednavka->doprava";
 			?>
-		</div>
-		<div class="blok" id="flex_avrage">
-			<h1>Zakoupené produkty</h1>
-			<?php
-			spl_autoload_register(function ($trida) {
-				include_once "Class/$trida.php";
-			});
-			$polozka = new Polozka();
-			$db = new PolozkaDB();
-			$polozky = $db->nactiPolozkyObjednavky($_SESSION["id_objednavky"]);
-			foreach ($polozky as $polozka) {
-				$polozka->vypisProduktuvObjednavce();
-			}
-			?>
-		</div>
+		</section>
+		<section class="blok" id="flex_avrage1">
+			<div>
+				<h2>Zakoupené produkty</h2>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$polozka = new Polozka();
+				$db = new PolozkaDB();
+				$polozky = $db->nactiPolozkyObjednavky($_SESSION["id_objednavky"]);
+				foreach ($polozky as $polozka) {
+					$polozka->vypisProduktuvObjednavce();
+				}
+				?>
+			</div>
+			<div>
+				<?php
+				spl_autoload_register(function ($trida) {
+					include_once "Class/$trida.php";
+				});
+				$db_objednavka = new ObjednavkaDB();
+				$objednavka = new Objednavka();
+				$objednavka = $db_objednavka->nactiObjednavku($_SESSION["id_objednavky"]);
+				echo "<span class='flex' id='borer_top'>";
+				echo "<h3>Celkem</h3>";
+				echo "<h3> $objednavka->celkova_cena Kč</h3>";
+				echo "</span>";
+				?>
+			</div>
+			<form method="post" id="submit-button">
+				<input type="button" class="input" value="Zaplatit objednávku" onclick='document.getElementById("zaplaceno").style.display = "block";'>
+				<input type="button" class="input" value="Storno objednávky" onclick='document.getElementById("storno").style.display = "block";'>
+			</form>
+			</div>
+		</section>
 	</main>
+	<div id="zaplaceno" class='modal'>
+		<div class='modal-content'>
+			<h1>Objednávka byla zaplacena </h1>
+			<h3>Id objednávky: <?php $id = $_SESSION['id_objednavky'];
+													echo "$id"; ?></h3>
+			<h3>Děkujeme za potvrzení a zaplacení objednávky, dojde ke zpracování a následnému odeslání.</h3>
+			<h3>Přesměrujeme na vaši profilovou stránku kde můžete sledovat průběh své objednávky, pokud jste se zaregistroval.</h3>
+			<form method="post">
+				<input type="submit" class="input" value="Paráda" name="zaplatit">
+			</form>
+
+		</div>
+	</div>
+	<div id="storno" class='modal'>
+		<div class='modal-content'>
+			<span onclick='closeModalStorno()' class='close'>&times;</span>
+			<h1>Optavdu si přetete stronovat objedávku?</h1>
+			<h2>Tato akce nepůjde vzít zpět!!</h2>
+			<form method="post">
+				<input type="submit" class="input" value="Ano, chci stornovat objednávku" name="storno">
+				<input type="submit" class="input" value="Ne, nechci stornovat objednávku" onclick='closeModalStorno()'>
+			</form>
+		</div>
+	</div>
 	<footer>
 		<p>This website is used only for study purposes and not for commerce. Web created by Charles.</p>
 	</footer>
-
 </body>
 
 </html>

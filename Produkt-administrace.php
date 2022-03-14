@@ -93,7 +93,7 @@ if ($_SESSION["prava"] < 1) {
 				});
 				$produkt = new Produkt();
 				$db = new ProduktDB();
-				$db->smazOblibeneProduktyUživatelu($_GET["id_smaz"]);
+				$db->smazOblibenyProduktUzivatelu($_GET["id_smaz"]);
 				$produkt = $db->nactiProdukt($_GET["id_smaz"]);
 				$obrazky = scandir("img_produkt/$produkt->id/");
 				foreach ($obrazky as $file) {
@@ -179,7 +179,7 @@ if ($_SESSION["prava"] < 1) {
 			</div>
 	</header>
 	<section id="filtr_menu">
-		<button class="button" id="form_filtr_button" onclick="myFunction()">Filtr&nbsp;a&nbsp;vyhledávání</button>
+		<button class="input" id="form_filtr_button" onclick="myFunction()">Filtr&nbsp;a&nbsp;vyhledávání</button>
 		<form id="filtr_menu_form" action="Produkty.php" method="get">
 			<select name="akce_id" class="input">
 				<option value="">Akce</option>
@@ -259,7 +259,8 @@ if ($_SESSION["prava"] < 1) {
 				<option value="Unisex">Unisex</option>
 			</select>
 			<input type="search" name="hledany_text" placeholder="search...">
-			<input type="submit" name="vyfiltruj" value="Vyfiltruj">
+			<input class="input"  type="submit" name="vyfiltruj" value="Vyfiltruj">
+			<a class="input" href="Produkt-pridat.php">Přidat Produkt</a>
 	</section>
 	<main>
 		<?php

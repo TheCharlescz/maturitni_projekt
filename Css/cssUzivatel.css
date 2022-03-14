@@ -1,7 +1,15 @@
 main{
+margin: 1% 20%;
+padding: 3%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+padding: 3%;
+border-radius: 20px;
+}
+#main{
 margin: 5% 20%;
 padding: 3%;
-background-color: black;
 display: flex;
 flex-direction: column;
 justify-content: center;
@@ -28,6 +36,17 @@ header{
         box-shadow: 0px 3px 21px 6px rgb(0 0 0 / 34%);
         border-bottom: 1px solid grey;
         border-top: 1px solid grey;
+}
+.blok{
+margin: 1%;
+padding: 5%;
+background-color: black;
+display: flex;
+flex-direction: column;
+justify-content: center;
+background-color: black;
+box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30px, rgba(0, 0, 0, 0.12) 0px 4px 6px, rgba(0, 0, 0, 0.17) 0px 12px 13px, rgba(0, 0, 0, 0.09) 0px -3px 5px;;
+border-radius: 20px;
 }
 .kartyUzivatelu {
     display: flex;
@@ -76,6 +95,15 @@ button:hover{
 }
 #pridat{
     margin: 30px 20%;
+}
+#flex_avrage1{
+display: flex;
+flex-direction: column;
+justify-content: space-between;
+flex: 0 1 40%
+}
+main {
+	flex-direction: column;
 }
 @media(max-width:800px) {
     #aLogo {

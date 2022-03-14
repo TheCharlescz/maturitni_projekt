@@ -277,7 +277,7 @@ class Uzivatel
         <span onclick='closeModalSmaz($this->id)' class='close'>&times;</span>
         <h2> Opravdu chcete smazat svůj účet: " . $this->jmeno . " " . $this->prijmeni . "?</h2>
         <p>Nebudete mít už nadále přístup ke svému košíku a oblíbeným produktům.</p>
-        <a class='input' href='Uzivatel-administrace.php?id=$this->id'>Ano chci smazat tento profil</a>
+        <a class='input' href='Uzivatel-profil.php?id=$this->id'>Ano chci smazat tento profil</a>
         <button onclick='closeModalSmaz($this->id)' id='myBtn'>Nechci smazat tento profil</button>
     </div>
     </div>";

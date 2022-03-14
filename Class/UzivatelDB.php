@@ -82,7 +82,7 @@ public function nactiUzivatel($id) {
 }
 
 public function smazUzivatele($id) {
-    $dotaz = "delete from uzivatel where id=:id";
+    $dotaz = "delete from uzivatel where id = :id";
     $sql = $this->spojeni->prepare($dotaz);
     $sql ->bindParam(":id",$id);
     return $sql->execute();
@@ -108,6 +108,36 @@ public function ulozUzivatele($uzivatel) {
     if($sql->execute()){return $uzivatel->id;}
     else {return false;}
 }
+	public function smazOblibeneProduktyUzivatele($uzivatel_id)
+	{
+		$dotaz = "DELETE FROM oblibene
+     WHERE oblibene.uzivatel_id = :uzivatel_id";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":uzivatel_id", $uzivatel_id);
+		return $sql->execute();
+	}
+	public function ulozUzivatelebezhesla($uzivatel)
+	{
+		$dotaz = "update uzivatel set jmeno=:jmeno, prijmeni=:prijmeni, email=:email, login=:login, prava=:prava, mesto=:mesto, ulice=:ulice,
+    cislo_popisne=:cislo_popisne, PSC=:PSC, telkontakt=:telkontakt where id=:id";
+		$sql = $this->spojeni->prepare($dotaz);
+		$sql->bindParam(":jmeno", $uzivatel->jmeno);
+		$sql->bindParam(":prijmeni", $uzivatel->prijmeni);
+		$sql->bindParam(":email", $uzivatel->email);
+		$sql->bindParam(":login", $uzivatel->login);
+		$sql->bindParam(":prava", $uzivatel->prava);
+		$sql->bindParam(":mesto", $uzivatel->mesto);
+		$sql->bindParam(":ulice", $uzivatel->ulice);
+		$sql->bindParam(":cislo_popisne", $uzivatel->cislo_popisne);
+		$sql->bindParam(":PSC", $uzivatel->PSC);
+		$sql->bindParam(":telkontakt", $uzivatel->telkontakt);
+		$sql->bindParam(":id", $uzivatel->id);
+		if ($sql->execute()) {
+			return $uzivatel->id;
+		} else {
+			return false;
+		}
+	}
 
 }
 ?>
