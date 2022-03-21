@@ -44,15 +44,6 @@ if (isset($_POST["pocet_kusu"])) {
 		}
 	}
 }
-if (isset($_POST["velikost"])) {
-	foreach ($_COOKIE["velikost"] as $index => $value) {
-		$key = array_search($_GET["id_produktu"], $_COOKIE["produkt_id"]);
-		if ($key == $index) {
-				setcookie("velikost[$index]", $_POST["velikost"], time() + (86400 * 30));
-			header("Refresh:0");
-		}
-	}
-}
 //if (isset($_POST["velikost_v_produktu"])) {
 //	foreach ($_COOKIE["velikost"] as $index => $value) {
 ///		$key = array_search($_POST["pridat-do-kosiku"], $_COOKIE["produkt_id"]);

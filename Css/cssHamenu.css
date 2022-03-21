@@ -289,9 +289,7 @@ a h1{
   position: relative;
   top: 50px;
   left: 50px;
-
   z-index: 1;
-
   -webkit-user-select: none;
   user-select: none;
 }

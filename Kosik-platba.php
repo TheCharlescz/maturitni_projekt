@@ -220,7 +220,7 @@ session_start();
 		</section>
 		<section class="blok" id="flex_avrage1">
 			<div>
-				<h2>Zakoupené produkty</h2>
+				<h2>Produkty v košíku</h2>
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -248,7 +248,7 @@ session_start();
 				?>
 			</div>
 			<form method="post" id="submit-button">
-				<input type="button" class="input" value="Zaplatit objednávku" onclick='document.getElementById("zaplaceno").style.display = "block";'>
+				<input type="button" class="input" value="Potvrdit objednávku" onclick='document.getElementById("zaplaceno").style.display = "block";'>
 				<input type="button" class="input" value="Storno objednávky" onclick='document.getElementById("storno").style.display = "block";'>
 			</form>
 			</div>
@@ -278,7 +278,7 @@ session_start();
 			</form>
 		</div>
 	</div>
-	<footer>
+	<footer id="footer">
 		<p>This website is used only for study purposes and not for commerce. Web created by Charles.</p>
 	</footer>
 </body>

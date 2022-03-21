@@ -276,7 +276,7 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 		if (isset($_GET["odstran"])) {
 			$db = new ProduktDB();
 			$produkt = new Produkt();
-			$produkty = $db->smazOblibeneProduktyUzivatele($_SESSION["id_uzivatele"], $_GET["odstran"]);
+			$produkty = $db->smazOblibeneProduktUzivatele($_SESSION["id_uzivatele"], $_GET["odstran"]);
 			//header("Location: Uzivatel-oblibene.php ");
 		}
 		if (isset($_GET["vyfiltruj"])) {

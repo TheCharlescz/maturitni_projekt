@@ -14,9 +14,6 @@ class Uzivatel
     public $PSC;
     public $prava;
 
-    const PRAVA = array(
-        -1 => "Bez oprávnění(BAN)" and "Nepřihlášený", 0 => "Nepřiděleno", 1 => "Zaměstnanec", 2 => "Prodejce", 3 => "Admin"
-    );
     public function nastavRegistraci($email, $heslo, $prava = 1, $id = NULL)
     {
 

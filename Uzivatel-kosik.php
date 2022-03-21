@@ -4,6 +4,15 @@
 session_start();
 require("Urlzkrasnovac.php");
 require("cookies.php");
+if (isset($_POST["velikost"])) {
+	foreach ($_COOKIE["velikost"] as $index => $value) {
+		$key = array_search($_GET["id_produktu"], $_COOKIE["produkt_id"]);
+		if ($key == $index) {
+			setcookie("velikost[$index]", $_POST["velikost"], time() + (86400 * 30));
+			header("Refresh:0");
+		}
+	}
+}
 ?>
 
 <head>
@@ -259,8 +268,6 @@ require("cookies.php");
 							$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
 						}
 					}
-				} else {
-					echo "<h2>Empty...</h2>";
 				}
 				?>
 				<span class="flex">

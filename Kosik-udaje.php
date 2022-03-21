@@ -27,8 +27,7 @@ require("cookies.php");
 <body>
 	<header id="Myheader">
 		<a href="index.php" id=aLogo>
-			<svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-				x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
+			<svg version="1.1" id="Vrstva_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 50 50" style="enable-background:new 0 0 50 50;" xml:space="preserve">
 				<g transform="translate(0.000000,1640.000000) scale(0.100000,-0.100000)">
 					<path class="st0" d="M30.9,16343.7l-7.3-0.2l0.1-6.3l0.1-6.3l3.2-0.2c5.5-0.2,16.8-1.8,19.9-2.7c9.3-2.7,13.3-8,15.6-20
           c0.7-3.7,0.8-13,1-74.7l0.2-70.5H42H20.2l-1.2-1.4c-3-3.4-2.5-11.5,0.8-14.1c1-0.8,3.9-0.9,22.3-0.9c20.5,0,21.2-0.1,21.5-1.1
@@ -159,41 +158,41 @@ require("cookies.php");
 					}
 					$db_objednavka->doplnCenuObjednavky($celkova_cena, $id_objednavky);
 					$_SESSION["id_objednavky"] = $id_objednavky;
-					?>
-		<script>
-		location.replace("Kosik-platba.php");
-		</script>
-		<?php
+		?>
+					<script>
+						location.replace("Kosik-platba.php");
+					</script>
+				<?php
 					//header("Location: Kosik-platba.php ");
 				}
 			} else {
-      if (isset($_POST['ulozit_informace'])) {
-      $uzivatel->nastavneRegistraci($_POST["jmeno"], $_POST["prijmeni"], $_POST["email"], $_POST["ulice"], $_POST["mesto"], $_POST["telkontakt"], $_POST["cislo_popisne"], $_POST["PSC"], 1, $_SESSION["id_uzivatele"]);
-			$db_uzivatel->ulozUzivatelebezhesla($uzivatel);
-        }
-					$id_objednavky = $db_objednavka->vytvorObjednavku($_SESSION["id_uzivatele"], $_POST["zpusob_doruceni"]);
-					if (!empty($_COOKIE["produkt_id"])) {
-						foreach ($_COOKIE["produkt_id"] as $index => $value) {
-							if ($db_produkt->nactiProdukt($_COOKIE['produkt_id'][$index])) {
-								$polozka = $db_objednavka->vlozPolozkuDoObjednavky($id_objednavky, $_COOKIE['produkt_id'][$index], $_COOKIE['pocet_produktu'][$index], $_COOKIE['velikost'][$index]);
-								$produkt = $db_produkt->nactiProdukt($_COOKIE['produkt_id'][$index]);
-								$sleva = $produkt->cena  / 100 * $produkt->sleva;
-								$zlevnena_a_vynasobena_cena = ($produkt->cena - $sleva) * $_COOKIE['pocet_produktu'][$index];
-								$celkova_cena += $zlevnena_a_vynasobena_cena;
-								if (!isset($_SESSION["id_uzivatele"])) {
-									$celkova_cena += 40;
-								}
+				if (isset($_POST['ulozit_informace'])) {
+					$uzivatel->nastavneRegistraci($_POST["jmeno"], $_POST["prijmeni"], $_POST["email"], $_POST["ulice"], $_POST["mesto"], $_POST["telkontakt"], $_POST["cislo_popisne"], $_POST["PSC"], 1, $_SESSION["id_uzivatele"]);
+					$db_uzivatel->ulozUzivatelebezhesla($uzivatel);
+				}
+				$id_objednavky = $db_objednavka->vytvorObjednavku($_SESSION["id_uzivatele"], $_POST["zpusob_doruceni"]);
+				if (!empty($_COOKIE["produkt_id"])) {
+					foreach ($_COOKIE["produkt_id"] as $index => $value) {
+						if ($db_produkt->nactiProdukt($_COOKIE['produkt_id'][$index])) {
+							$polozka = $db_objednavka->vlozPolozkuDoObjednavky($id_objednavky, $_COOKIE['produkt_id'][$index], $_COOKIE['pocet_produktu'][$index], $_COOKIE['velikost'][$index]);
+							$produkt = $db_produkt->nactiProdukt($_COOKIE['produkt_id'][$index]);
+							$sleva = $produkt->cena  / 100 * $produkt->sleva;
+							$zlevnena_a_vynasobena_cena = ($produkt->cena - $sleva) * $_COOKIE['pocet_produktu'][$index];
+							$celkova_cena += $zlevnena_a_vynasobena_cena;
+							if (!isset($_SESSION["id_uzivatele"])) {
+								$celkova_cena += 40;
 							}
 						}
 					}
-					$db_objednavka->doplnCenuObjednavky($celkova_cena, $id_objednavky);
-					$_SESSION["id_objednavky"] = $id_objednavky;
+				}
+				$db_objednavka->doplnCenuObjednavky($celkova_cena, $id_objednavky);
+				$_SESSION["id_objednavky"] = $id_objednavky;
 				?>
-		<script>
-		location.replace("Kosik-platba.php");
-		</script>
+				<script>
+					location.replace("Kosik-platba.php");
+				</script>
 		<?php
-					//	header("Location: Kosik-platba.php ");
+				//	header("Location: Kosik-platba.php ");
 			}
 		}
 		?>
@@ -284,25 +283,19 @@ require("cookies.php");
 			<div class="blok">
 				<form method="post">
 					<label>
-						<h1>Adresní informace</h1>
+						<h1>INFORMACE O DORUČENÍ</h1>
 						<div>
 							<div class="flex1">
-								<input id="input" type="text" name="jmeno" placeholder="Jméno" value="<?php echo "$uzivatel->jmeno" ?>"
-									required>
-								<input id="input" type="text" name="prijmeni" placeholder="Příjmení" echo"
-									value="<?php echo "$uzivatel->prijmeni" ?>" required>
+								<input id="input" type="text" name="jmeno" placeholder="Jméno" value="<?php echo "$uzivatel->jmeno" ?>" required>
+								<input id="input" type="text" name="prijmeni" placeholder="Příjmení" echo" value="<?php echo "$uzivatel->prijmeni" ?>" required>
 							</div>
 							<div class="flex1">
-								<input id="input" type="text" name="ulice" placeholder="Ulice" value="<?php echo "$uzivatel->ulice" ?>"
-									required>
-								<input id="input" type="number" name="cislo_popisne" placeholder="Císlo popisné"
-									value="<?php echo "$uzivatel->cislo_popisne" ?>" required>
+								<input id="input" type="text" name="ulice" placeholder="Ulice" value="<?php echo "$uzivatel->ulice" ?>" required>
+								<input id="input" type="number" name="cislo_popisne" placeholder="Císlo popisné" value="<?php echo "$uzivatel->cislo_popisne" ?>" required>
 							</div>
 							<div class="flex1">
-								<input id="input" type="text" name="mesto" placeholder="Město" value="<?php echo "$uzivatel->mesto" ?>"
-									required>
-								<input id="input" type="number" name="PSC" placeholder="PSC" value="<?php echo "$uzivatel->PSC" ?>"
-									required>
+								<input id="input" type="text" name="mesto" placeholder="Město" value="<?php echo "$uzivatel->mesto" ?>" required>
+								<input id="input" type="number" name="PSC" placeholder="PSC" value="<?php echo "$uzivatel->PSC" ?>" required>
 							</div>
 						</div>
 					</label>
@@ -312,17 +305,15 @@ require("cookies.php");
 					<h2>Kontaktní údaje</h2>
 					<div>
 						<p>Prostřednictvím těchto údajů tě budeme informovat o doručení objednávky (Teda vlatně ne).</p>
-						<input id="input" type="email" name="email" class="sirka" placeholder="E-mail" echo"
-							value="<?php echo "$uzivatel->email" ?>" required><br>
-						<input id="input" type="tel" name="telkontakt" class="sirka" placeholder="Telefonní číslo"
-							value="<?php echo "$uzivatel->telkontakt" ?>" required><br>
+						<input id="input" type="email" name="email" class="sirka" placeholder="E-mail" echo" value="<?php echo "$uzivatel->email" ?>" required><br>
+						<input id="input" type="tel" name="telkontakt" class="sirka" placeholder="Telefonní číslo" value="<?php echo "$uzivatel->telkontakt" ?>" required><br>
 						<?php
-                        if (isset($_SESSION["id_uzivatele"])) {
-                            echo "<label class='container'> Máte zájem o uložení nebo úpravu svých informací k tomuto účtu pro snažší budoucí nákup?
+						if (isset($_SESSION["id_uzivatele"])) {
+							echo "<label class='container'> Máte zájem o uložení nebo úpravu svých informací k tomuto účtu pro snažší budoucí nákup?
 							<input class='input_doruceni' type='checkbox' name='ulozit_informace'>
 							<span class='mark'></span>
 						</label>";
-                        }
+						}
 						?>
 					</div>
 			</div>
@@ -333,8 +324,12 @@ require("cookies.php");
 					<input class="input_doruceni" type="radio" name="zpusob_doruceni" Value="Česká pošta" required>
 					<span class="mark"></span>
 				</label>
-				<label class="container">Vlastní odběr - zdarma
-					<input class="input_doruceni" type="radio" name="zpusob_doruceni" Value="Vlastní odběr" required>
+				<label class="container">PPL - 60kč
+					<input class="input_doruceni" type="radio" name="zpusob_doruceni" Value="PPL" required>
+					<span class="mark"></span>
+				</label>
+				<label class="container">DPP - 80kč
+					<input class="input_doruceni" type="radio" name="zpusob_doruceni" Value="DPP" required>
 					<span class="mark"></span>
 				</label>
 			</div>
@@ -363,8 +358,7 @@ require("cookies.php");
 						<input id="input" class="ulozit" type="submit" name="prihlasit" value="Přihlásit">
 					</label>
 					<div class="prihlaseni-blok">
-						<p>STAŇ&nbsp;SE&nbsp;ČLENEM&nbsp;KLUBU.&nbsp;ZÍSKEJ&nbsp;ODMĚNY. <a class="input" id=registr
-								href="Uzivatel-registrace.php">Zaregistruj&nbsp;se&nbsp;zde</a> </p>
+						<p>STAŇ&nbsp;SE&nbsp;ČLENEM&nbsp;KLUBU.&nbsp;ZÍSKEJ&nbsp;ODMĚNY. <a class="input" id=registr href="Uzivatel-registrace.php">Zaregistruj&nbsp;se&nbsp;zde</a> </p>
 					</div>
 				</form>
 			</div>
@@ -427,8 +421,7 @@ require("cookies.php");
 		</section>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span
-				style="color:purple">Charles</span>.</p>
+		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:purple">Charles</span>.</p>
 	</footer>
 
 </body>

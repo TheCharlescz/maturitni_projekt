@@ -248,9 +248,7 @@ require("cookies.php");
 			<div id="showProducts" class="purple">
 				<?php
 
-				spl_autoload_register(function ($trida) {
-					include_once "Class/$trida.php";
-				});
+				spl_autoload_register(function ($trida) {include_once "Class/$trida.php";});
 				$db = new ProduktDB();
 				$produkt = new Produkt();
 				$produkty = $db->nactiTopProdukty();

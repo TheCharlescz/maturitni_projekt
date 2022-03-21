@@ -259,6 +259,10 @@ public function vypisBaneruProduktuAdministace() {
 	{
 		$sleva = $this->cena / 100 * $this->sleva;
 		$zlevnena_cena = $this->cena - $sleva;
+		$db = new VelikostDB();
+		$velikost_obj = new Velikost();
+		$velikost_obj = $db->nactiVelikostProduktu($this->id, $velikost);
+		var_dump($velikost_obj->pocet_kusu);
 		echo "<section id='kosik_produkt'>
 	<div id='img'>
 		";
@@ -277,7 +281,7 @@ public function vypisBaneruProduktuAdministace() {
 			<h2>$this->nazev</h2><h3>$this->znacka</h3>" . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
 		</div>
 		<form id='formin' method='post' action='Uzivatel-kosik.php?id_produktu=$this->id'>
-			<input type='number' min='1' name='pocet_kusu' name='pridat-do-kosiku' value='$kusyvKosiku' id='kosik_input' onchange='this.form.submit()'>
+			<input type='number' min='1' max='$velikost_obj->pocet_kusu'  name='pocet_kusu' name='pridat-do-kosiku' value='$kusyvKosiku' id='kosik_input'pattern='.{1,}' required  onchange='this.form.submit()' onkeydown='return false' >
 			<div id='showSizes'>
 			";
         $this->vypisVelikostivKosiku($this->id , $velikost);

@@ -180,7 +180,7 @@ if ($_SESSION["prava"] < 1) {
 	</header>
 	<section id="filtr_menu">
 		<button class="input" id="form_filtr_button" onclick="myFunction()">Filtr&nbsp;a&nbsp;vyhledávání</button>
-		<form id="filtr_menu_form" action="Produkty.php" method="get">
+		<form id="filtr_menu_form" action="Produkt-administrace.php" method="get">
 			<select name="akce_id" class="input">
 				<option value="">Akce</option>
 				<?php
