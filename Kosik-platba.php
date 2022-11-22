@@ -1,6 +1,7 @@
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cs">
 <?php
+error_reporting(0);
 session_start();
 //require("Urlzkrasnovac.php");
 ?>
@@ -17,7 +18,7 @@ session_start();
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssKosik.css">
 	<link rel="stylesheet" href="Css/cssModalBox.css">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<script src="Script/scriptModalBox.js"></script>
 	<title>Infiltrated</title>
 </head>
@@ -79,7 +80,7 @@ session_start();
 			<div id="search">
 				<form action="Produkty.php" method="get">
 					<input id="hledat" type="search" name="hledany_text" placeholder="search...">
-					<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+					<button type="submit" class="noBorder"><span class="material-icons">search</span></button>
 				</form>
 			</div>
 			<nav>
@@ -156,7 +157,7 @@ session_start();
 		</div>
 	</header>
 	<main>
-		<section class="blok" id="flex_avrage">
+		<section class="blok" id="flex_avrage4">
 			<h2>Shrnutí objednávky</h2>
 			<?php
 			spl_autoload_register(function ($trida) {
@@ -176,7 +177,7 @@ session_start();
 					$nova_velikost = $velikost->pocet_kusu - $polozka->pocet_kusu;
 					$db_velikost->upravVelikost($velikost->id, $nova_velikost);
 				}
-				//unset($_SESSION["id_objednavky"]);
+				unset($_SESSION["id_objednavky"]);
 			?>
 				<script>
 					location.replace("Uzivatel-profil.php");
@@ -278,9 +279,6 @@ session_start();
 			</form>
 		</div>
 	</div>
-	<footer id="footer">
-		<p>This website is used only for study purposes and not for commerce. Web created by Charles.</p>
-	</footer>
 </body>
 
 </html>

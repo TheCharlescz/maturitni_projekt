@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cs">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
@@ -32,12 +32,12 @@ if (isset($_GET["id"])) {
 	<meta name="author" content="Karel Valenta">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssUzivatel.css">
 	<link rel="stylesheet" href="Css/cssModalBox.css">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
@@ -196,7 +196,10 @@ if (isset($_GET["id"])) {
 		<a class='input' id="pridat" href="Uzivatel-pridat.php">Přidat nového zaměstannce</a>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:purple">Charles</span>.</p>
+
+
+
+		<p>Karel Valenta © 2022</p>
 	</footer>
 </body>
 

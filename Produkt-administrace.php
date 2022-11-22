@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cs">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
@@ -25,7 +25,7 @@ if ($_SESSION["prava"] < 1) {
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssProdukt-administrace.css">
 	<link rel="stylesheet" href="Css/cssModalBox.css">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<script src="Script/scriptModalBox.js"></script>
 	<script src="Script/scriptNav.js"></script>
 	<title>Infiltrated - administrace produktu</title>
@@ -259,7 +259,7 @@ if ($_SESSION["prava"] < 1) {
 				<option value="Unisex">Unisex</option>
 			</select>
 			<input type="search" name="hledany_text" placeholder="search...">
-			<input class="input"  type="submit" name="vyfiltruj" value="Vyfiltruj">
+			<input class="input" type="submit" name="vyfiltruj" value="Vyfiltruj">
 			<a class="input" href="Produkt-pridat.php">Přidat Produkt</a>
 	</section>
 	<main>
@@ -292,7 +292,10 @@ if ($_SESSION["prava"] < 1) {
 		?>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
+
+
+
+		<p>Karel Valenta © 2022</p>
 	</footer>
 
 </body>

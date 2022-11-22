@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cs">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
@@ -21,20 +21,20 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 	<link rel="stylesheet" href="Css/cssIndex.css">
 	<link rel="stylesheet" href="Css/cssProdukt-administrace.css">
 	<script src="Script/scriptNav.js"></script>
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<title>Infiltrated</title>
 </head>
 <div id="black-block"></div>
 
 <body>
 	<header id="Myheader">
-		<nav role="navigation" id="resNavigation">
+		<nav id="resNavigation">
 			<div id="menuToggle">
-				<input id="check" type="checkbox" />
+				<input id="check" type="checkbox">
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
-				<ul id="menu">
+				<nav id="menu">
 					<a href="Produkty.php?pohlavi_odkaz=Muz">Muži</a>
 					<a href="Produkty.php?pohlavi_odkaz=Zena">Ženy</a>
 					<a href="Produkty.php?pohlavi_odkaz=Dite">děti</a>
@@ -45,10 +45,10 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 					<div id="searchNav">
 						<form action="Produkty.php" method="get">
 							<input type="search" name="hledany_text" placeholder="search...">
-							<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+							<button type="submit" class="noBorder"><span class="material-icons">search</span></button>
 						</form>
 					</div>
-				</ul>
+				</nav>
 			</div>
 		</nav>
 		<nav id="navigation">
@@ -306,7 +306,10 @@ if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
 		}
 		?>
 		<footer>
-			<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
+
+
+
+		<p>Karel Valenta © 2022</p>
 		</footer>
 	</main>
 </body>

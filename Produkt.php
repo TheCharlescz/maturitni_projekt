@@ -1,13 +1,12 @@
 <!DOCTYPE html>
-<html lang="cz">
-<?php
-session_start();
-require("Url-ultra-zkrasnovac.php");
-require("cookies.php");
-?>
-
+<html lang="cs">
 <head>
-	<meta charset="UTF-8">
+    <?php
+	session_start();
+	require("Url-ultra-zkrasnovac.php");
+	require("cookies.php");
+	?>
+    <meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -18,38 +17,36 @@ require("cookies.php");
 	<link rel="stylesheet" href="Css/cssIndex.css">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssProdukt.css">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<title>Infiltrated</title>
-	<script src="Script/scriptProdukt.js"></script>
 </head>
 
 <body>
 	<header id="Myheader">
-		<nav role="navigation" id="resNavigation">
+		<nav id="resNavigation">
 
 			<div id="menuToggle">
 
-				<input id="check" type="checkbox" />
+				<input id="check" type="checkbox">
 
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 
-				<ul id="menu">
+				<nav id="menu">
 					<a href="">Muži</a>
 					<a href="">Ženy</a>
 					<a href="">děti</a>
 					<a class="grey" href="">Sporty</a>
 					<a class="grey" href="">Značky</a>
 					<a class="grey" href="">Kolekce</a>
-					<div id="searchNav">
-						<input type="search" name="" placeholder="search...">
-						<a href="" id="search-icon"><span class="material-icons">
-								search
-							</span>
-						</a>
-					</div>
-				</ul>
+                    <div id="searchNav">
+                        <form action="Produkty.php" method="get">
+                            <input id="white_input" type="search" name="hledany_text" placeholder="search...">
+                            <button type="submit" class="noBorder"><span class="material-icons">search</span></button>
+                        </form>
+                    </div>
+				</nav>
 			</div>
 		</nav>
 		<nav id="navigation">
@@ -113,7 +110,7 @@ require("cookies.php");
 			<div id="search">
 				<form action="Produkty.php" method="get">
 					<input type="search" name="hledany_text" placeholder="search...">
-					<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+					<button type="submit" class="noBorder"><span class="material-icons">search</span></button>
 				</form>
 			</div>
 			<nav>
@@ -209,9 +206,9 @@ require("cookies.php");
 		$produkt = $db->nactiProdukt($_GET["id"]);
 		$produkt->vypisProduktu();
 		?>
-		<section id=products>
+		<section class="products">
 			<h2> Další produkty do kolekce</h2>
-			<div id="showProducts" class="purple">
+			<div class="showProducts" >
 				<?php
 				$db = new ProduktDB();
 				$produkt = new Produkt();
@@ -224,7 +221,10 @@ require("cookies.php");
 		</section>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
+
+
+
+		<p>Karel Valenta © 2022</p>
 	</footer>
 
 </body>

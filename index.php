@@ -1,12 +1,11 @@
-<?php
-session_start();
-require("Urlzkrasnovac.php");
-require("cookies.php");
-?>
 <!DOCTYPE html>
-<html lang="eng">
-
+<html lang="cs">
 <head>
+	<?php
+	session_start();
+	require("Urlzkrasnovac.php");
+	require("cookies.php");
+	?>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -18,24 +17,23 @@ require("cookies.php");
 	<link rel="stylesheet" href="Css/cssSlideshow.css">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssIndex.css">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<title>Infiltrated</title>
 	<script onload="" src="Script/scriptSlideshow.js"></script>
 </head>
-
 <body>
 	<header id="Myheader">
-		<nav role="navigation" id="resNavigation">
+		<nav id="resNavigation">
 
 			<div id="menuToggle">
 
-				<input id="check" type="checkbox" />
+				<input id="check" type="checkbox">
 
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 
-				<ul id="menu">
+				<nav id="menu">
 					<a href="Produkty.php?pohlavi_odkaz=Muz">Muži</a>
 					<a href="Produkty.php?pohlavi_odkaz=Zena">Ženy</a>
 					<a href="Produkty.php?pohlavi_odkaz=Dite">děti</a>
@@ -46,10 +44,10 @@ require("cookies.php");
 					<div id="searchNav">
 						<form action="Produkty.php" method="get">
 							<input id="white_input" type="search" name="hledany_text" placeholder="search...">
-							<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+							<button type="submit" class="noBorder"><span class="material-icons">search</span></button>
 						</form>
 					</div>
-				</ul>
+				</nav>
 			</div>
 		</nav>
 		<nav id="navigation">
@@ -116,7 +114,7 @@ require("cookies.php");
 			<div id="search">
 				<form action="Produkty.php" method="get">
 					<input type="search" name="hledany_text" placeholder="search...">
-					<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+					<button type="submit" class="noBorder"><span class="material-icons">search</span></button>
 				</form>
 			</div>
 			<nav>
@@ -193,27 +191,26 @@ require("cookies.php");
 			</nav>
 		</div>
 	</header>
-
-	<div style="background-color: black;">
+	<div id="slideshow"style="background-color: black;">
 		<div class="slideshow-container">
 
 			<div class="mySlides fade">
-				<img src="img/img1.jpg" class="slidesImg" style="width:100%;">
+				<img src="img/img1.jpg" class="slidesImg" alt="obrázekSlidu" style="width:100%;">
 				<!--div class="text"><h3>Styl který ohromí</h3></div>-->
 			</div>
 
 			<div class="mySlides fade">
-				<img src="img/img2.jpg" class="slidesImg" style="width:100%">
+				<img src="img/img2.jpg" class="slidesImg" alt="obrázekSlidu" style="width:100%">
 				<!--<div class="text"><h3>Caption Two</h3></div>-->
 			</div>
 
 			<div class="mySlides fade">
-				<img src="img/img3.jpg" class="slidesImg" style="width:100%">
+				<img src="img/img3.jpg" class="slidesImg" alt="obrázekSlidu" style="width:100%">
 				<!--<div class="text"><h3>Caption Three</h3></div>-->
 			</div>
 
 			<div class="mySlides fade">
-				<img src="img/img4.jpg" class="slidesImg" style="width:100%">
+				<img src="img/img4.jpg" class="slidesImg" alt="obrázekSlidu" style="width:100%">
 				<!--<div class="text"><h2>Caption Three</h3></div>-->
 			</div>
 
@@ -243,11 +240,10 @@ require("cookies.php");
 		</div>
 	</div>
 	<main>
-		<section id=products class="order_first">
+		<section class="products" id="order_first">
 			<h2>TOP produkty!</h2>
-			<div id="showProducts" class="purple">
+			<div class="showProducts" >
 				<?php
-
 				spl_autoload_register(function ($trida) {include_once "Class/$trida.php";});
 				$db = new ProduktDB();
 				$produkt = new Produkt();
@@ -258,7 +254,7 @@ require("cookies.php");
 				?>
 			</div>
 		</section>
-		<section id=Categories class="order_second">
+		<section class="Categories" id="order_second">
 			<h2>Pro koho nakupujete?</h2>
 			<div class="showCategories">
 				<a href="Produkty.php?pohlavi_odkaz=Muz" class="showCategory">
@@ -289,7 +285,7 @@ require("cookies.php");
 				<a class="input" href="">Zobrazit více...</a>
 			</div>
 		</div>
-		<section id=Categories class="order_last">
+		<section class="Categories" id="order_last">
 			<h2>Za jakým účelem nakupujete?</h2>
 			<div class="showCategories">
 				<a href="Produkty.php?kategorie_odkaz=1" class="showCategory">
@@ -312,9 +308,9 @@ require("cookies.php");
 				</a>
 			</div>
 		</section>
-		<section id=products class="order_third">
+		<section class="products" id="order_third">
 			<h2> Zlevěné produkty!</h2>
-			<div id="showProducts" class="purple">
+			<div class="showProducts" >
 				<?php
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
@@ -332,9 +328,7 @@ require("cookies.php");
 		</section>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:purple">Charles</span>.</p>
+		<p>Karel Valenta © 2022.</p>
 	</footer>
-
 </body>
-
 </html>

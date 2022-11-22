@@ -39,7 +39,7 @@ if ($_SESSION["prava"] < 1) {
 		}
 ?>
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cs">
 
 <head>
 	<meta charset="UTF-8">
@@ -51,7 +51,7 @@ if ($_SESSION["prava"] < 1) {
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<title>Infiltrated</title>
 </head>
 

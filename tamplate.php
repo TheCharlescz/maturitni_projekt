@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cs">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
@@ -14,24 +14,24 @@ require("Urlzkrasnovac.php");
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 
 	<title>Infiltrated</title>
 </head>
 
 <body>
 	<header id="Myheader">
-		<nav role="navigation" id="resNavigation">
+		<nav id="resNavigation">
 
 			<div id="menuToggle">
 
-				<input id="check" type="checkbox" />
+				<input id="check" type="checkbox">
 
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 
-				<ul id="menu">
+				<nav id="menu">
 					<a href="">Muži</a>
 					<a href="">Ženy</a>
 					<a href="">děti</a>
@@ -45,7 +45,7 @@ require("Urlzkrasnovac.php");
 							</span>
 						</a>
 					</div>
-				</ul>
+				</nav>
 			</div>
 		</nav>
 		<nav id="navigation">
@@ -173,7 +173,10 @@ require("Urlzkrasnovac.php");
 		</div>
 	</header>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
+
+
+
+		<p>Karel Valenta © 2022</p>
 	</footer>
 
 </body>

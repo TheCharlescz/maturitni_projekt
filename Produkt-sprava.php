@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cs">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
@@ -16,7 +16,7 @@ require("Urlzkrasnovac.php");
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssProdukt-administrace.css">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<link rel="stylesheet" href="Css/cssKosik.css">
 	<title>Infiltrated</title>
 </head>
@@ -166,7 +166,10 @@ require("Urlzkrasnovac.php");
 		?>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
+
+
+
+		<p>Karel Valenta © 2022</p>
 	</footer>
 
 </body>

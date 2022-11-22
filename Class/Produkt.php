@@ -107,17 +107,17 @@ public function vypisBaneruProduktu() {
           <div class='sPtextInImg'>
           ";
 									$obrazky = scandir("img_produkt/$this->id");
-									foreach ($obrazky as $file) {
-                  if ($file === '.' || $file === '..') continue;
-                  $ext=pathinfo($file, PATHINFO_EXTENSION);
-                  if ( $file == "$this->id.1.$ext") {
-                  echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file' style = 'width: 100%'></a>";
+									foreach ($obrazky as $obrazek) {
+                  if ($obrazek === '.' || $obrazek === '..') continue;
+                  $ext=pathinfo($obrazek, PATHINFO_EXTENSION);
+                  if ( $obrazek == "$this->id.1.$ext") {
+                  echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$obrazek' alt='$this->nazev' style = 'width: 100%'></a>";
                 }
 								}
           echo "
             <div class='sPbottom-left'>
-					" . (!empty($this->sleva) ? "<span id='puvodni_cena'> $this->cena Kč   </span>" : "") ."
-					 	   " . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
+					" . (!empty($this->sleva) ? "<span class='puvodni_cena'> $this->cena Kč   </span>" : "") ."
+					 	   " . (!empty($this->sleva) ? "<span > $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
             </div>
 						" . (!empty($this->sleva) ? "	<div class='top-right'>-$this->sleva %</div>" : "") . "
           </div>
@@ -126,7 +126,7 @@ public function vypisBaneruProduktu() {
               <h3> $this->typ $this->nazev</h3>
               <p>$this->znacka</p>
             </div>
-            <div id='flex'>
+            <div class='flex'>
 							<form method='post'  >
               <button class='button' type='submit' name='pridat-do-kosiku' value='$this->id'>
 					 					<span class='material-icons'>
@@ -149,18 +149,16 @@ public function vypisBaneruProduktu() {
   <div class=showProduct>
           <div class='sPtextInImg'>
           ";
-		$obrazky = scandir("img_produkt/$this->id");
-		foreach ($obrazky as $file) {
-			if ($file === '.' || $file === '..') continue;
-			$ext = pathinfo($file, PATHINFO_EXTENSION);
-			if ($file == "$this->id.1.$ext") {
-				echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file' style = 'width: 100%'></a>";
-			}
+		$obrazky = scandir("img_produkt/$this->id/");
+		foreach ($obrazky as $obrazek) {
+			if ($obrazek === '.' || $obrazek === '..') continue;
+			echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$obrazek' style = 'width: 100%'></a>";
+			break;
 		}
 		echo "
             <div class='sPbottom-left'>
-					". (!empty($this->sleva) ? "<span id='puvodni_cena'> $this->cena Kč </span>" : "") . "
-				" . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
+					". (!empty($this->sleva) ? "<span class='puvodni_cena'> $this->cena Kč </span>" : "") . "
+				" . (!empty($this->sleva) ? "<span > $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
             </div>
 						" . (!empty($this->sleva) ? "	<div class='top-right'>-$this->sleva %</div>" : "") . "
           </div>
@@ -201,13 +199,11 @@ public function vypisBaneruProduktuAdministace() {
   <div class=img>
   ";
 		$obrazky = scandir("img_produkt/$this->id/");
-		foreach ($obrazky as $file) {
-          if ($file === '.' || $file === '..') continue;
-          $ext=pathinfo($file, PATHINFO_EXTENSION);
-          if ($file == "$this->id.1.$ext") {
-              echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file'></a>";
+		foreach ($obrazky as $obrazek) {
+          if ($obrazek === '.' || $obrazek === '..') continue;
+              echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$obrazek'></a>";
+							break;
           }
-        }
   echo "
       <div class='sPbottom-left'>
         $this->cena Kč -$this->sleva % <br>
@@ -236,8 +232,8 @@ public function vypisBaneruProduktuAdministace() {
 				echo $date->format('d/m/y H:i:s'); echo"</p>
 		</div>
 		<div id='flex-just'>
-	<button id='noBorder' onclick='openModalSmaz($this->id)' id='myBtn'><span class='material-icons'>delete</span></button>
-    <a id='noBorder' class='input'href='Produkt-editace.php?id=$this->id'><span class='material-icons'>edit</span></a>
+	<button class='noBorder' onclick='openModalSmaz($this->id)' id='myBtn'><span class='material-icons'>delete</span></button>
+    <a class='noBorder' class='input'href='Produkt-editace.php?id=$this->id'><span class='material-icons'>edit</span></a>
 		 <form method='post'>
 <label class='switch'>
 <input type='checkbox' name='checkbox$this->id' value='$this->dostupnost' ". ($this->dostupnost == 1 ? "checked" : "" ) ." onchange='submit();'>
@@ -262,23 +258,20 @@ public function vypisBaneruProduktuAdministace() {
 		$db = new VelikostDB();
 		$velikost_obj = new Velikost();
 		$velikost_obj = $db->nactiVelikostProduktu($this->id, $velikost);
-		var_dump($velikost_obj->pocet_kusu);
 		echo "<section id='kosik_produkt'>
 	<div id='img'>
 		";
 		$obrazky = scandir("img_produkt/$this->id/");
-		foreach ($obrazky as $file) {
-			if ($file === '.' || $file === '..') continue;
-			$ext = pathinfo($file, PATHINFO_EXTENSION);
-			if ($file == "$this->id.1.$ext") {
-				echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file'></a>";
-			}
+		foreach ($obrazky as $obrazek) {
+			if ($obrazek === '.' || $obrazek === '..') continue;
+			echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$obrazek'></a>";
+			break;
 		}
 		echo "
 	</div>
 	<div id='kosik_info'>
 		<div id='flexit'>
-			<h2>$this->nazev</h2><h3>$this->znacka</h3>" . (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
+			<h2>$this->nazev</h2><h3>$this->znacka</h3>" . (!empty($this->sleva) ? "<span > $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
 		</div>
 		<form id='formin' method='post' action='Uzivatel-kosik.php?id_produktu=$this->id'>
 			<input type='number' min='1' max='$velikost_obj->pocet_kusu'  name='pocet_kusu' name='pridat-do-kosiku' value='$kusyvKosiku' id='kosik_input'pattern='.{1,}' required  onchange='this.form.submit()' onkeydown='return false' >
@@ -290,7 +283,7 @@ public function vypisBaneruProduktuAdministace() {
 		</form>
 	</div>
 	<form method='post'>
-	<button id='noBorder' type='submit' name='odebrat-z-kosiku' value=$this->id><span class='close'> &times;</span></button>
+	<button class='noBorder' type='submit' name='odebrat-z-kosiku' value=$this->id><span class='close'> &times;</span></button>
 	</form>
 </section>";
 	}
@@ -303,8 +296,8 @@ public function vypisBaneruProduktuAdministace() {
 		<span class='flex'>
 					<h3> $pocet_kusu x $this->nazev</h3>
 				<span class='flex'>
-					" . (!empty($this->sleva) ? "<h3 id='puvodni_cena'> $cena Kč </h3>" : "") . "
-				" . (!empty($this->sleva) ? "<h3 id='zlevnena_cena'> $zlevnena_cena Kč </h3>" : " <h3>$this->cena Kč</h3>") . "</p>
+					" . (!empty($this->sleva) ? "<h3 class='puvodni_cena'> $cena Kč </h3>" : "") . "
+				" . (!empty($this->sleva) ? "<h3 > $zlevnena_cena Kč </h3>" : " <h3>$this->cena Kč</h3>") . "</p>
 				</span>
 				</span>";
 	}
@@ -312,13 +305,13 @@ public function vypisProduktu() {
 		$sleva = $this->cena / 100 * $this->sleva;
 		$zlevnena_cena = $this->cena - $sleva;
 		//$url = $_SERVER['SCRIPT_NAME'];
-    echo "<section id='flex'>
+    echo "<section class='flex'>
     <div class='container'>";
 		$obrazky = scandir("img_produkt/$this->id");
-		foreach ($obrazky as $file) {
-          if ($file === '.' || $file === '..') continue;
+		foreach ($obrazky as $obrazek) {
+          if ($obrazek === '.' || $obrazek === '..') continue;
           echo "<div class='mySlides'>
-          <img src='img_produkt/$this->id/$file' style='width:100%' >
+          <img src='img_produkt/$this->id/$obrazek' alt='$this->nazev' style='width:100%' >
       </div>";
         }
 echo "
@@ -327,10 +320,10 @@ echo "
 <div class='row'>";
  $i =1;
 		$obrazky = scandir("img_produkt/$this->id");
-		foreach ($obrazky as $file) {
-          if ($file === '.' || $file === '..') continue;
+		foreach ($obrazky as $obrazek) {
+          if ($obrazek === '.' || $obrazek === '..') continue;
           echo "<div class='column'>
-          <img class='demo cursor' src='img_produkt/$this->id/$file' style='width:100%' onclick='currentSlide($i)' >
+          <img class='demo cursor' alt='$this->nazev' src='img_produkt/$this->id/$obrazek' style='width:100%' onclick='currentSlide($i)' >
         </div>";
         $i++;
         }
@@ -338,13 +331,12 @@ echo "
 </div>
 </div>
     <div id='infoAndBuy'>
-      <div id='info'> </div>
-      <div id='flex'><p>".$this->kategorie." :  ".$this->znacka."  : ".$this->pohlavi."  </p></div>
+      <div class='flex'><p>".$this->kategorie." :  ".$this->znacka."  : ".$this->pohlavi."  </p></div>
       <div id='border'>
         <h1>".$this->nazev."</h1>
 				<div id='cena'>
-				". (!empty($this->sleva) ? "<h3 id='puvodni_cena'> $this->cena Kč </h3>" : "") . "
-				" . (!empty($this->sleva) ? "<h3 id='zlevnena_cena'> $zlevnena_cena Kč </h3>" : " $this->cena Kč") . "
+				". (!empty($this->sleva) ? "<h3 class='puvodni_cena'> $this->cena Kč </h3>" : "") . "
+				" . (!empty($this->sleva) ? "<h3 > $zlevnena_cena Kč </h3>" : " $this->cena Kč") . "
 				</div>
         </div>
         <div id='Sizes'>
@@ -359,12 +351,13 @@ echo "
            <button class='button' name='pridat-do-kosiku' value='$this->id'>
 					 <span class='material-icons'>
                   shopping_cart
-                </span></button>
+                </span></button></form>
+                
               <a href='Produkt.php?id=$this->id&pridat-oblibene=$this->id'><span class='material-icons'>
                   favorite_border
                 </span></a>
-				<div>
-    </div>
+                </div>
+</div>
     </section>
     <section id='moreInfo'>
         <div class='box'>

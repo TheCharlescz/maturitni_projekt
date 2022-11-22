@@ -1,21 +1,20 @@
 <!DOCTYPE html>
-<html lang="cz">
-<?php
-session_start();
-require("Urlzkrasnovac.php");
-require("cookies.php");
-if (isset($_POST["velikost"])) {
-	foreach ($_COOKIE["velikost"] as $index => $value) {
-		$key = array_search($_GET["id_produktu"], $_COOKIE["produkt_id"]);
-		if ($key == $index) {
-			setcookie("velikost[$index]", $_POST["velikost"], time() + (86400 * 30));
-			header("Refresh:0");
+<html lang="cs">
+<head>
+    <?php
+	session_start();
+	require("Urlzkrasnovac.php");
+	require("cookies.php");
+	if (isset($_POST["velikost"])) {
+		foreach ($_COOKIE["velikost"] as $index => $value) {
+			$key = array_search($_GET["id_produktu"], $_COOKIE["produkt_id"]);
+			if ($key == $index) {
+				setcookie("velikost[$index]", $_POST["velikost"], time() + (86400 * 30));
+				header("Refresh:0");
+			}
 		}
 	}
-}
-?>
-
-<head>
+	?>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -26,23 +25,23 @@ if (isset($_POST["velikost"])) {
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssKosik.css">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<title>Infiltrated</title>
 </head>
 
 <body>
 	<header id="Myheader">
-		<nav role="navigation" id="resNavigation">
+		<nav id="resNavigation">
 
 			<div id="menuToggle">
 
-				<input id="check" type="checkbox" />
+				<input id="check" type="checkbox">
 
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 
-				<ul id="menu">
+				<nav id="menu">
 					<a href="Produkty.php?pohlavi_odkaz=Muz">Muži</a>
 					<a href="Produkty.php?pohlavi_odkaz=Zena">Ženy</a>
 					<a href="Produkty.php?pohlavi_odkaz=Dite">děti</a>
@@ -53,10 +52,10 @@ if (isset($_POST["velikost"])) {
 					<div id="searchNav">
 						<form action="Produkty.php" method="get">
 							<input id="white_input" type="search" name="hledany_text" placeholder="search...">
-							<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+							<button type="submit" class="noBorder"><span class="material-icons">search</span></button>
 						</form>
 					</div>
-				</ul>
+				</nav>
 			</div>
 		</nav>
 		<nav id="navigation">
@@ -123,7 +122,7 @@ if (isset($_POST["velikost"])) {
 			<div id="search">
 				<form action="Produkty.php" method="get">
 					<input type="search" name="hledany_text" placeholder="search...">
-					<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+					<button type="submit" class="noBorder"><span class="material-icons">search</span></button>
 				</form>
 			</div>
 			<nav>
@@ -180,14 +179,14 @@ if (isset($_POST["velikost"])) {
 					$db = new ProduktDB();
 					$produkt = new Produkt();
 					$pocet = 0;
-					if(isset($_COOKIE['produkt_id'])) {
 					if (isset($_COOKIE['produkt_id'])) {
-                    foreach ($_COOKIE['produkt_id'] as $i => $val) {
-                        if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
-                            $pocet++;
-                        }
-                    }
-					}
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
+							}
+						}
 					}
 					echo "$pocet </span></a>";
 				}
@@ -259,18 +258,22 @@ if (isset($_POST["velikost"])) {
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});
+				// Pokud je v košíku přidaný produkt tak se vypíše.
 				if (isset($_COOKIE['produkt_id'])) {
 					$produkt = new Produkt();
 					$db = new ProduktDB();
+					// Foreach cyklem se projde dvojrozměrným polem cookies
 					foreach ($_COOKIE['produkt_id'] as $i => $val) {
+						//Zse se kontroluje, jestli daný prodkut existuje.
 						if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+							//Načte a vypíše daný produkt
 							$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
 							$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
 						}
 					}
 				}
 				?>
-				<span class="flex">
+				<div class="flex">
 					<p>Doručení</p>
 					<?php if (isset($_SESSION["id_uzivatele"])) {
 						echo "<p>Zdarma</p>";
@@ -279,13 +282,14 @@ if (isset($_POST["velikost"])) {
 					}
 					?>
 				</span>
-				<span class="flex">
+				<div class="flex">
 					<?php
 					spl_autoload_register(function ($trida) {
 						include_once "Class/$trida.php";
 					});
 					$celkova_cena = 0;
 					$DPH = 0;
+					// Pokud je v košíku přidaný produkt tak se vypíše.
 					if (isset($_COOKIE['produkt_id'])) {
 						foreach ($_COOKIE['produkt_id'] as $i => $val) {
 							if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
@@ -306,11 +310,11 @@ if (isset($_POST["velikost"])) {
 					echo "<h3>Celkem (včetně DPH(21%) $DPH Kč )</h3>";
 					echo "<p> $celkova_cena Kč</p>";
 					?>
-				</span>
+				</div>
 			</div>
-			<a href="Kosik-udaje.php" <?php if(!isset($_COOKIE["produkt_id"])) {
-					echo "id='disabled'";
-			}?> class="next">Pokračovat v nákupu <span id="material-icons" class="material-icons">
+			<a href="Kosik-udaje.php" <?php if (!isset($_COOKIE["produkt_id"])) {
+																	echo "id='disabled'";
+																} ?> class="next">Pokračovat v nákupu <span id="material-icons" class="material-icons">
 					arrow_forward
 				</span>
 			</a>

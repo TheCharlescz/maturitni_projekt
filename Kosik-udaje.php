@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cs">
 <?php
 session_start();
 if (!isset($_COOKIE["produkt_id"])) {
@@ -20,7 +20,7 @@ require("cookies.php");
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssKosik.css">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<title>Infiltrated</title>
 </head>
 
@@ -200,7 +200,7 @@ require("cookies.php");
 			<div id="search">
 				<form action="Produkty.php" method="get">
 					<input id="hledat" type="search" name="hledany_text" placeholder="search...">
-					<button type="submit" id="noBorder"><span class="material-icons">search</span></button>
+					<button type="submit" class="noBorder"><span class="material-icons">search</span></button>
 				</form>
 			</div>
 			<nav>
@@ -421,9 +421,8 @@ require("cookies.php");
 		</section>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:purple">Charles</span>.</p>
+		<p>Karel Valenta © 2022</p>
 	</footer>
-
 </body>
 
 </html>

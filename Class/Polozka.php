@@ -42,7 +42,7 @@ class Polozka
 		<div id='kosik_info'>
 			<div id='flexit'>
 				<h2>$this->nazev</h2>"
-				. (!empty($this->sleva) ? "<span id='zlevnena_cena'> $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
+				. (!empty($this->sleva) ? "<span > $zlevnena_cena Kč </span>" : " $this->cena Kč") . "
 				<h3>Počet kusů: $this->pocet_kusu</h3>
 				<h3>Velikost: $this->velikost</h3>
 			</div>
@@ -58,8 +58,8 @@ class Polozka
 		<span class='flex'>
 					<h3> $this->pocet_kusu x $this->nazev ($this->produkt_id )</h3>
 				<span class='flex'>
-					" . (!empty($this->sleva) ? "<h3 id='puvodni_cena'> $this->cena Kč </h3>" : "") . "
-				" . (!empty($this->sleva) ? "<h3 id='zlevnena_cena'>  $zlevnena_cena Kč </h3>" : " <h3>$this->cena Kč</h3>") . "</p>
+					" . (!empty($this->sleva) ? "<h3 class='puvodni_cena'> $this->cena Kč </h3>" : "") . "
+				" . (!empty($this->sleva) ? "<h3 >  $zlevnena_cena Kč </h3>" : " <h3>$this->cena Kč</h3>") . "</p>
 				</span>
 				</span>";
 	}

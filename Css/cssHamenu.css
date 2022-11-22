@@ -107,7 +107,7 @@ border: none;
 #resNavigation {
   display: none;
 }
-#puvodni_cena{
+.puvodni_cena{
 		color: rgb(158, 18, 18);
 		text-decoration: line-through;
 }
@@ -225,7 +225,7 @@ footer {
     position: relative;
     bottom: 0;
     width: 100%;
-		padding: 20px 0;
+		padding: 10px 0;
 }
 #footer {
     position: absolute;
@@ -389,7 +389,7 @@ margin: 20px;
   padding: 10px 0;
   font-size: 22px;
 }
-#menuToggle input:checked ~ ul
+#menuToggle input:checked ~ nav
 {
   transform: none;
 }

@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="cz">
-<?php
-session_start();
-require("Urlzkrasnovac.php");
-require("cookies.php");
-?>
-
+<html lang="cs">
 <head>
+	<?php
+	session_start();
+	require("Urlzkrasnovac.php");
+	require("cookies.php");
+	?>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -19,20 +18,21 @@ require("cookies.php");
 	<link rel="stylesheet" href="Css/cssIndex.css">
 	<link rel="stylesheet" href="Css/cssProdukt-administrace.css">
 	<script src="Script/scriptNav.js"></script>
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<title>Infiltrated</title>
 </head>
-<div id="black-block"></div>
+
 
 <body>
+<div id="black-block"></div>
 	<header id="Myheader">
-		<nav role="navigation" id="resNavigation">
+		<nav id="resNavigation">
 			<div id="menuToggle">
-				<input id="check" type="checkbox" />
+				<input id="check" type="checkbox">
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
 				<span class="menuSpan"></span>
-				<ul id="menu">
+				<nav id="menu">
 					<a href="Produkty.php?pohlavi_odkaz=Muz">Muži</a>
 					<a href="Produkty.php?pohlavi_odkaz=Zena">Ženy</a>
 					<a href="Produkty.php?pohlavi_odkaz=Dite">děti</a>
@@ -42,7 +42,7 @@ require("cookies.php");
 					<a href="Produkty.php?znacka">Značky</a>
 					<div id="searchNav">
 					</div>
-				</ul>
+				</nav>
 			</div>
 		</nav>
 		<nav id="navigation">
@@ -160,14 +160,14 @@ require("cookies.php");
 					$db = new ProduktDB();
 					$produkt = new Produkt();
 					$pocet = 0;
-					if(isset($_COOKIE['produkt_id'])) {
 					if (isset($_COOKIE['produkt_id'])) {
-                    foreach ($_COOKIE['produkt_id'] as $i => $val) {
-                        if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
-                            $pocet++;
-                        }
-                    }
-					}
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
+							}
+						}
 					}
 					echo "$pocet </span></a>";
 				}
@@ -263,8 +263,9 @@ require("cookies.php");
 			</select>
 			<input type="search" name="hledany_text" placeholder="search...">
 			<input type="submit" name="vyfiltruj" value="Vyfiltruj">
+            </form>
 	</section>
-	<main>
+	<main id="main">
 		<?php
 		spl_autoload_register(function ($trida) {
 			include_once "Class/$trida.php";
@@ -306,8 +307,8 @@ require("cookies.php");
 			}
 		}
 		?>
-		<footer>
-			<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
-		</footer>
 	</main>
+	<footer>
+		<p>Karel Valenta © 2022</p>
+	</footer>
 </body>

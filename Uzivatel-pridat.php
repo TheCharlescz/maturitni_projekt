@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cs">
 <?php
 session_start();
 require("Urlzkrasnovac.php");
@@ -22,7 +22,7 @@ if ($_SESSION["prava"] < 1) {
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<title>Infiltrated - Přidat zaměstnance</title>
 </head>
 
@@ -63,7 +63,7 @@ if ($_SESSION["prava"] < 1) {
 	<main>
 		<div class="blok">
 			<form method="post">
-				<div id="flex">
+				<div class="flex">
 					<label> Osobní údaje
 						<div>
 							<input type="text" name="jmeno" placeholder="Jméno" required> <br>

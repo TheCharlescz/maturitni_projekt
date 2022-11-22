@@ -1,17 +1,17 @@
 <!DOCTYPE html>
-<html lang="cz">
-<?php
-session_start();
-require("Url-ultra-zkrasnovac.php");
-if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
-	header("Location: Uzivatel-prihlaseni.php ");
-}
-
-if ($_SESSION["prava"] < 1) {
-	header("Location: Uzivatel-profil.php");
-}
-?>
+<html lang="cs">
 <head>
+    <?php
+	session_start();
+	require("Url-ultra-zkrasnovac.php");
+	if (!isset($_SESSION["id_uzivatele"]) || !isset($_SESSION["prava"])) {
+		header("Location: Uzivatel-prihlaseni.php ");
+	}
+
+	if ($_SESSION["prava"] < 1) {
+		header("Location: Uzivatel-profil.php");
+	}
+	?>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -22,7 +22,7 @@ if ($_SESSION["prava"] < 1) {
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<script src="Script/scriptModalBox.js"></script>
 	<title>Infiltrated - Editace produktu</title>
 </head>
@@ -34,11 +34,13 @@ if ($_SESSION["prava"] < 1) {
 		</div>
 		<div style="text-align:center;">
 			<?php
-
-			if (isset($_GET["slozka"]) & isset($_GET["nazev"]) & isset($_GET["id"])) {
+			// Pokud je v url stránky název promněnné $_GET, provede se závorka.
+				if (isset($_GET["slozka"])) {
+				// deklaruejeme data z url adresy do proměnných
 				$id = $_GET["id"];
 				$slozka = $_GET["slozka"];
 				$nazev = $_GET["nazev"];
+				// Funkce unlink smazě daný obrázek
 				unlink("img_produkt/$slozka/$nazev");
 				header("Location: Produkt-editace.php?id=$id");
 			}
@@ -48,6 +50,7 @@ if ($_SESSION["prava"] < 1) {
 					include_once "Class/$trida.php";
 				});
 				$produkt = new Produkt();
+				//obdobné jak při vkladání produktu s rozdílem $_GET na konci
 				if ($produkt->nastavHodnoty($_POST['akce_id'], $_POST["kategorie_id"], $_POST["materialy_id"], $_POST["znacky_id"], $_SESSION["id_uzivatele"], $_POST["typy_id"], $_POST["nazev"], $_POST["popis"], $_POST["pohlavi"], $_POST["cena"], $_POST["sleva"], 1, $_GET["id"])) {
 					$db = new ProduktDB();
 					$produkt_id = $db->ulozProdukt($produkt);
@@ -60,26 +63,23 @@ if ($_SESSION["prava"] < 1) {
 					}
 				}
 				extract($_POST);
-				$error = array();
-				$extension = array("jpeg", "jpg", "png", "gif");
+				$koncovky = array("jpeg", "jpg", "png", "gif");
 				$pocet = 1;
 				$db = new ProduktDB();
-				$txtGalleryName = $_GET["id"];
+				$slozka = $_GET["id"];
 				foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
-					$file_name = $_FILES["files"]["name"][$key];
+					$obrazek = $_FILES["files"]["name"][$key];
 					$file_tmp = $_FILES["files"]["tmp_name"][$key];
-					$ext = pathinfo($file_name, PATHINFO_EXTENSION);
-					$file_name = $produkt_id . "." . $pocet . "." . $ext;
-					if (in_array($ext, $extension)) {
-						if (!file_exists("img_produkt/" . $txtGalleryName . "/" . $file_name)) {
-							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $file_name);
+					$ext = pathinfo($obrazek, PATHINFO_EXTENSION);
+					$obrazek = $produkt_id . "." . $pocet . "." . $ext;
+					if (in_array($ext, $koncovky)) {
+						if (!file_exists("img_produkt/" . $slozka . "/" . $obrazek)) {
+							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $slozka . "/" . $obrazek);
 						} else {
-							$filename = basename($file_name, $ext);
-							$newFileName = $filename . $pocet . "." . $ext;
-							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $newFileName);
+							$nazevObrazku = basename($obrazek, $ext);
+							$novyNazevObrazku = $nazevObrazku . date('H:i:s') . "." . $ext;
+							move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $slozka . "/" . $novyNazevObrazku);
 						}
-					} else {
-						array_push($error, "$file_name, ");
 					}
 					$pocet++;
 				}
@@ -112,13 +112,15 @@ if ($_SESSION["prava"] < 1) {
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});
+				//Načtení dat před potvrzením formuláře
 				$db = new ProduktDB();
 				$produkt = new Produkt();
+				//funkce pro načtení dat, která si bere id z url adresy pomocí $_GET
 				$produkt = $db->nactiProdukt($_GET["id"]);
 				$db = new VelikostDB();
 				$velikost = new Velikost();
 				$velikost = $db->nactiVelikostiProduktu($_GET["id"]);
-				$_SESSION["stary_nazev"] = $produkt->nazev;
+
 			}
 			?>
 			<a class='input' href='Produkt-administrace.php'>Zpět na administraci produktů</a>
@@ -127,13 +129,14 @@ if ($_SESSION["prava"] < 1) {
 	<main>
 		<div class="blok">
 			<form method="post" enctype="multipart/form-data">
-				<div id="flex">
+				<div class="flex">
 					<label>
 						<h2>Uprav základní informace produktu</h2>
 						<div class="reg">
-							<input type="text" name="nazev" placeholder="Nazev produktu" value=<?php echo " $produkt->nazev" ?> required> <br>
-							<input type="number" name="cena" placeholder="Cena" value=<?php echo " $produkt->cena" ?> required><br>
-							<input type="number" name="sleva" placeholder="Sleva" value=<?php echo " $produkt->sleva" ?> required><br>
+							<!-- předvylpnění hodnoty formuláře  -->
+							<input type="text" name="nazev" placeholder="Nazev produktu" value=<?php echo "$produkt->nazev" ?> required> <br>
+							<input type="number" name="cena" placeholder="Cena" value=<?php echo "$produkt->cena" ?> required><br>
+							<input type="number" name="sleva" placeholder="Sleva" value=<?php echo "$produkt->sleva" ?> required><br>
 							<select name="pohlavi" class="input">
 								<option value="">Vyberte jednu z možností</option>
 								<?php
@@ -226,7 +229,7 @@ if ($_SESSION["prava"] < 1) {
 				</div>
 				</label>
 
-				<div id="flex">
+				<div class="flex">
 					<label>
 						<h2>Uprav počet velikostí produktů</h2>
 						<div class="reg">

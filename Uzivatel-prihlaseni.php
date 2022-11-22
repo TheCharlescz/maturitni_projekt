@@ -1,16 +1,16 @@
 <!DOCTYPE html>
-<html lang="cz">
-<?php
-session_start();
-require("Urlzkrasnovac.php");
-?>
-
+<html lang="cs">
 <head>
+    <?php
+	error_reporting(0);
+	session_start();
+	require("Urlzkrasnovac.php");
+	?>
 	<meta charset="UTF-8">
 	<meta name="author" content="Karel Valenta">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<link rel="stylesheet" href="Css/cssHamenu.css">
 	<link rel="stylesheet" href="Css/cssFormulare.css">
 	<link rel="preconnect" href="https://fonts.googleapis.com">
@@ -186,7 +186,10 @@ require("Urlzkrasnovac.php");
 		</div>
 	</main>
 	<footer id="footer">
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
+
+
+
+		<p>Karel Valenta © 2022</p>
 	</footer>
 </body>
 

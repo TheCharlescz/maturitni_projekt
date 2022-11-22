@@ -19,7 +19,7 @@ public function vypisOptionVelikost() {
 public function vypisVelikosti(){
     echo "
 		<label class='radio'>
-					<input type='radio' name='velikost' value='$this->velikost' class='showSize' required ></input>
+					<input type='radio' name='velikost' value='$this->velikost' class='showSize' required >
 					<span class='checkmark'>$this->velikost</span>
 				</label>";
 }
@@ -27,7 +27,7 @@ public function vypisVelikostiKosik($velikost)
 	{
                 echo "
 		<label class='radio'>
-					<input type='radio' name='velikost' value='$this->velikost' class='showSize' ". ($velikost == $this->velikost ? "checked" : "")  ." required onchange='this.form.submit()' ></input>
+					<input type='radio' name='velikost' value='$this->velikost' class='showSize' ". ($velikost == $this->velikost ? "checked" : "")  ." required onchange='this.form.submit()' >
 					<span class='checkmark'>$this->velikost</span>
 				</label>";
             }

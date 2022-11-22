@@ -6,7 +6,7 @@
   margin-bottom: 5px;
   margin-top: 10px;
 }
-#Categories {
+.Categories {
   margin-top: 20px;
 }
 .showCategories{
@@ -37,7 +37,7 @@ margin: 0 10%;
 #category a {
   color: black;
 }
-#showProducts{
+.showProducts{
   display: flex;
   flex-wrap: wrap;
   padding: 0 10%;
@@ -57,7 +57,7 @@ button:hover{
     color: rgb(255, 255, 255);
 	transition: 1s;
 }
-#noBorder {
+.noBorder {
 	border: none;
 	background-color: rgba(0, 0, 0, 0);
 }
@@ -170,7 +170,7 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30p
   border-left: none;
   border-right: none;
 }
-#flex {
+.flex {
 	display: flex;
 	align-items: baseline;
 }
@@ -178,7 +178,7 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30p
 	margin: 10px;
 }
 @media(max-width:1100px) {
-#showProducts{
+.showProducts{
   display: flex;
   padding: 0 5% 0 5%;
   flex-wrap: wrap;
@@ -204,16 +204,16 @@ box-shadow: rgba(0, 0, 0, 0.25) 0px 54px 55px, rgba(0, 0, 0, 0.12) 0px -12px 30p
 		display: flex;
 		flex-direction: column;
 	}
-		.order_first {
+		#order_first {
 		order: 1;
 	}
-		.order_second {
+		#order_second {
 		order: 2;
 	}
-	.order_third {
+	#order_third {
 		order: 3;
 	}
-	.order_last {
+	#order_last {
 		order: 99;
 	}
 }

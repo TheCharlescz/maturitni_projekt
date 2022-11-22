@@ -15,7 +15,6 @@ if (isset($_POST["pridat-do-kosiku"])) {
 		$pocet++;
 		setcookie("pocet", $pocet, time() + (86400 * 30));
 		setcookie("produkt_id[$pocet]", $_POST["pridat-do-kosiku"], time() +  (86400 * 30));
-		setcookie("pocet", $pocet, time() + (86400 * 30));
 		setcookie("pocet_produktu[$pocet]", 1, time() + (86400 * 30));
 		if(isset($_POST["velikost"])) {
 			setcookie("velikost[$pocet]", $_POST["velikost"], time() + (86400 * 30));

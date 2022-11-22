@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="cz">
+<html lang="cs">
 <?php
 session_start();
 require("Url-ultra-zkrasnovac.php");
@@ -23,7 +23,7 @@ if ($_SESSION["prava"] < 1) {
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
-	<link rel="shortcut icon" href="img/logo.ico" />
+	<link rel="shortcut icon" href="img/logo.ico">
 	<title>Infiltrated - Přidat zaměstnance</title>
 </head>
 
@@ -105,7 +105,7 @@ if ($_SESSION["prava"] < 1) {
 	<main>
 		<div class="blok">
 			<form method="post">
-				<div id="flex">
+				<div class="flex">
 					<label>
 						<h2>Osobní údaje</h2>
 						<div class="reg">
