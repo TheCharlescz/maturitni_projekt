@@ -1,15 +1,22 @@
 <?php
-
+// Databázová třída Produktu
 class  ProduktDB {
    private $spojeni;
-
+	// Kontruktor, který vytvoří objekt $spojeni
    public function __construct(){
+		 // Zde voláme funkci Singletonu...
        $this->spojeni = DB::vytvorSpojeni();
 }
+		// Metoda pro vložení prodkutu do databáze
     public function vlozProdukt($produkt) {
+				//SQL INSERT. Tímto se přímo přistupuje do DB, ale zatím bez vyplněných hodnot
         $dotaz= "INSERT INTO `produkt` (`id`, `nazev`, `popis`, `cena`, `sleva`, `pohlavi`, `dostupnost`, vytvoreno_v, upraveno_v, publikovano_v, `akce_id`, `kategorie_id`, `materialy_id`, `znacky_id`, `uzivatel_id`, `typy_id`)
         VALUES ( NULL, :nazev, :popis , :cena , :sleva , :pohlavi , :dostupnost , CURRENT_TIMESTAMP , NULL , NULL , :akce_id , :kategorie_id , :materialy_id , :znacky_id , :uzivatel_id ,:typy_id )";
+				//Prepare připraví dotaz pro funkci execute(), tím že vybere promněné,
+				//které mají na svém začátku : a připraví je k doplněnní.
         $sql = $this->spojeni->prepare($dotaz);
+				//Funkce bindPram() přiřadí proměnné z objektu k proměnným z SQL dotazu.
+				//musí se jednat o text. Chraní před MySQL injection.
         $sql->bindParam(":nazev",$produkt->nazev);
         $sql->bindParam(":popis",$produkt->popis);
         $sql->bindParam(":cena",$produkt->cena);
@@ -22,12 +29,14 @@ class  ProduktDB {
         $sql->bindParam(":kategorie_id",$produkt->kategorie_id);
         $sql->bindParam(":materialy_id",$produkt->materialy_id);
         $sql->bindParam(":znacky_id",$produkt->znacky_id);
+				//Funkce execute() provede daný dotaz, pokud je správně zadaný,
+				// tak se provede a vytvoří se nový objekt v tabulce produktů a vypíše se jeho ID.
+				//Pokud je dotaz chybný funkce vratí false.
         if($sql->execute()){return $this->spojeni->lastInsertId();}
         else {return false;}
     }
-    public function nactiprodukty($razeni = "datum_vydani DESC") {
-        $moznosti_razeni = array("id","nazev","text","popis","datum DESC");
-        if(!in_array(strtolower($razeni),$moznosti_razeni)){$razeni = "vytvoreno_v DESC";}
+    public function nactiprodukty() {
+			//SQL SELECT. Vypíše data podle zadaných parametrů. Složitější o proti vkladání.
         $dotaz = "SELECT DISTINCT
         velikosti.velikost,
         barvy.barva ,
@@ -56,11 +65,13 @@ class  ProduktDB {
     JOIN znacky ON produkt.znacky_id = znacky.id
     JOIN materialy ON produkt.materialy_id = materialy.id
 		where produkt.dostupnost = 1
-        group by produkt.nazev
-				";
+        group by produkt.nazev";
         $sql = $this->spojeni->prepare($dotaz);
         $sql->execute();
+				//Po provedení sql dotazu, pomocí funkce setfetchMode(),
+				//vyberu objekt do kterého se data vkladjí.
         $sql->setFetchMode(PDO::FETCH_CLASS,"produkt");
+				//A nakonec data pomocí return a fetchAll(), vypíšu do proměnné v kodu.
         return $sql->fetchAll();
     }
 	public function nactiProduktyLimit($razeni = "datum_vydani DESC")
@@ -319,6 +330,7 @@ class  ProduktDB {
 
 	public function filtraceProdkutu($pohlavi, $kategorie, $typ, $akce, $material, $znacka,$hledany_text)
 	{
+		// Ochrana břed možným útokem na databázi pomocí htmlspecialchars
 		htmlspecialchars($pohlavi);
 		htmlspecialchars($kategorie);
 		htmlspecialchars($typ);
@@ -326,33 +338,16 @@ class  ProduktDB {
 		htmlspecialchars($material);
 		htmlspecialchars($znacka);
 		htmlspecialchars($hledany_text);
-			$dotaz = "SELECT DISTINCT materialy.*, kategorie.*, akce.*, znacky.* , typy.* , produkt.* FROM produkt
-			JOIN znacky ON produkt.znacky_id= znacky.id
-			JOIN typy ON produkt.typy_id= typy.id
-			JOIN materialy ON produkt.materialy_id = materialy.id
-			JOIN akce ON produkt.akce_id = akce.id
-			JOIN kategorie ON produkt.kategorie_id = kategorie.id";
-			$where = array();
-		//	if (!empty($kategorie)) {
-		//		$joiny[] = "JOIN kategorie ON produkt.kategorie_id = $kategorie";
-		//	}
-		//	if (!empty($akce)) {
-		//		$joiny[] = "JOIN akce ON produkt.akce_id = akce.id = $akce";
-		//	}
-		//if (!empty($material)) {
-		//	$joiny[] = "JOIN materialy ON produkt.materialy_id = $material";
-		//}
-		//$joiny[] = "JOIN znacky ON produkt.znacky_id= znacky.id";
-		//$joiny[] = "JOIN typy ON produkt.typy_id= typy.id";
-		//if (!empty($barva)) {
-		//		$joiny[] = "barva='$barva'";
-		//	}
-		//	if (!empty($velikost)) {
-		//		$joiny[] = "$velikost='$velikost'";
-		//	}
-		//foreach ($joiny as $join) {
-		//	$dotaz .=  " $join";
-		//}
+		// První část selectu která spojuje všechny tabulky
+		$dotaz = "SELECT DISTINCT materialy.*, kategorie.*, akce.*, znacky.* , typy.* , produkt.* FROM produkt
+		JOIN znacky ON produkt.znacky_id= znacky.id
+		JOIN typy ON produkt.typy_id= typy.id
+		JOIN materialy ON produkt.materialy_id = materialy.id
+		JOIN akce ON produkt.akce_id = akce.id
+		JOIN kategorie ON produkt.kategorie_id = kategorie.id";
+		$where = array();
+		// Doplnění selectu o to jaké má filtrovat produkty. Přidají se do pole $where.
+		// Pokud kategorie nebyla vybrána nevytvoří se.
 		if (!empty($pohlavi)) {
 			$where[] = "produkt.pohlavi = '$pohlavi'";
 		}
@@ -375,9 +370,11 @@ class  ProduktDB {
 			$text = "%" . mb_strtolower($hledany_text, "UTF-8") . "%";
 			$where[] = " lower(produkt.nazev) like :text";
 		}
+		//Vypsaní všech vytvořených filtrací. Dopíšou se do Selectu.
 		if (count($where) > 0) {
 			$dotaz .= " WHERE " . implode(' AND ', $where);
 		}
+		//Dále je to stejné...
 		$dotaz .= " AND produkt.dostupnost = 1";
 		//$dotaz .= " group by produkt.nazev;";
 		//$moznosti_razeni = array("id", "nazev", "text", "popis", "datum DESC");

@@ -107,11 +107,11 @@ public function vypisBaneruProduktu() {
           <div class='sPtextInImg'>
           ";
 									$obrazky = scandir("img_produkt/$this->id");
-									foreach ($obrazky as $file) {
-                  if ($file === '.' || $file === '..') continue;
-                  $ext=pathinfo($file, PATHINFO_EXTENSION);
-                  if ( $file == "$this->id.1.$ext") {
-                  echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file' style = 'width: 100%'></a>";
+									foreach ($obrazky as $obrazek) {
+                  if ($obrazek === '.' || $obrazek === '..') continue;
+                  $ext=pathinfo($obrazek, PATHINFO_EXTENSION);
+                  if ( $obrazek == "$this->id.1.$ext") {
+                  echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$obrazek' style = 'width: 100%'></a>";
                 }
 								}
           echo "
@@ -149,13 +149,11 @@ public function vypisBaneruProduktu() {
   <div class=showProduct>
           <div class='sPtextInImg'>
           ";
-		$obrazky = scandir("img_produkt/$this->id");
-		foreach ($obrazky as $file) {
-			if ($file === '.' || $file === '..') continue;
-			$ext = pathinfo($file, PATHINFO_EXTENSION);
-			if ($file == "$this->id.1.$ext") {
-				echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file' style = 'width: 100%'></a>";
-			}
+		$obrazky = scandir("img_produkt/$this->id/");
+		foreach ($obrazky as $obrazek) {
+			if ($obrazek === '.' || $obrazek === '..') continue;
+			echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$obrazek' style = 'width: 100%'></a>";
+			break;
 		}
 		echo "
             <div class='sPbottom-left'>
@@ -201,13 +199,11 @@ public function vypisBaneruProduktuAdministace() {
   <div class=img>
   ";
 		$obrazky = scandir("img_produkt/$this->id/");
-		foreach ($obrazky as $file) {
-          if ($file === '.' || $file === '..') continue;
-          $ext=pathinfo($file, PATHINFO_EXTENSION);
-          if ($file == "$this->id.1.$ext") {
-              echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file'></a>";
+		foreach ($obrazky as $obrazek) {
+          if ($obrazek === '.' || $obrazek === '..') continue;
+              echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$obrazek'></a>";
+							break;
           }
-        }
   echo "
       <div class='sPbottom-left'>
         $this->cena Kč -$this->sleva % <br>
@@ -262,17 +258,14 @@ public function vypisBaneruProduktuAdministace() {
 		$db = new VelikostDB();
 		$velikost_obj = new Velikost();
 		$velikost_obj = $db->nactiVelikostProduktu($this->id, $velikost);
-		var_dump($velikost_obj->pocet_kusu);
 		echo "<section id='kosik_produkt'>
 	<div id='img'>
 		";
 		$obrazky = scandir("img_produkt/$this->id/");
-		foreach ($obrazky as $file) {
-			if ($file === '.' || $file === '..') continue;
-			$ext = pathinfo($file, PATHINFO_EXTENSION);
-			if ($file == "$this->id.1.$ext") {
-				echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$file'></a>";
-			}
+		foreach ($obrazky as $obrazek) {
+			if ($obrazek === '.' || $obrazek === '..') continue;
+			echo "<a href='Produkt.php?id=$this->id' class='noMargin'><img src='img_produkt/$this->id/$obrazek'></a>";
+			break;
 		}
 		echo "
 	</div>
@@ -315,10 +308,10 @@ public function vypisProduktu() {
     echo "<section id='flex'>
     <div class='container'>";
 		$obrazky = scandir("img_produkt/$this->id");
-		foreach ($obrazky as $file) {
-          if ($file === '.' || $file === '..') continue;
+		foreach ($obrazky as $obrazek) {
+          if ($obrazek === '.' || $obrazek === '..') continue;
           echo "<div class='mySlides'>
-          <img src='img_produkt/$this->id/$file' style='width:100%' >
+          <img src='img_produkt/$this->id/$obrazek' style='width:100%' >
       </div>";
         }
 echo "
@@ -327,10 +320,10 @@ echo "
 <div class='row'>";
  $i =1;
 		$obrazky = scandir("img_produkt/$this->id");
-		foreach ($obrazky as $file) {
-          if ($file === '.' || $file === '..') continue;
+		foreach ($obrazky as $obrazek) {
+          if ($obrazek === '.' || $obrazek === '..') continue;
           echo "<div class='column'>
-          <img class='demo cursor' src='img_produkt/$this->id/$file' style='width:100%' onclick='currentSlide($i)' >
+          <img class='demo cursor' src='img_produkt/$this->id/$obrazek' style='width:100%' onclick='currentSlide($i)' >
         </div>";
         $i++;
         }

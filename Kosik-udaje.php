@@ -421,9 +421,8 @@ require("cookies.php");
 		</section>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:purple">Charles</span>.</p>
+		<p>Karel Valenta © 2022</p>
 	</footer>
-
 </body>
 
 </html>

@@ -180,14 +180,14 @@ if (isset($_POST["velikost"])) {
 					$db = new ProduktDB();
 					$produkt = new Produkt();
 					$pocet = 0;
-					if(isset($_COOKIE['produkt_id'])) {
 					if (isset($_COOKIE['produkt_id'])) {
-                    foreach ($_COOKIE['produkt_id'] as $i => $val) {
-                        if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
-                            $pocet++;
-                        }
-                    }
-					}
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
+							}
+						}
 					}
 					echo "$pocet </span></a>";
 				}
@@ -259,11 +259,15 @@ if (isset($_POST["velikost"])) {
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});
+				// Pokud je v košíku přidaný produkt tak se vypíše.
 				if (isset($_COOKIE['produkt_id'])) {
 					$produkt = new Produkt();
 					$db = new ProduktDB();
+					// Foreach cyklem se projde dvojrozměrným polem cookies
 					foreach ($_COOKIE['produkt_id'] as $i => $val) {
+						//Zse se kontroluje, jestli daný prodkut existuje.
 						if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+							//Načte a vypíše daný produkt
 							$produkt = $db->nactiProdukt($_COOKIE['produkt_id'][$i]);
 							$produkt->vypisLegendyKosiku($_COOKIE['pocet_produktu'][$i]);
 						}
@@ -286,6 +290,7 @@ if (isset($_POST["velikost"])) {
 					});
 					$celkova_cena = 0;
 					$DPH = 0;
+					// Pokud je v košíku přidaný produkt tak se vypíše.
 					if (isset($_COOKIE['produkt_id'])) {
 						foreach ($_COOKIE['produkt_id'] as $i => $val) {
 							if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
@@ -308,9 +313,9 @@ if (isset($_POST["velikost"])) {
 					?>
 				</span>
 			</div>
-			<a href="Kosik-udaje.php" <?php if(!isset($_COOKIE["produkt_id"])) {
-					echo "id='disabled'";
-			}?> class="next">Pokračovat v nákupu <span id="material-icons" class="material-icons">
+			<a href="Kosik-udaje.php" <?php if (!isset($_COOKIE["produkt_id"])) {
+																	echo "id='disabled'";
+																} ?> class="next">Pokračovat v nákupu <span id="material-icons" class="material-icons">
 					arrow_forward
 				</span>
 			</a>

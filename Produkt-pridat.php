@@ -37,37 +37,46 @@ if ($_SESSION["prava"] < 1) {
 			spl_autoload_register(function ($trida) {
 				include_once "Class/$trida.php";
 			});
+			//Při potvzení formuláře se spustí tato kod v této závotce
 			if (isset($_POST["ulozit"])) {
 				spl_autoload_register(function ($trida) {
 					include_once "Class/$trida.php";
 				});
+
 				$produkt = new Produkt();
+				//využití proměnných $_POST při ptvobě objektu produkt
 				if ($produkt->nastavHodnoty($_POST["akce_id"], $_POST["kategorie_id"], $_POST["materialy_id"], $_POST["znacky_id"], $_SESSION["id_uzivatele"], $_POST["typy_id"], $_POST["nazev"], $_POST["popis"], $_POST["pohlavi"], $_POST["cena"], $_POST["sleva"], 1)) {
 					$db = new ProduktDB();
+					//a následné vložení prodkutu do databáze
 					$produkt_id = $db->vlozProdukt($produkt);
 					if ($produkt_id > 0) {
 						echo  "<h2 class='spravne'>Produkt byl vytvořen</h2>\n";
 						extract($_POST);
-						$error = array();
-						$extension = array("jpeg", "jpg", "png", "gif");
+						$koncovky = array("jpeg", "jpg", "png", "gif");
 						$pocet = 1;
-						$txtGalleryName = $produkt_id;
-						mkdir("img_produkt/$txtGalleryName", 0777);
+						$slozka = $produkt_id;
+						//vytvoření složky projednotlivý produkt s nastavením opravnění...
+						mkdir("img_produkt/$slozka", 0777);
+						//Výčet všech souborů z formuláře, které se nachazejí v tempu webu.
 						foreach ($_FILES["files"]["tmp_name"] as $key => $tmp_name) {
-							$file_name = $_FILES["files"]["name"][$key];
-							$file_tmp = $_FILES["files"]["tmp_name"][$key];
-							$ext = pathinfo($file_name, PATHINFO_EXTENSION);
-							$file_name = $produkt_id . "." . $pocet . "." . $ext;
-							if (in_array($ext, $extension)) {
-								if (!file_exists("img_produkt/" . $txtGalleryName . "/" . $file_name)) {
-									move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $file_name);
+							//Přiřazení jedno daného z pole files[] obrázku k promněné $obrazek
+							$obrazek = $_FILES["files"]["name"][$key];
+							$tmp_slozka = $_FILES["files"]["tmp_name"][$key];
+							//funkce zjistí typ složky.
+							$ext = pathinfo($obrazek, PATHINFO_EXTENSION);
+							$obrazek = $produkt_id . "." . $pocet . "." . $ext;
+							//zkotrluje zda se jedná o povojený soubor
+							if (in_array($ext, $koncovky)) {
+								//Ověří jestli se už ve složce nenachazí sobour se stejným názvem (potřeba spíše u editace).
+								if (!file_exists("img_produkt/" . $slozka . "/" . $obrazek)) {
+									//Funkce přesune právě nahrané obrázky do složky na webový server
+									move_uploaded_file($tmp_slozka, "img_produkt/" . $slozka . "/" . $obrazek);
 								} else {
-									$filename = basename($file_name, $ext);
-									$newFileName = $filename . time() . "." . $ext;
-									move_uploaded_file($file_tmp = $_FILES["files"]["tmp_name"][$key], "img_produkt/" . $txtGalleryName . "/" . $newFileName);
+									$nazevsouborou = basename($obrazek, $ext);
+									$cas = new DateTime(time());
+									$novyNazevObrazku = $nazevsouborou . date('H:i:s-d/m/y') . "." . $ext;
+									move_uploaded_file($tmp_slozka, "img_produkt/" . $slozka . "/" . $novyNazevObrazku);
 								}
-							} else {
-								array_push($error, "$file_name, ");
 							}
 							$pocet++;
 						}
@@ -144,11 +153,13 @@ if ($_SESSION["prava"] < 1) {
 	</header>
 	<main>
 		<div class="blok">
+			<!-- HTML formulář s metodou post -->
 			<form method="post" enctype="multipart/form-data">
 				<div id="flex">
 					<label>
 						<h2>Napiš základní informace o produktu</h2>
 						<div class="reg">
+							<!-- Jednotlivé inputy, do který se vyplnují data -->
 							<input type="text" name="nazev" placeholder="Nazev produktu" required> <br>
 							<input type="number" name="cena" placeholder="Cena" required><br>
 							<input type="number" name="sleva" placeholder="Sleva (vyplnte v procentech)"><br>
@@ -275,11 +286,12 @@ if ($_SESSION["prava"] < 1) {
 				<td><input type="file" name="files[]" multiple /></td>
 			</tr>
 			<tr>
-				<td colspan="2" align="center">Poznámka: Podporované formáty: .jpeg, .jpg, .png, .gif</td>
+				<td colspan="2">Poznámka: Podporované formáty: .jpeg, .jpg, .png, .gif</td>
 			</tr>
 		</table>
 		</label>
 		<p>*Pro správné fungovaní je potřeba vyplnit alespon jednu velikost a barvu.</p>
+		<!-- Input neboli tlačítko, které potvrdí  formulář a vytvoří super golobalní promněné $_POST-->
 		<input type="submit" name="ulozit" value="Přidat produkt">
 		</form>
 		</div>

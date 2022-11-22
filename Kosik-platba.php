@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="cz">
 <?php
+error_reporting(0);
 session_start();
 //require("Urlzkrasnovac.php");
 ?>
@@ -156,7 +157,7 @@ session_start();
 		</div>
 	</header>
 	<main>
-		<section class="blok" id="flex_avrage">
+		<section class="blok" id="flex_avrage4">
 			<h2>Shrnutí objednávky</h2>
 			<?php
 			spl_autoload_register(function ($trida) {
@@ -176,7 +177,7 @@ session_start();
 					$nova_velikost = $velikost->pocet_kusu - $polozka->pocet_kusu;
 					$db_velikost->upravVelikost($velikost->id, $nova_velikost);
 				}
-				//unset($_SESSION["id_objednavky"]);
+				unset($_SESSION["id_objednavky"]);
 			?>
 				<script>
 					location.replace("Uzivatel-profil.php");
@@ -278,9 +279,6 @@ session_start();
 			</form>
 		</div>
 	</div>
-	<footer id="footer">
-		<p>This website is used only for study purposes and not for commerce. Web created by Charles.</p>
-	</footer>
 </body>
 
 </html>

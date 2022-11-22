@@ -160,14 +160,14 @@ require("cookies.php");
 					$db = new ProduktDB();
 					$produkt = new Produkt();
 					$pocet = 0;
-					if(isset($_COOKIE['produkt_id'])) {
 					if (isset($_COOKIE['produkt_id'])) {
-                    foreach ($_COOKIE['produkt_id'] as $i => $val) {
-                        if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
-                            $pocet++;
-                        }
-                    }
-					}
+						if (isset($_COOKIE['produkt_id'])) {
+							foreach ($_COOKIE['produkt_id'] as $i => $val) {
+								if ($db->nactiProdukt($_COOKIE['produkt_id'][$i])) {
+									$pocet++;
+								}
+							}
+						}
 					}
 					echo "$pocet </span></a>";
 				}
@@ -264,7 +264,7 @@ require("cookies.php");
 			<input type="search" name="hledany_text" placeholder="search...">
 			<input type="submit" name="vyfiltruj" value="Vyfiltruj">
 	</section>
-	<main>
+	<main id="main">
 		<?php
 		spl_autoload_register(function ($trida) {
 			include_once "Class/$trida.php";
@@ -306,8 +306,8 @@ require("cookies.php");
 			}
 		}
 		?>
-		<footer>
-			<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
-		</footer>
 	</main>
+	<footer>
+		<p>Karel Valenta © 2022</p>
+	</footer>
 </body>

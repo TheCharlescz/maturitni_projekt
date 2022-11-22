@@ -196,7 +196,10 @@ if (isset($_GET["id"])) {
 		<a class='input' id="pridat" href="Uzivatel-pridat.php">Přidat nového zaměstannce</a>
 	</main>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:purple">Charles</span>.</p>
+
+
+
+		<p>Karel Valenta © 2022</p>
 	</footer>
 </body>
 

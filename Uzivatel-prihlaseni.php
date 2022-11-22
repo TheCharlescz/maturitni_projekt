@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="cz">
 <?php
+error_reporting(0);
 session_start();
 require("Urlzkrasnovac.php");
 ?>
@@ -186,7 +187,10 @@ require("Urlzkrasnovac.php");
 		</div>
 	</main>
 	<footer id="footer">
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
+
+
+
+		<p>Karel Valenta © 2022</p>
 	</footer>
 </body>
 

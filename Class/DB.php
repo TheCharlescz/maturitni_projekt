@@ -6,6 +6,7 @@ class DB {
     private const HESLO = "";
     private static $spojeni;
 
+
     public static function vytvorSpojeni() {
 
     if(!isset(self::$spojeni)){
@@ -14,4 +15,5 @@ class DB {
     return self::$spojeni;
 }
 }
+
 ?>

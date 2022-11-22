@@ -173,7 +173,10 @@ require("Urlzkrasnovac.php");
 		</div>
 	</header>
 	<footer>
-		<p>This website is used only for study purposes and not for commerce. Web created by <span style="color:green">Charles</span>.</p>
+
+
+
+		<p>Karel Valenta © 2022</p>
 	</footer>
 
 </body>
